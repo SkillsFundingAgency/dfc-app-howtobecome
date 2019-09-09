@@ -2,18 +2,17 @@
 
 namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
 {
-    public class TestBase
+    public class TestsBase
     {
-        private IConfigurationRoot Configuration;
-        protected string ViewRootPath;
+        protected string viewRootPath;
 
-        public TestBase()
+        public TestsBase()
         {
             var config = new ConfigurationBuilder();
             config.AddJsonFile("appsettings.json");
-            Configuration = config.Build();
+            var configuration = config.Build();
 
-            ViewRootPath = Configuration["ViewRootPath"];
+            viewRootPath = configuration["ViewRootPath"];
         }
     }
 }

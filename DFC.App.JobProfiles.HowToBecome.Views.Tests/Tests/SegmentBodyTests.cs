@@ -7,7 +7,7 @@ using Xunit;
 
 namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
 {
-    public class SegmentBodyTests : TestBase
+    public class SegmentBodyTestses : TestsBase
     {
         [Fact]
         public void ContainsContentFromModel()
@@ -25,7 +25,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
             };
 
             var viewBag = new Dictionary<string, object>();
-            var viewRenderer = new RazorEngineRenderer(ViewRootPath);
+            var viewRenderer = new RazorEngineRenderer(viewRootPath);
 
             var viewRenderResponse = viewRenderer.Render(@"Body", model, viewBag);
 
