@@ -7,7 +7,7 @@ using Xunit;
 
 namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
 {
-    public class SegmentBodyTestses : TestsBase
+    public class SegmentBodyTests : TestsBase
     {
         [Fact]
         public void ContainsContentFromModel()
@@ -21,7 +21,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
                 CanonicalName = "nurse",
                 Markup = new HtmlString("<h1>Nurse Job data</h1>"),
                 Title = "Nurse",
-                Data = new DocumentDataViewModel { LastReviewed = DateTime.UtcNow },
+                Data = new DocumentDataViewModel { Updated = DateTime.UtcNow },
             };
 
             var viewBag = new Dictionary<string, object>();

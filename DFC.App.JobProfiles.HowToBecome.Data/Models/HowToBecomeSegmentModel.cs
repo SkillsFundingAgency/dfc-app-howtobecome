@@ -9,6 +9,12 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models
         [JsonProperty(PropertyName = "id")]
         public Guid DocumentId { get; set; }
 
+        public DateTime Created { get; set; } = DateTime.UtcNow;
+
+        public DateTime Updated { get; set; }
+
+        public int PartitionKey => Created.Second;
+
         [Required]
         public string CanonicalName { get; set; }
 
