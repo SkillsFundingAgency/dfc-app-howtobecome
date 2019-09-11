@@ -17,10 +17,12 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests
             {
                 DocumentId = MainArticleGuid,
                 CanonicalName = article,
-                Title = article.ToUpperInvariant(),
+                Title = article?.ToUpperInvariant(),
+                Created = DateTime.UtcNow,
+                Updated = DateTime.UtcNow,
                 Data = new HowToBecomeSegmentDataModel
                 {
-                    LastReviewed = DateTime.UtcNow,
+                    Updated = DateTime.UtcNow,
                 },
             };
 

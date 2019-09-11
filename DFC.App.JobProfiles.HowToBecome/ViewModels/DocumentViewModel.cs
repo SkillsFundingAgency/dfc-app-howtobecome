@@ -15,6 +15,10 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
         [Display(Name = "Canonical Name")]
         public string Title { get; set; }
 
+        public DateTime Created { get; set; }
+
+        public DateTime Updated { get; set; }
+
         public HtmlString Markup { get; set; }
 
         public DocumentDataViewModel Data { get; set; }
