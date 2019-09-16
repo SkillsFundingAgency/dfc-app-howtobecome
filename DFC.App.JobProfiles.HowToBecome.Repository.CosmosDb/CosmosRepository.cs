@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb
@@ -25,12 +26,26 @@ namespace DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb
 
             if (env.IsDevelopment())
             {
-                CreateDatabaseIfNotExistsAsync().Wait();
-                CreateCollectionIfNotExistsAsync().Wait();
+                CreateDatabaseIfNotExistsAsync().GetAwaiter().GetResult();
+                CreateCollectionIfNotExistsAsync().GetAwaiter().GetResult();
             }
         }
 
         private Uri DocumentCollectionUri => UriFactory.CreateDocumentCollectionUri(cosmosDbConnection.DatabaseId, cosmosDbConnection.CollectionId);
+
+        public async Task<bool> PingAsync()
+        {
+            var query = documentClient.CreateDocumentQuery<T>(DocumentCollectionUri, new FeedOptions { MaxItemCount = 1, EnableCrossPartitionQuery = true })
+                .AsDocumentQuery();
+
+            if (query == null)
+            {
+                return false;
+            }
+
+            var models = await query.ExecuteNextAsync<T>().ConfigureAwait(false);
+            return models.Any();
+        }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
@@ -70,6 +85,28 @@ namespace DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb
             return default(T);
         }
 
+        public async Task<HttpStatusCode> UpsertAsync(T model)
+        {
+            var result = await documentClient.UpsertDocumentAsync(DocumentCollectionUri, model, new RequestOptions { PartitionKey = new PartitionKey(model.PartitionKey) }).ConfigureAwait(false);
+
+            return result.StatusCode;
+        }
+
+        public async Task<HttpStatusCode> DeleteAsync(Guid documentId)
+        {
+            var documentUri = CreateDocumentUri(documentId);
+            var document = await GetAsync(f => f.DocumentId == documentId).ConfigureAwait(false);
+
+            if (document == null)
+            {
+                return HttpStatusCode.NotFound;
+            }
+
+            var result = await documentClient.DeleteDocumentAsync(documentUri, new RequestOptions { PartitionKey = new PartitionKey(document.PartitionKey) }).ConfigureAwait(false);
+
+            return result.StatusCode;
+        }
+
         private async Task CreateDatabaseIfNotExistsAsync()
         {
             try
@@ -78,7 +115,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb
             }
             catch (DocumentClientException e)
             {
-                if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
+                if (e.StatusCode == HttpStatusCode.NotFound)
                 {
                     await documentClient.CreateDatabaseAsync(new Database { Id = cosmosDbConnection.DatabaseId }).ConfigureAwait(false);
                 }
@@ -97,7 +134,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb
             }
             catch (DocumentClientException e)
             {
-                if (e.StatusCode == System.Net.HttpStatusCode.NotFound)
+                if (e.StatusCode == HttpStatusCode.NotFound)
                 {
                     var pkDef = new PartitionKeyDefinition
                     {
@@ -116,9 +153,6 @@ namespace DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb
             }
         }
 
-        private Uri CreateDocumentUri(Guid documentId)
-        {
-            return UriFactory.CreateDocumentUri(cosmosDbConnection.DatabaseId, cosmosDbConnection.CollectionId, documentId.ToString());
-        }
+        private Uri CreateDocumentUri(Guid documentId) => UriFactory.CreateDocumentUri(cosmosDbConnection.DatabaseId, cosmosDbConnection.CollectionId, documentId.ToString());
     }
 }

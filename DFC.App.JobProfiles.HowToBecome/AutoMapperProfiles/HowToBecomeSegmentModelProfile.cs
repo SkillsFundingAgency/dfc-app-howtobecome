@@ -9,10 +9,10 @@ namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
     {
         public HowToBecomeSegmentModelProfile()
         {
-            CreateMap<HowToBecomeSegmentDataModel, DocumentDataViewModel>();
-
-            CreateMap<HowToBecomeSegmentModel, DocumentViewModel>()
+            CreateMap<HowToBecomeSegmentDataModel, DocumentDataViewModel>()
                 .ForMember(d => d.Markup, s => s.MapFrom(a => new HtmlString(a.Markup)));
+
+            CreateMap<HowToBecomeSegmentModel, DocumentViewModel>();
 
             CreateMap<HowToBecomeSegmentModel, IndexDocumentViewModel>();
         }

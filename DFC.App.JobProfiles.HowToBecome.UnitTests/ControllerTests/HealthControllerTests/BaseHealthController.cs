@@ -1,4 +1,5 @@
 ﻿using DFC.App.JobProfiles.HowToBecome.Controllers;
+using DFC.App.JobProfiles.HowToBecome.SegmentService;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,10 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.HealthContro
         public BaseHealthController()
         {
             FakeLogger = A.Fake<ILogger<HealthController>>();
+            FakeHowToBecomeSegmentService = A.Fake<IHowToBecomeSegmentService>();
         }
+
+        protected IHowToBecomeSegmentService FakeHowToBecomeSegmentService { get; }
 
         protected ILogger<HealthController> FakeLogger { get; }
 
@@ -22,7 +26,7 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.HealthContro
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            return new HealthController(FakeLogger)
+            return new HealthController(FakeLogger, FakeHowToBecomeSegmentService)
             {
                 ControllerContext = new ControllerContext()
                 {

@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Html;
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.JobProfiles.HowToBecome.ViewModels
@@ -18,8 +17,6 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
         public DateTime Created { get; set; }
 
         public DateTime Updated { get; set; }
-
-        public HtmlString Markup { get; set; }
 
         public DocumentDataViewModel Data { get; set; }
     }
