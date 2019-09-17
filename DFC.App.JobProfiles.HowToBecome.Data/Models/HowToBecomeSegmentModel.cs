@@ -6,6 +6,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models
 {
     public class HowToBecomeSegmentModel : IDataModel
     {
+        private int partitionKey;
+
         [JsonProperty(PropertyName = "id")]
         public Guid DocumentId { get; set; }
 
@@ -19,8 +21,6 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models
         public string CanonicalName { get; set; }
 
         public string Title { get; set; }
-
-        public string Markup { get; set; }
 
         public HowToBecomeSegmentDataModel Data { get; set; }
     }

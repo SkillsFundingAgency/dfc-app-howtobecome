@@ -19,9 +19,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = "nurse",
-                Markup = new HtmlString("<h1>Nurse Job data</h1>"),
                 Title = "Nurse",
-                Data = new DocumentDataViewModel { Updated = DateTime.UtcNow },
+                Data = new DocumentDataViewModel { Updated = DateTime.UtcNow, Markup = new HtmlString("<h1>Nurse Job data</h1>") },
             };
 
             var viewBag = new Dictionary<string, object>();

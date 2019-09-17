@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
-using DFC.App.JobProfiles.HowToBecome.Data.Models;
+﻿using DFC.App.JobProfiles.HowToBecome.Data.Models;
 using DFC.App.JobProfiles.HowToBecome.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Net;
 using Xunit;
 
 namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentControllerTests
