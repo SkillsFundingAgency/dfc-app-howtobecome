@@ -1,0 +1,71 @@
+variables:
+    ArmTemplateRoot: '$(Build.SourcesDirectory)\Resources\ArmTemplates'     
+    SolutionBaseName: 'DFC.App.JobProfiles.HowToBecome'
+    BuildPlatform: 'any cpu'
+    BuildConfiguration: 'release'
+
+resources:
+  repositories:
+  - repository: self
+  - repository: dfc-devops
+    type: github
+    name: SkillsFundingAgency/dfc-devops
+    ref: refs/tags/v1.6.1
+    endpoint: 'GitHub (ESFA)'
+
+jobs:
+
+#Build and test resources
+#- template: AzureDevOpsTemplates/Build/dfc-arm-build.yml@dfc-devops
+#  parameters:
+#    ArmTemplateRoot: $(ArmTemplateRoot)
+
+#Build and test application
+- job: BuildDotNetCore
+  displayName: Build-DotNetCore
+  pool:
+    name: Continuous Integration 02 - SSD - 160ACU
+    demands:
+    - msbuild
+    - visualstudio
+
+  steps:
+  # Build DFC.App.JobProfiles.HowToBecome
+  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
+    parameters:
+      SolutionBaseName: $(SolutionBaseName)
+      BuildPlatform: $(BuildPlatform)
+      BuildConfiguration: $(BuildConfiguration)
+      DotNetCoreVersion: 2.2.402
+      PublishWebApp: true
+      TestSuffix: UnitTests
+  # Test DFC.App.JobProfiles.HowToBecome Views
+  - powershell: Copy-Item -Path '$(SolutionBaseName).Views.Tests\appsettings-template.json' -Destination '$(SolutionBaseName).Views.Tests\appsettings.json'
+    displayName: Copy and rename appsettings-template.json
+  - task: DotNetCoreCLI@2
+    displayName: 'Build - dotnet build $(SolutionBaseName).Views.UnitTests.csproj'
+    inputs:
+      command: 'build'
+      projects: '$(SolutionBaseName).Views.Tests\$(SolutionBaseName).Views.Tests.csproj'
+  - task: DotNetCoreCLI@2
+    displayName: 'Test - dotnet test $(SolutionBaseName).Views.Tests.csproj'
+    inputs:
+      command: test
+      projects: '$(SolutionBaseName).Views.Tests\$(SolutionBaseName).Views.Tests.csproj'
+      arguments: '--configuration $(BuildConfiguration) --collect "Code coverage"'    
+  # Test DFC.App.JobProfiles.HowToBecome.DraftSegmentService (an artifact will be built but isn't consumed in the release) 
+  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
+    parameters:
+      SolutionBaseName: $(SolutionBaseName).DraftSegmentService
+      BuildPlatform: $(BuildPlatform)
+      BuildConfiguration: $(BuildConfiguration)
+      DotNetCoreVersion: 2.2.402
+      TestSuffix: UnitTests
+  # Test DFC.App.JobProfiles.HowToBecome.SegmentService (an artifact will be built but isn't consumed in the release) 
+  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
+    parameters:
+      SolutionBaseName: $(SolutionBaseName).SegmentService
+      BuildPlatform: $(BuildPlatform)
+      BuildConfiguration: $(BuildConfiguration)
+      DotNetCoreVersion: 2.2.402
+      TestSuffix: UnitTests            
