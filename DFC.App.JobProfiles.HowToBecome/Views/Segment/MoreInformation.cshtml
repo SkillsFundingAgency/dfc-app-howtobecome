@@ -1,0 +1,36 @@
+﻿@if (Model?.Registrations?.Count() > 0
+  || !string.IsNullOrEmpty(Model?.MoreInformation?.ProfessionalAndIndustryBodies?.Value)
+  || !string.IsNullOrEmpty(Model?.MoreInformation?.CareerTips?.Value)
+  || !string.IsNullOrEmpty(Model?.MoreInformation?.FurtherInformation?.Value)
+  )
+{
+    <section class="job-profile-subsection" id="moreinfo">
+        <h3>More Information</h3>
+        <div class="job-profile-subsection-content">
+            @if (Model?.Registrations?.Count() > 0)
+            {
+
+                <h4>Registrations</h4>
+                <ul>
+                    @foreach (var registration in Model.Registrations)
+                    {
+                        <li>@Html.Raw(registration)</li>
+                    }
+                </ul>
+            }
+
+            @if (!string.IsNullOrEmpty(Model?.MoreInformation?.CareerTips?.Value))
+            {
+                @Html.Raw(Model.MoreInformation.CareerTips)
+            }
+            @if (!string.IsNullOrEmpty(Model?.MoreInformation?.ProfessionalAndIndustryBodies?.Value))
+            {
+                @Html.Raw(Model.MoreInformation.ProfessionalAndIndustryBodies)
+            }
+            @if (!string.IsNullOrEmpty(Model?.MoreInformation?.FurtherInformation?.Value))
+            {
+                @Html.Raw(Model.MoreInformation.FurtherInformation)
+            }
+        </div>
+    </section>
+}

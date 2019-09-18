@@ -1,4 +1,6 @@
-﻿using DFC.App.JobProfiles.HowToBecome.Data.Models;
+﻿using DFC.App.JobProfiles.HowToBecome.Data.Enums;
+using DFC.App.JobProfiles.HowToBecome.Data.Models;
+using DFC.App.JobProfiles.HowToBecome.Data.Models.DataModels;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -12,7 +14,8 @@ using Xunit;
 namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
 {
     [Trait("Integration Tests", "Segment Controller Tests")]
-    public class SegmentControllerRouteTests : IClassFixture<CustomWebApplicationFactory<Startup>>, IClassFixture<DataSeeding>
+    public class SegmentControllerRouteTests : IClassFixture<CustomWebApplicationFactory<Startup>>,
+        IClassFixture<DataSeeding>
     {
         private const string SegmentUrl = "/segment";
 
@@ -26,19 +29,19 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
 
         public static IEnumerable<object[]> SegmentDocumentRouteData => new List<object[]>
         {
-            new object[] { SegmentUrl },
-            new object[] { $"{SegmentUrl}/{DataSeeding.Job1CanonicalName}" },
+            new object[] {SegmentUrl},
+            new object[] {$"{SegmentUrl}/{DataSeeding.Job1CanonicalName}"},
         };
 
         public static IEnumerable<object[]> MissingSegmentContentRouteData => new List<object[]>
         {
-            new object[] { $"{SegmentUrl}/invalid-segment-name" },
+            new object[] {$"{SegmentUrl}/invalid-segment-name"},
         };
 
         public static IEnumerable<object[]> SegmentBodyRouteData => new List<object[]>
         {
-            new object[] { $"{SegmentUrl}/{DataSeeding.Job1CanonicalName}/contents", MediaTypeNames.Application.Json },
-            new object[] { $"{SegmentUrl}/{DataSeeding.Job1CanonicalName}/contents", MediaTypeNames.Text.Html },
+            new object[] {$"{SegmentUrl}/{DataSeeding.Job1CanonicalName}/contents", MediaTypeNames.Application.Json},
+            new object[] {$"{SegmentUrl}/{DataSeeding.Job1CanonicalName}/contents", MediaTypeNames.Text.Html},
         };
 
         [Theory]
@@ -102,12 +105,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
                 CanonicalName = Guid.NewGuid().ToString(),
                 Created = DateTime.UtcNow,
                 Updated = DateTime.UtcNow,
-                Title = $"{nameof(PostSegmentEndpointsReturnCreated)} created title",
-                Data = new HowToBecomeSegmentDataModel
-                {
-                    Updated = DateTime.UtcNow,
-                    Markup = "<h1>Dummy markup value</h1>",
-                },
+                Data = GetDefaultHowToBecomeSegmentDataModel(nameof(PostSegmentEndpointsReturnCreated)),
             };
 
             var client = factory.CreateClient();
@@ -132,12 +130,8 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
                 CanonicalName = DataSeeding.Job1CanonicalName,
                 Created = DataSeeding.MainJobDatetime,
                 Updated = DateTime.UtcNow,
-                Title = $"{nameof(PostSegmentEndpointsForDefaultArticleRefreshAllReturnOk)} created title",
-                Data = new HowToBecomeSegmentDataModel
-                {
-                    Updated = DateTime.UtcNow,
-                    Markup = "<h1>Dummy markup value</h1>",
-                },
+                //{nameof(PostSegmentEndpointsForDefaultArticleRefreshAllReturnOk)} created title",
+                Data = GetDefaultHowToBecomeSegmentDataModel(nameof(PostSegmentEndpointsForDefaultArticleRefreshAllReturnOk)),
             };
 
             var client = factory.CreateClient();
@@ -162,21 +156,18 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
                 CanonicalName = Guid.NewGuid().ToString(),
                 Created = DateTime.UtcNow,
                 Updated = DateTime.UtcNow,
-                Title = $"{nameof(PutSegmentEndpointsReturnOk)} created title",
-                Data = new HowToBecomeSegmentDataModel
-                {
-                    Updated = DateTime.UtcNow,
-                    Markup = "<h1>Dummy markup value</h1>",
-                },
+                Data = GetDefaultHowToBecomeSegmentDataModel(nameof(PutSegmentEndpointsReturnOk)),
             };
             var client = factory.CreateClient();
 
             client.DefaultRequestHeaders.Accept.Clear();
 
-            await client.PostAsync(SegmentUrl, howToBecomeSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
+            await client.PostAsync(SegmentUrl, howToBecomeSegmentModel, new JsonMediaTypeFormatter())
+                .ConfigureAwait(false);
 
             // Act
-            var response = await client.PutAsync(SegmentUrl, howToBecomeSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
+            var response = await client.PutAsync(SegmentUrl, howToBecomeSegmentModel, new JsonMediaTypeFormatter())
+                .ConfigureAwait(false);
 
             // Assert
             response.EnsureSuccessStatusCode();
@@ -195,18 +186,15 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
             {
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
-                Data = new HowToBecomeSegmentDataModel
-                {
-                    Updated = DateTime.UtcNow,
-                    Markup = "<h1>Dummy markup value</h1>",
-                },
+                Data = new HowToBecomeSegmentDataModel { Updated = DateTime.UtcNow },
             };
 
             var client = factory.CreateClient();
 
             client.DefaultRequestHeaders.Accept.Clear();
 
-            await client.PostAsync(SegmentUrl, howToBecomeSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
+            await client.PostAsync(SegmentUrl, howToBecomeSegmentModel, new JsonMediaTypeFormatter())
+                .ConfigureAwait(false);
 
             // Act
             var response = await client.DeleteAsync(deleteUri).ConfigureAwait(false);
@@ -229,6 +217,52 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
 
             // Assert
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
+
+        private HowToBecomeSegmentDataModel GetDefaultHowToBecomeSegmentDataModel(string title)
+        {
+            return new HowToBecomeSegmentDataModel
+            {
+                Updated = DateTime.UtcNow,
+                Title = $"{title} created title",
+                TitlePrefix = TitlePrefix.Default,
+                EntryRouteSummary = "<p>You can get into this job through:</p><ul><li>a university course </li><li> a college course </li><li> an apprenticeship </li><li> working towards this role </li></ul>",
+                EntryRoutes = new EntryRoutes
+                {
+                    CommonRoutes = new List<CommonRoutes>
+                    {
+                        new CommonRoutes
+                        {
+                            RouteName = RouteName.University,
+                            Subject = "<p>You could do a foundation degree, higher national diploma or  degree in:</p><ul><li>web design and development</li><li>computer science</li><li>digital media development</li><li>software engineering</li></ul>",
+                            FurtherInformation = "<p>Further information</p>",
+                            EntryRequirementPreface = "You will usually need:",
+                            EntryRequirements = new List<string>
+                            {
+                                "1 or 2 A levels for a foundation degree or higher national diploma",
+                                "2 to 3 A levels for a degree",
+                            },
+                            AdditionalInformation = new List<AdditionalInformation>
+                            {
+                                new AdditionalInformation {Link = "https://something", Text = "Equivalent entry requirements"},
+                                new AdditionalInformation {Link = "https://something", Text = "Equivalent entry requirements"},
+                                new AdditionalInformation {Link = "https://something", Text = "Equivalent entry requirements"},
+                            },
+                        },
+                    },
+                    Work = "<p>You may be able to start as a junior developer and improve your skills and knowledge by completing further training and qualifications while you work.</p>",
+                    Volunteering = "<p>Volunteering information</p>",
+                    DirectApplication = "<p>Direct application information</p>",
+                    OtherRoutes = "<p>Other routes information</p>",
+                },
+                MoreInformation = new MoreInformation
+                {
+                    FurtherInformation = "<h4>Further information </h4><p>You can get more advice about working in computing from <a href='https://www.tpdegrees.com/careers/'>Tech Future Careers</a> and<a href = 'https://www.bcs.org/category/5672'> The Chartered Institute for IT.</a></p> ",
+                    ProfessionalAndIndustryBodies = "<p>Professional and Industry bodies here</p>",
+                    CareerTips = "<h4>Career tips</h4><p>Make sure that you're up to date with the latest industry trends and web development standards.</p>",
+                },
+                Registrations = new List<string> { "Registration 1", "Registration 2" },
+            };
         }
     }
 }

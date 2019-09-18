@@ -20,8 +20,6 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models
         [Required]
         public string CanonicalName { get; set; }
 
-        public string Title { get; set; }
-
         public HowToBecomeSegmentDataModel Data { get; set; }
     }
 }
