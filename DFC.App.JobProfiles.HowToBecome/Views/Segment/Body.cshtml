@@ -1,47 +1,21 @@
-﻿
+﻿@using DFC.App.JobProfiles.HowToBecome.Data.Enums
+@using DFC.App.JobProfiles.HowToBecome.ViewModels.DataModels
+
 <section id="HowToBecome" data-gtm-vis-recent-on-screen-8675592_54="87" data-gtm-vis-first-on-screen-8675592_54="87" data-gtm-vis-total-visible-time-8675592_54="100" data-gtm-vis-has-fired-8675592_54="1">
-    <h2 class="heading-large job-profile-heading">How to become a @Model.Title</h2>
-    <p>You can get into this career through:</p>
-    <ul>
-        @*To be replaced with real Data field*@
-        <li>@Model.Data.Updated</li>
-    </ul>
+    <h2 class="heading-large job-profile-heading">How to become @Model.Data.GetDynamicTitle()</h2>
 
-    @Html.Raw(Model.Data.Markup.Value)
+    @Html.Raw(Model.Data.EntryRouteSummary)
 
-    @*Example value for Markup*@
-    @*<section class="job-profile-subsection" id="University">
-            <h3>University</h3>
-            <div class="job-profile-subsection-content">
+    @{
+        var entryRoutes = Model.Data.EntryRoutes as EntryRoutes;
+        var universityRoute = entryRoutes.CommonRoutes.FirstOrDefault(route => route.RouteName.Equals(RouteName.University));
+        var collegeRoute = entryRoutes.CommonRoutes.FirstOrDefault(route => route.RouteName.Equals(RouteName.College));
+        var apprenticeshipRoute = entryRoutes.CommonRoutes.FirstOrDefault(route => route.RouteName.Equals(RouteName.Apprenticeship));
 
-                <p>
-                    You can do a degree in adult nursing approved by the
-                    <a href="https://www.nmc.org.uk/education/approved-programmes/">Nursing &amp; Midwifery Council</a>.
-                </p>
-                <p>Some degree courses let you study another area of nursing alongside adult nursing.</p>
-
-                <p>You may be able to join the second year of a nursing degree if you already have a degree in:</p>
-                <ul>
-                    <li>a health-related subject</li>
-                    <li>psychology</li>
-                    <li>life sciences</li>
-                    <li>social work</li>
-                </ul>
-                <p>Full-time courses usually take 3 years.</p>
-
-                <h4>Entry requirements</h4>
-                <p>You'll usually need:</p>
-                <ul class="list-reqs">
-                    <li>5 GCSEs at grades 9 to 4 (A* to C), including English, maths and a science</li>
-                    <li>2 or 3 A levels, including a science, or a level 3 diploma or access to higher education in health, science or nursing</li>
-                </ul>
-
-                <h4>More information</h4>
-                <ul class="list-link">
-                    <li><a class="htb-feature" href="https://www.gov.uk/what-different-qualification-levels-mean/list-of-qualification-levels">equivalent entry requirements</a></li>
-                    <li><a class="htb-feature" href="https://www.gov.uk/student-finance">student finance for fees and living costs</a></li>
-                    <li><a class="htb-feature" href="https://www.ucas.com/">university courses and entry requirements</a></li>
-                </ul>
-            </div>
-        </section>*@
+        <partial name="RouteEntry" , model="@universityRoute" />
+        <partial name="RouteEntry" , model="@collegeRoute" />
+        <partial name="RouteEntry" , model="@apprenticeshipRoute" />
+    }
+    <partial name="FurtherRoutes" , model="@Model.Data.EntryRoutes" />
+    <partial name="MoreInformation" , model="Model.Data" />
 </section>
