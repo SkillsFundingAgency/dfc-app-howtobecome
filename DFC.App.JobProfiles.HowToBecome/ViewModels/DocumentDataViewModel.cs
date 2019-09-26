@@ -10,7 +10,7 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
 {
     public class DocumentDataViewModel
     {
-        public DateTime Updated { get; set; }
+        public DateTime LastReviewed { get; set; }
 
         public string Title { get; set; }
 
@@ -46,5 +46,13 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
         private static string GetDefaultDynamicTitle(string title) => IsStartsWithVowel(title) ? $"an {title}" : $"a {title}";
 
         private static bool IsStartsWithVowel(string title) => new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(title.ToLower().First());
+
+        public bool HasRegistrations => Registrations != null && Registrations.Any();
+
+        public bool HasProfessionalAndIndustryBodies => !string.IsNullOrEmpty(MoreInformation?.ProfessionalAndIndustryBodies?.Value);
+
+        public bool HasCareerTips => !string.IsNullOrEmpty(MoreInformation?.CareerTips?.Value);
+
+        public bool HasFurtherInformation => !string.IsNullOrEmpty(MoreInformation?.FurtherInformation?.Value);
     }
 }

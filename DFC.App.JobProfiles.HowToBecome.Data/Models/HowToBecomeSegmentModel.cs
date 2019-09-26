@@ -6,16 +6,21 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models
 {
     public class HowToBecomeSegmentModel : IDataModel
     {
-        private int partitionKey;
-
+        [Required]
         [JsonProperty(PropertyName = "id")]
         public Guid DocumentId { get; set; }
+
+        [JsonProperty(PropertyName = "_etag")]
+        public string Etag { get; set; }
 
         public DateTime Created { get; set; } = DateTime.UtcNow;
 
         public DateTime Updated { get; set; }
 
-        public int PartitionKey => Created.Second;
+        public string PartitionKey => SocLevelTwo?.Substring(0, 2);
+
+        [Required]
+        public string SocLevelTwo { get; set; }
 
         [Required]
         public string CanonicalName { get; set; }

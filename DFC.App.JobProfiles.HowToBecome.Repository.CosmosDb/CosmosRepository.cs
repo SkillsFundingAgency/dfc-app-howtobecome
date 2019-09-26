@@ -87,7 +87,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb
 
         public async Task<HttpStatusCode> UpsertAsync(T model)
         {
-            var result = await documentClient.UpsertDocumentAsync(DocumentCollectionUri, model, new RequestOptions { PartitionKey = new PartitionKey(model.PartitionKey) }).ConfigureAwait(false);
+            var accessCondition = new AccessCondition { Condition = model.Etag, Type = AccessConditionType.IfMatch };
+            var result = await documentClient.UpsertDocumentAsync(DocumentCollectionUri, model, new RequestOptions { AccessCondition = accessCondition, PartitionKey = new PartitionKey(model.PartitionKey) }).ConfigureAwait(false);
 
             return result.StatusCode;
         }

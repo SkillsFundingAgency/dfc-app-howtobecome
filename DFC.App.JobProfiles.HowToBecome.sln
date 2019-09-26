@@ -53,7 +53,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ViewsTests", "ViewsTests", "{E84C1DE2-6776-4242-A228-0BEA41BEB2AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.JobProfiles.HowToBecome.Views.Tests", "DFC.App.JobProfiles.HowToBecome.Views.Tests\DFC.App.JobProfiles.HowToBecome.Views.Tests.csproj", "{0F8BE735-7DC2-488B-A882-3CE599452484}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome.Views.Tests", "DFC.App.JobProfiles.HowToBecome.Views.Tests\DFC.App.JobProfiles.HowToBecome.Views.Tests.csproj", "{0F8BE735-7DC2-488B-A882-3CE599452484}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

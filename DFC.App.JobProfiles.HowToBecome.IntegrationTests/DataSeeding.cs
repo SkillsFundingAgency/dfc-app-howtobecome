@@ -14,6 +14,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests
         internal const string Job1CanonicalName = "webdeveloper";
         internal static readonly Guid MainArticleGuid = Guid.Parse("e2156143-e951-4570-a7a0-16f999f68661");
         internal static readonly DateTime MainJobDatetime = new DateTime(2019, 1, 15, 15, 30, 11);
+        internal static readonly string MainJobSocLevelTwo = "12345Soc";
 
         private const string Job1Title = "Web Developer";
 
@@ -27,6 +28,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests
                 CanonicalName = Job1CanonicalName,
                 Created = MainJobDatetime,
                 Updated = DateTime.UtcNow,
+                SocLevelTwo = MainJobSocLevelTwo,
                 Data = GetDefaultHowToBecomeSegmentDataModel(),
             };
 
@@ -41,7 +43,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests
         {
             return new HowToBecomeSegmentDataModel
             {
-                Updated = DateTime.UtcNow,
+                LastReviewed = DateTime.UtcNow,
                 Title = $"{Job1Title} created title",
                 TitlePrefix = TitlePrefix.Default,
                 EntryRouteSummary = "<p>You can get into this job through:</p><ul><li>a university course </li><li> a college course </li><li> an apprenticeship </li><li> working towards this role </li></ul>",
@@ -55,10 +57,10 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests
                             Subject = "<p>You could do a foundation degree, higher national diploma or  degree in:</p><ul><li>web design and development</li><li>computer science</li><li>digital media development</li><li>software engineering</li></ul>",
                             FurtherInformation = "<p>Further information</p>",
                             EntryRequirementPreface = "You will usually need:",
-                            EntryRequirements = new List<string>
+                            EntryRequirements = new List<EntryRequirements>
                             {
-                                "1 or 2 A levels for a foundation degree or higher national diploma",
-                                "2 to 3 A levels for a degree",
+                                new EntryRequirements{ Id = "1", Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1},
+                                new EntryRequirements{ Id = "2", Description = "2 to 3 A levels for a degree", Rank = 2},
                             },
                             AdditionalInformation = new List<AdditionalInformation>
                             {
