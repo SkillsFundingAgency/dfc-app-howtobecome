@@ -7,7 +7,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models
 {
     public class HowToBecomeSegmentDataModel
     {
-        public DateTime Updated { get; set; }
+        public DateTime LastReviewed { get; set; }
 
         public string Title { get; set; }
 

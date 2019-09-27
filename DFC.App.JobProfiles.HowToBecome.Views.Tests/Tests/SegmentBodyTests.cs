@@ -46,7 +46,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
                 RouteName = RouteName.University,
                 Subject = new HtmlString("<p>Subject</p>"),
                 EntryRequirementPreface = "Entry Requirement Preface",
-                EntryRequirements = new List<string> { "Some entry requirement" },
+                EntryRequirements = new List<EntryRequirements> { new EntryRequirements { Id = "1", Description = "Some entry requirement" } },
                 AdditionalInformation = new List<AdditionalInformation>{
                     new AdditionalInformation
                     {
@@ -77,7 +77,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
             {
                 RouteName = RouteName.University,
                 EntryRequirementPreface = string.Empty,
-                EntryRequirements = new List<string>(),
+                EntryRequirements = new List<EntryRequirements>(),
                 Subject = new HtmlString("<p>Subject</p>"),
             };
 
@@ -211,7 +211,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
         {
             return new DocumentDataViewModel
             {
-                Updated = DateTime.UtcNow,
+                LastReviewed = DateTime.UtcNow,
                 Title = "Web Developer",
                 TitlePrefix = TitlePrefix.Default,
                 EntryRouteSummary = new HtmlString("<p>You can get into this job through:</p><ul><li>a university course </li><li> a college course </li><li> an apprenticeship </li><li> working towards this role </li></ul>"),
@@ -225,10 +225,10 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
                             Subject = new HtmlString("<p>You could do a foundation degree, higher national diploma or  degree in:</p><ul><li>web design and development</li><li>computer science</li><li>digital media development</li><li>software engineering</li></ul>"),
                             FurtherInformation = new HtmlString("<p>Further information</p>"),
                             EntryRequirementPreface = "You will usually need:",
-                            EntryRequirements = new List<string>
+                            EntryRequirements = new List<EntryRequirements>
                             {
-                                "1 or 2 A levels for a foundation degree or higher national diploma",
-                                "2 to 3 A levels for a degree",
+                                new EntryRequirements{ Id = "1", Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1},
+                                new EntryRequirements{ Id = "2", Description = "2 to 3 A levels for a degree", Rank = 2},
                             },
                             AdditionalInformation = new List<AdditionalInformation>
                             {

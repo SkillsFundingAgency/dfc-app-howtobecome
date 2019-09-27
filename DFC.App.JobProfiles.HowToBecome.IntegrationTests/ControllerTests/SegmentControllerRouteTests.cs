@@ -105,6 +105,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
                 CanonicalName = Guid.NewGuid().ToString(),
                 Created = DateTime.UtcNow,
                 Updated = DateTime.UtcNow,
+                SocLevelTwo = "12PostSoc",
                 Data = GetDefaultHowToBecomeSegmentDataModel(nameof(PostSegmentEndpointsReturnCreated)),
             };
 
@@ -130,7 +131,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
                 CanonicalName = DataSeeding.Job1CanonicalName,
                 Created = DataSeeding.MainJobDatetime,
                 Updated = DateTime.UtcNow,
-                //{nameof(PostSegmentEndpointsForDefaultArticleRefreshAllReturnOk)} created title",
+                SocLevelTwo = DataSeeding.MainJobSocLevelTwo,
                 Data = GetDefaultHowToBecomeSegmentDataModel(nameof(PostSegmentEndpointsForDefaultArticleRefreshAllReturnOk)),
             };
 
@@ -156,6 +157,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
                 CanonicalName = Guid.NewGuid().ToString(),
                 Created = DateTime.UtcNow,
                 Updated = DateTime.UtcNow,
+                SocLevelTwo = "11PutSoc",
                 Data = GetDefaultHowToBecomeSegmentDataModel(nameof(PutSegmentEndpointsReturnOk)),
             };
             var client = factory.CreateClient();
@@ -186,7 +188,8 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
             {
                 DocumentId = documentId,
                 CanonicalName = documentId.ToString().ToLowerInvariant(),
-                Data = new HowToBecomeSegmentDataModel { Updated = DateTime.UtcNow },
+                SocLevelTwo = "12345",
+                Data = new HowToBecomeSegmentDataModel { LastReviewed = DateTime.UtcNow },
             };
 
             var client = factory.CreateClient();
@@ -223,7 +226,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
         {
             return new HowToBecomeSegmentDataModel
             {
-                Updated = DateTime.UtcNow,
+                LastReviewed = DateTime.UtcNow,
                 Title = $"{title} created title",
                 TitlePrefix = TitlePrefix.Default,
                 EntryRouteSummary = "<p>You can get into this job through:</p><ul><li>a university course </li><li> a college course </li><li> an apprenticeship </li><li> working towards this role </li></ul>",
@@ -237,10 +240,10 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
                             Subject = "<p>You could do a foundation degree, higher national diploma or  degree in:</p><ul><li>web design and development</li><li>computer science</li><li>digital media development</li><li>software engineering</li></ul>",
                             FurtherInformation = "<p>Further information</p>",
                             EntryRequirementPreface = "You will usually need:",
-                            EntryRequirements = new List<string>
+                            EntryRequirements = new List<EntryRequirements>
                             {
-                                "1 or 2 A levels for a foundation degree or higher national diploma",
-                                "2 to 3 A levels for a degree",
+                                new EntryRequirements{ Id = "1", Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1},
+                                new EntryRequirements{ Id = "2", Description = "2 to 3 A levels for a degree", Rank = 2},
                             },
                             AdditionalInformation = new List<AdditionalInformation>
                             {

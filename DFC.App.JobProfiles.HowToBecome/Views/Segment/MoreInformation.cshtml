@@ -1,13 +1,9 @@
-﻿@if (Model?.Registrations?.Count() > 0
-  || !string.IsNullOrEmpty(Model?.MoreInformation?.ProfessionalAndIndustryBodies?.Value)
-  || !string.IsNullOrEmpty(Model?.MoreInformation?.CareerTips?.Value)
-  || !string.IsNullOrEmpty(Model?.MoreInformation?.FurtherInformation?.Value)
-  )
+﻿@if (Model.HasRegistrations || Model.HasProfessionalAndIndustryBodies || Model.HasCareerTips || Model.HasFurtherInformation)
 {
     <section class="job-profile-subsection" id="moreinfo">
         <h3>More Information</h3>
         <div class="job-profile-subsection-content">
-            @if (Model?.Registrations?.Count() > 0)
+            @if (Model.HasRegistrations)
             {
 
                 <h4>Registrations</h4>
@@ -19,15 +15,15 @@
                 </ul>
             }
 
-            @if (!string.IsNullOrEmpty(Model?.MoreInformation?.CareerTips?.Value))
+            @if (Model.HasCareerTips)
             {
                 @Html.Raw(Model.MoreInformation.CareerTips)
             }
-            @if (!string.IsNullOrEmpty(Model?.MoreInformation?.ProfessionalAndIndustryBodies?.Value))
+            @if (Model.HasProfessionalAndIndustryBodies)
             {
                 @Html.Raw(Model.MoreInformation.ProfessionalAndIndustryBodies)
             }
-            @if (!string.IsNullOrEmpty(Model?.MoreInformation?.FurtherInformation?.Value))
+            @if (Model.HasFurtherInformation)
             {
                 @Html.Raw(Model.MoreInformation.FurtherInformation)
             }
