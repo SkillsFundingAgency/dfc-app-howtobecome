@@ -103,8 +103,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = Guid.NewGuid().ToString(),
-                Created = DateTime.UtcNow,
-                Updated = DateTime.UtcNow,
+                LastReviewed = DateTime.UtcNow,
                 SocLevelTwo = "12PostSoc",
                 Data = GetDefaultHowToBecomeSegmentDataModel(nameof(PostSegmentEndpointsReturnCreated)),
             };
@@ -129,8 +128,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
             {
                 DocumentId = DataSeeding.MainArticleGuid,
                 CanonicalName = DataSeeding.Job1CanonicalName,
-                Created = DataSeeding.MainJobDatetime,
-                Updated = DateTime.UtcNow,
+                LastReviewed = DateTime.UtcNow,
                 SocLevelTwo = DataSeeding.MainJobSocLevelTwo,
                 Data = GetDefaultHowToBecomeSegmentDataModel(nameof(PostSegmentEndpointsForDefaultArticleRefreshAllReturnOk)),
             };
@@ -155,8 +153,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = Guid.NewGuid().ToString(),
-                Created = DateTime.UtcNow,
-                Updated = DateTime.UtcNow,
+                LastReviewed = DateTime.UtcNow,
                 SocLevelTwo = "11PutSoc",
                 Data = GetDefaultHowToBecomeSegmentDataModel(nameof(PutSegmentEndpointsReturnOk)),
             };
@@ -240,10 +237,10 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
                             Subject = "<p>You could do a foundation degree, higher national diploma or  degree in:</p><ul><li>web design and development</li><li>computer science</li><li>digital media development</li><li>software engineering</li></ul>",
                             FurtherInformation = "<p>Further information</p>",
                             EntryRequirementPreface = "You will usually need:",
-                            EntryRequirements = new List<EntryRequirements>
+                            EntryRequirements = new List<GenericListContent>
                             {
-                                new EntryRequirements{ Id = "1", Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1},
-                                new EntryRequirements{ Id = "2", Description = "2 to 3 A levels for a degree", Rank = 2},
+                                new GenericListContent{ Id = "1", Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1},
+                                new GenericListContent{ Id = "2", Description = "2 to 3 A levels for a degree", Rank = 2},
                             },
                             AdditionalInformation = new List<AdditionalInformation>
                             {
@@ -264,7 +261,10 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
                     ProfessionalAndIndustryBodies = "<p>Professional and Industry bodies here</p>",
                     CareerTips = "<h4>Career tips</h4><p>Make sure that you're up to date with the latest industry trends and web development standards.</p>",
                 },
-                Registrations = new List<string> { "Registration 1", "Registration 2" },
+                Registrations = new List<GenericListContent> {
+                    new GenericListContent{ Id = "1", Description = "Registration 1", Rank = 1},
+                    new GenericListContent{ Id = "2", Description = "Registration 1", Rank = 2},
+                },
             };
         }
     }

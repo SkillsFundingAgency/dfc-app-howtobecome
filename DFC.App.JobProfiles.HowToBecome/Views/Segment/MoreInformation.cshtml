@@ -10,7 +10,7 @@
                 <ul>
                     @foreach (var registration in Model.Registrations)
                     {
-                        <li>@Html.Raw(registration)</li>
+                        <li>@Html.Raw(registration.Description)</li>
                     }
                 </ul>
             }
