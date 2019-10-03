@@ -58,8 +58,6 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
                 howToBecomeSegmentModel.Data = new HowToBecomeSegmentDataModel();
             }
 
-            howToBecomeSegmentModel.Updated = DateTime.UtcNow;
-
             var responseStatusCode = await repository.UpsertAsync(howToBecomeSegmentModel).ConfigureAwait(false);
 
             return new UpsertHowToBecomeSegmentModelResponse

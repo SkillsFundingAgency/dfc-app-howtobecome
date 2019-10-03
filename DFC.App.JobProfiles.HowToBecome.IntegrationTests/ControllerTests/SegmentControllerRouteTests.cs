@@ -103,8 +103,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = Guid.NewGuid().ToString(),
-                Created = DateTime.UtcNow,
-                Updated = DateTime.UtcNow,
+                LastReviewed = DateTime.UtcNow,
                 SocLevelTwo = "12PostSoc",
                 Data = GetDefaultHowToBecomeSegmentDataModel(nameof(PostSegmentEndpointsReturnCreated)),
             };
@@ -129,8 +128,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
             {
                 DocumentId = DataSeeding.MainArticleGuid,
                 CanonicalName = DataSeeding.Job1CanonicalName,
-                Created = DataSeeding.MainJobDatetime,
-                Updated = DateTime.UtcNow,
+                LastReviewed = DateTime.UtcNow,
                 SocLevelTwo = DataSeeding.MainJobSocLevelTwo,
                 Data = GetDefaultHowToBecomeSegmentDataModel(nameof(PostSegmentEndpointsForDefaultArticleRefreshAllReturnOk)),
             };
@@ -155,8 +153,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = Guid.NewGuid().ToString(),
-                Created = DateTime.UtcNow,
-                Updated = DateTime.UtcNow,
+                LastReviewed = DateTime.UtcNow,
                 SocLevelTwo = "11PutSoc",
                 Data = GetDefaultHowToBecomeSegmentDataModel(nameof(PutSegmentEndpointsReturnOk)),
             };

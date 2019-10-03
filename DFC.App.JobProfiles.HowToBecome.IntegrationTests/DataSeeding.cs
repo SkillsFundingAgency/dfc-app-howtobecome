@@ -13,7 +13,6 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests
     {
         internal const string Job1CanonicalName = "webdeveloper";
         internal static readonly Guid MainArticleGuid = Guid.Parse("e2156143-e951-4570-a7a0-16f999f68661");
-        internal static readonly DateTime MainJobDatetime = new DateTime(2019, 1, 15, 15, 30, 11);
         internal static readonly string MainJobSocLevelTwo = "12345Soc";
 
         private const string Job1Title = "Web Developer";
@@ -26,8 +25,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests
             {
                 DocumentId = MainArticleGuid,
                 CanonicalName = Job1CanonicalName,
-                Created = MainJobDatetime,
-                Updated = DateTime.UtcNow,
+                LastReviewed = DateTime.UtcNow,
                 SocLevelTwo = MainJobSocLevelTwo,
                 Data = GetDefaultHowToBecomeSegmentDataModel(),
             };
