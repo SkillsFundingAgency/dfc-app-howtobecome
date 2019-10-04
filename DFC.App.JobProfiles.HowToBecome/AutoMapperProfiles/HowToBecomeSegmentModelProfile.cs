@@ -11,7 +11,7 @@ namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
         public HowToBecomeSegmentModelProfile()
         {
             CreateMap<AdditionalInformation, ViewModels.DataModels.AdditionalInformation>();
-            CreateMap<EntryRequirements, ViewModels.DataModels.EntryRequirements>();
+            CreateMap<GenericListContent, ViewModels.DataModels.GenericListContent>();
 
             CreateMap<MoreInformation, ViewModels.DataModels.MoreInformation>()
                 .ForMember(d => d.ProfessionalAndIndustryBodies, s => s.MapFrom(a => new HtmlString(a.ProfessionalAndIndustryBodies)))

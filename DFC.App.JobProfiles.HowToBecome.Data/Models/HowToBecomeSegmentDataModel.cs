@@ -19,6 +19,6 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models
 
         public MoreInformation MoreInformation { get; set; }
 
-        public IEnumerable<string> Registrations { get; set; }
+        public IEnumerable<GenericListContent> Registrations { get; set; }
     }
 }

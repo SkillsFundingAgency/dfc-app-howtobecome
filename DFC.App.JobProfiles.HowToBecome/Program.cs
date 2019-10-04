@@ -12,6 +12,7 @@ namespace DFC.App.JobProfiles.HowToBecome
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseApplicationInsights()
                 .UseStartup<Startup>();
     }
 }

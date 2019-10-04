@@ -13,11 +13,9 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models
         [JsonProperty(PropertyName = "_etag")]
         public string Etag { get; set; }
 
-        public DateTime Created { get; set; } = DateTime.UtcNow;
+        public DateTime LastReviewed { get; set; }
 
-        public DateTime Updated { get; set; }
-
-        public string PartitionKey => SocLevelTwo?.Substring(0, 2);
+        public string PartitionKey => SocLevelTwo;
 
         [Required]
         public string SocLevelTwo { get; set; }

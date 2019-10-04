@@ -23,7 +23,7 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
         [Display(Name = "More Information")]
         public MoreInformation MoreInformation { get; set; }
 
-        public IEnumerable<string> Registrations { get; set; }
+        public IEnumerable<GenericListContent> Registrations { get; set; }
 
         public string GetDynamicTitle()
         {

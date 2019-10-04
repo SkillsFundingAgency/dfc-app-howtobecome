@@ -1,6 +1,6 @@
 ﻿namespace DFC.App.JobProfiles.HowToBecome.ViewModels.DataModels
 {
-    public class EntryRequirements
+    public class GenericListContent
     {
         public string Id { get; set; }
 

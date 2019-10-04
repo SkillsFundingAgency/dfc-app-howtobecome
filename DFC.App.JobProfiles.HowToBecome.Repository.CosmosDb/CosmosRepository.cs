@@ -96,15 +96,17 @@ namespace DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb
         public async Task<HttpStatusCode> DeleteAsync(Guid documentId)
         {
             var documentUri = CreateDocumentUri(documentId);
-            var document = await GetAsync(f => f.DocumentId == documentId).ConfigureAwait(false);
+            var existingDocument = await GetAsync(f => f.DocumentId == documentId).ConfigureAwait(false);
 
-            if (document == null)
+            if (existingDocument == null)
             {
                 return HttpStatusCode.NotFound;
             }
 
-            var result = await documentClient.DeleteDocumentAsync(documentUri, new RequestOptions { PartitionKey = new PartitionKey(document.PartitionKey) }).ConfigureAwait(false);
+            var accessCondition = new AccessCondition { Condition = existingDocument.Etag, Type = AccessConditionType.IfMatch };
+            var partitionKey = new PartitionKey(existingDocument.PartitionKey);
 
+            var result = await documentClient.DeleteDocumentAsync(documentUri, new RequestOptions { AccessCondition = accessCondition, PartitionKey = partitionKey }).ConfigureAwait(false);
             return result.StatusCode;
         }
 

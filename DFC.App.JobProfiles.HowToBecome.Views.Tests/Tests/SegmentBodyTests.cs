@@ -46,7 +46,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
                 RouteName = RouteName.University,
                 Subject = new HtmlString("<p>Subject</p>"),
                 EntryRequirementPreface = "Entry Requirement Preface",
-                EntryRequirements = new List<EntryRequirements> { new EntryRequirements { Id = "1", Description = "Some entry requirement" } },
+                EntryRequirements = new List<GenericListContent> { new GenericListContent { Id = "1", Description = "Some entry requirement" } },
                 AdditionalInformation = new List<AdditionalInformation>{
                     new AdditionalInformation
                     {
@@ -77,7 +77,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
             {
                 RouteName = RouteName.University,
                 EntryRequirementPreface = string.Empty,
-                EntryRequirements = new List<EntryRequirements>(),
+                EntryRequirements = new List<GenericListContent>(),
                 Subject = new HtmlString("<p>Subject</p>"),
             };
 
@@ -188,7 +188,10 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
 
             var model = new DocumentDataViewModel
             {
-                Registrations = new List<string> { "Registration 1", "Registration 2" },
+                Registrations = new List<GenericListContent> {
+                    new GenericListContent{ Id = "1", Description = "Registration 1", Rank = 1},
+                    new GenericListContent{ Id = "2", Description = "Registration 1", Rank = 2},
+                },
                 MoreInformation = new MoreInformation
                 {
                     ProfessionalAndIndustryBodies = isProfessionalBodiesSet ? new HtmlString(professionalBodiesText) : null,
@@ -225,10 +228,10 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
                             Subject = new HtmlString("<p>You could do a foundation degree, higher national diploma or  degree in:</p><ul><li>web design and development</li><li>computer science</li><li>digital media development</li><li>software engineering</li></ul>"),
                             FurtherInformation = new HtmlString("<p>Further information</p>"),
                             EntryRequirementPreface = "You will usually need:",
-                            EntryRequirements = new List<EntryRequirements>
+                            EntryRequirements = new List<GenericListContent>
                             {
-                                new EntryRequirements{ Id = "1", Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1},
-                                new EntryRequirements{ Id = "2", Description = "2 to 3 A levels for a degree", Rank = 2},
+                                new GenericListContent{ Id = "1", Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1},
+                                new GenericListContent{ Id = "2", Description = "2 to 3 A levels for a degree", Rank = 2},
                             },
                             AdditionalInformation = new List<AdditionalInformation>
                             {
@@ -249,7 +252,12 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
                     ProfessionalAndIndustryBodies = new HtmlString("<p>Professional and Industry bodies here</p>"),
                     CareerTips = new HtmlString("<h4>Career tips</h4><p>Make sure that you're up to date with the latest industry trends and web development standards.</p>"),
                 },
-                Registrations = hasRegistrations ? new List<string> { "Registration 1", "Registration 2" } : null,
+                Registrations = hasRegistrations ? new List<GenericListContent>
+                    {
+                        new GenericListContent{ Id = "1", Description = "Registration 1", Rank = 1 },
+                        new GenericListContent{ Id = "2", Description = "Registration 1", Rank = 2 },
+                    }
+                    : null,
             };
         }
     }
