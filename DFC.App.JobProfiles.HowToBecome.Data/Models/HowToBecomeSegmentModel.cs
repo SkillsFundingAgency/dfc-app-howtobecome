@@ -13,8 +13,6 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models
         [JsonProperty(PropertyName = "_etag")]
         public string Etag { get; set; }
 
-        public DateTime LastReviewed { get; set; }
-
         public string PartitionKey => SocLevelTwo;
 
         [Required]
@@ -22,6 +20,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models
 
         [Required]
         public string CanonicalName { get; set; }
+
+        public long SequenceNumber { get; set; }
 
         public HowToBecomeSegmentDataModel Data { get; set; }
     }

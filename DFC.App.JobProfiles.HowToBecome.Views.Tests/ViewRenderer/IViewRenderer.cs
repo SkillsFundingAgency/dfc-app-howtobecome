@@ -4,6 +4,6 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.ViewRenderer
 {
     public interface IViewRenderer
     {
-        string Render(string template, object model, IDictionary<string, object> viewBag);
+        string Render(string viewName, object model, IDictionary<string, object> viewBag);
     }
 }

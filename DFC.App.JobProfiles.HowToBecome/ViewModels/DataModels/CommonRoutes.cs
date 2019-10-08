@@ -15,7 +15,7 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels.DataModels
 
         public string EntryRequirementPreface { get; set; }
 
-        public IEnumerable<GenericListContent> EntryRequirements { get; set; }
+        public IEnumerable<EntryRequirement> EntryRequirements { get; set; }
 
         public IEnumerable<AdditionalInformation> AdditionalInformation { get; set; }
 

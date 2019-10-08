@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using DFC.App.JobProfiles.HowToBecome.Data.Models;
+using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels;
 using DFC.App.JobProfiles.HowToBecome.DraftSegmentService;
 using DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb;
-using DFC.App.JobProfiles.HowToBecome.Repository.SitefinityApi;
 using DFC.App.JobProfiles.HowToBecome.SegmentService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -19,7 +19,7 @@ namespace DFC.App.JobProfiles.HowToBecome
     public class Startup
     {
         public const string CosmosDbConfigAppSettings = "Configuration:CosmosDbConnections:JobProfileSegment";
-        public const string SitefinityApiAppSettings = "SitefinityApi";
+        public const string ServiceBusOptionsAppSettings = "ServiceBusOptions";
 
         private readonly IConfiguration configuration;
 
@@ -39,17 +39,19 @@ namespace DFC.App.JobProfiles.HowToBecome
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            var serviceBusOptions = configuration.GetSection(ServiceBusOptionsAppSettings).Get<ServiceBusOptions>();
+            services.AddSingleton(serviceBusOptions ?? new ServiceBusOptions());
+
             var cosmosDbConnection = configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
             var documentClient = new DocumentClient(new Uri(cosmosDbConnection.EndpointUrl), cosmosDbConnection.AccessKey);
-            var sitefinityApiConnection = configuration.GetSection(SitefinityApiAppSettings).Get<SitefinityAPIConnectionSettings>();
 
-            services.AddSingleton(sitefinityApiConnection ?? new SitefinityAPIConnectionSettings());
             services.AddSingleton(cosmosDbConnection);
             services.AddSingleton<IDocumentClient>(documentClient);
             services.AddSingleton<ICosmosRepository<HowToBecomeSegmentModel>, CosmosRepository<HowToBecomeSegmentModel>>();
             services.AddScoped<IHowToBecomeSegmentService, HowToBecomeSegmentService>();
             services.AddScoped<IDraftHowToBecomeSegmentService, DraftHowToBecomeSegmentService>();
             services.AddAutoMapper(typeof(Startup).Assembly);
+            services.AddScoped<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>, JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

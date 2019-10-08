@@ -1,0 +1,25 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "service-bus-connection-string": "[service bus connection string]",
+    //"patch-segment-topic-name": "how-to-become-segment-topic",
+    //"patch-segment-subscription-name": "how-to-become-patch",
+    "post-segment-topic-name": "how-to-become-segment-topic",
+    "post-segment-subscription-name": "how-to-become-post",
+    //"delete-topic-name": "how-to-become-delete-topic",
+    //"delete-subscription-name": "how-to-become-delete"
+  },
+  "HowToBecomeSegmentClientOptions": {
+    "Timeout": "00:00:30",
+    "BaseAddress": "https://localhost:44341",
+    "GetEndpoint": "segment/{0}/contents",
+    "PatchLinksEndpoint": "segment/{0}/links",
+    "PatchRequirementsEndpoint": "segment/{0}/requirements",
+    "PatchSimpleClassificationEndpoint": "segment/{0}/simple-classification",
+    "PostEndpoint": "segment",
+    "PutEndpoint": "segment",
+    "DeleteEndpoint": "segment/{0}"
+  }
+}

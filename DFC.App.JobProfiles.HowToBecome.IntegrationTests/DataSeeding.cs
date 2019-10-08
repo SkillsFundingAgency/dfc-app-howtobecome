@@ -12,8 +12,8 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests
     public class DataSeeding
     {
         internal const string Job1CanonicalName = "webdeveloper";
+        internal const string MainJobSocLevelTwo = "12345Soc";
         internal static readonly Guid MainArticleGuid = Guid.Parse("e2156143-e951-4570-a7a0-16f999f68661");
-        internal static readonly string MainJobSocLevelTwo = "12345Soc";
 
         private const string Job1Title = "Web Developer";
 
@@ -25,7 +25,6 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests
             {
                 DocumentId = MainArticleGuid,
                 CanonicalName = Job1CanonicalName,
-                LastReviewed = DateTime.UtcNow,
                 SocLevelTwo = MainJobSocLevelTwo,
                 Data = GetDefaultHowToBecomeSegmentDataModel(),
             };
@@ -55,16 +54,16 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests
                             Subject = "<p>You could do a foundation degree, higher national diploma or  degree in:</p><ul><li>web design and development</li><li>computer science</li><li>digital media development</li><li>software engineering</li></ul>",
                             FurtherInformation = "<p>Further information</p>",
                             EntryRequirementPreface = "You will usually need:",
-                            EntryRequirements = new List<GenericListContent>
+                            EntryRequirements = new List<EntryRequirement>
                             {
-                                new GenericListContent{ Id = "1", Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1},
-                                new GenericListContent{ Id = "2", Description = "2 to 3 A levels for a degree", Rank = 2},
+                                new EntryRequirement { Id = Guid.NewGuid(), Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1, Title = "Title 1" },
+                                new EntryRequirement { Id = Guid.NewGuid(), Description = "2 to 3 A levels for a degree", Rank = 2, Title = "Title 2" },
                             },
                             AdditionalInformation = new List<AdditionalInformation>
                             {
-                                new AdditionalInformation {Link = "https://something", Text = "Equivalent entry requirements"},
-                                new AdditionalInformation {Link = "https://something", Text = "Equivalent entry requirements"},
-                                new AdditionalInformation {Link = "https://something", Text = "Equivalent entry requirements"},
+                                new AdditionalInformation { Link = "https://something", Text = "Equivalent entry requirements", Title = "link title 1" },
+                                new AdditionalInformation { Link = "https://something", Text = "Equivalent entry requirements", Title = "link title 2" },
+                                new AdditionalInformation { Link = "https://something", Text = "Equivalent entry requirements", Title = "link title 3" },
                             },
                         },
                     },
@@ -79,9 +78,10 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests
                     ProfessionalAndIndustryBodies = "<p>Professional and Industry bodies here</p>",
                     CareerTips = "<h4>Career tips</h4><p>Make sure that you're up to date with the latest industry trends and web development standards.</p>",
                 },
-                Registrations = new List<GenericListContent> {
-                    new GenericListContent{ Id = "1", Description = "Registration 1", Rank = 1},
-                    new GenericListContent{ Id = "2", Description = "Registration 1", Rank = 2},
+                Registrations = new List<GenericListContent>
+                {
+                    new GenericListContent { Id = "1", Description = "Registration 1", Rank = 1 },
+                    new GenericListContent { Id = "2", Description = "Registration 1", Rank = 2 },
                 },
             };
         }

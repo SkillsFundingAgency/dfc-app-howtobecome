@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using DFC.App.JobProfiles.HowToBecome.Data.Models;
 using DFC.App.JobProfiles.HowToBecome.Data.Models.DataModels;
+using DFC.App.JobProfiles.HowToBecome.Data.Models.PatchModels;
+using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels;
 using DFC.App.JobProfiles.HowToBecome.ViewModels;
 using Microsoft.AspNetCore.Html;
 
@@ -10,7 +12,22 @@ namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
     {
         public HowToBecomeSegmentModelProfile()
         {
+            // Service Bus maps
+            CreateMap<PatchLinksModel, AdditionalInformation>()
+               .ForMember(d => d.Link, s => s.MapFrom(a => a.Url.ToString()));
+
+            CreateMap<PatchRequirementsModel, EntryRequirement>()
+               .ForMember(d => d.Description, s => s.MapFrom(a => a.Info));
+
+            CreateMap<HowToBecomeSegmentModel, RefreshJobProfileSegmentServiceBusModel>()
+                .ForMember(d => d.JobProfileId, s => s.MapFrom(a => a.DocumentId))
+                .ForMember(d => d.Segment, s => s.MapFrom(a => a.Data.SegmentName));
+
+            // View Models maps
+            CreateMap<EntryRequirement, ViewModels.DataModels.EntryRequirement>();
+
             CreateMap<AdditionalInformation, ViewModels.DataModels.AdditionalInformation>();
+
             CreateMap<GenericListContent, ViewModels.DataModels.GenericListContent>();
 
             CreateMap<MoreInformation, ViewModels.DataModels.MoreInformation>()

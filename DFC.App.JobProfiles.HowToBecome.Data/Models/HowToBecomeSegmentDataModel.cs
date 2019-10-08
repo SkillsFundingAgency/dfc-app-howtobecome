@@ -7,6 +7,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models
 {
     public class HowToBecomeSegmentDataModel
     {
+        public string SegmentName { get; private set; } = "HowToBecome";
+
         public DateTime LastReviewed { get; set; }
 
         public string Title { get; set; }
