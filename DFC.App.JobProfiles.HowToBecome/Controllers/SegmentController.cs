@@ -22,7 +22,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
         private const string DeleteActionName = nameof(Delete);
         private const string PatchLinksActionName = nameof(PatchLinks);
         private const string PatchRequirementsActionName = nameof(PatchRequirements);
-        private const string PatchSimpleClassificationActionName = nameof(PatchSimpleClassification);
+        private const string PatchSimpleClassificationActionName = nameof(PatchEntryRequirement);
 
         private readonly ILogger<SegmentController> logger;
         private readonly IHowToBecomeSegmentService howToBecomeSegmentService;
@@ -219,8 +219,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
         }
 
         [HttpPatch]
-        [Route("segment/{documentId}/simple-classification")]
-        public async Task<IActionResult> PatchSimpleClassification([FromBody]PatchSimpleClassificationModel patchSimpleClassificationModel, Guid documentId)
+        [Route("segment/{documentId}/entryRequirement")]
+        public async Task<IActionResult> PatchEntryRequirement([FromBody]PatchSimpleClassificationModel patchSimpleClassificationModel, Guid documentId)
         {
             logger.LogInformation($"{PatchSimpleClassificationActionName} has been called");
 

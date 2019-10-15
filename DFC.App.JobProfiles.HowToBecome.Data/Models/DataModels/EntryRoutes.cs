@@ -4,7 +4,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models.DataModels
 {
     public class EntryRoutes
     {
-        public IEnumerable<CommonRoutes> CommonRoutes { get; set; }
+        public IList<CommonRoutes> CommonRoutes { get; set; }
 
         public string Work { get; set; }
 

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DFC.App.JobProfiles.HowToBecome.Data.Enums;
+using DFC.App.JobProfiles.HowToBecome.Data;
 using DFC.App.JobProfiles.HowToBecome.Data.Models;
 using DFC.App.JobProfiles.HowToBecome.Data.Models.DataModels;
 using DFC.App.JobProfiles.HowToBecome.Data.Models.PatchModels;
@@ -102,9 +102,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
 
             var updatedAdditionalInfo = mapper.Map<AdditionalInformation>(patchModel);
 
-            var filteredAdditionalInfo = existingSegmentModel.Data.EntryRoutes.CommonRoutes
-                .First(e => e.RouteName == patchModel.RouteName).AdditionalInformation
-                .Where(ai => ai.Id != patchModel.Id).ToList();
+            var filteredAdditionalInfo = existingCommonRoute?.AdditionalInformation.Where(ai => ai.Id != patchModel.Id).ToList(); //why do we need this?
 
             if (linkToUpdate != null)
             {
@@ -116,12 +114,60 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
             }
             else
             {
-                filteredAdditionalInfo.Append(updatedAdditionalInfo);
+                //throw 404;
+                //filteredAdditionalInfo.Append(updatedAdditionalInfo);
             }
 
             existingSegmentModel.SequenceNumber = patchModel.SequenceNumber;
             existingSegmentModel.Data.EntryRoutes.CommonRoutes.First(e => e.RouteName == patchModel.RouteName).AdditionalInformation = filteredAdditionalInfo;
 
+            return await UpsertAndRefreshSegmentModel(existingSegmentModel).ConfigureAwait(false);
+        }
+
+        public async Task<HttpStatusCode> MKPatchLinksAsync(PatchLinksModel patchModel, Guid documentId)
+        {
+            if (patchModel is null)
+            {
+                throw new ArgumentNullException(nameof(patchModel));
+            }
+
+            var existingSegmentModel = await GetByIdAsync(documentId).ConfigureAwait(false);
+            if (existingSegmentModel is null)
+            {
+                return HttpStatusCode.NotFound;
+            }
+
+            if (patchModel.SequenceNumber <= existingSegmentModel.SequenceNumber)
+            {
+                return HttpStatusCode.AlreadyReported;
+            }
+
+            var existingCommonRoute = existingSegmentModel.GetExistingCommonRoute(patchModel.RouteName);
+            var linkToUpdate = existingCommonRoute
+                ?.AdditionalInformation
+                ?.SingleOrDefault(ai => ai.Id == patchModel.Id);
+
+            if (linkToUpdate is null)
+            {
+                return patchModel.EventType == EventType.Deleted ? HttpStatusCode.AlreadyReported : HttpStatusCode.NotFound;
+            }
+
+            if (patchModel.EventType == EventType.Deleted)
+            {
+                existingSegmentModel
+                .Data
+                .EntryRoutes
+                .CommonRoutes
+                .SingleOrDefault(e => e.RouteName == patchModel.RouteName)
+                ?.AdditionalInformation
+                ?.Remove(linkToUpdate);
+            }
+            else
+            {
+                linkToUpdate = mapper.Map<AdditionalInformation>(patchModel);
+            }
+
+            existingSegmentModel.SequenceNumber = patchModel.SequenceNumber;
             return await UpsertAndRefreshSegmentModel(existingSegmentModel).ConfigureAwait(false);
         }
 
@@ -191,7 +237,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
                 return HttpStatusCode.AlreadyReported;
             }
 
-            var existingCommonRoute = GetExistingCommonRoute(existingSegmentModel, patchModel.RouteName);
+            var existingCommonRoute = existingSegmentModel.GetExistingCommonRoute(patchModel.RouteName);
 
             existingSegmentModel.SequenceNumber = patchModel.SequenceNumber;
             existingCommonRoute.EntryRequirementPreface =
@@ -200,12 +246,6 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
                     : patchModel.Title;
 
             return await UpsertAndRefreshSegmentModel(existingSegmentModel).ConfigureAwait(false);
-        }
-
-        private static CommonRoutes GetExistingCommonRoute(HowToBecomeSegmentModel existingSegmentModel, RouteName routeName)
-        {
-            var existingCommonRoutes = existingSegmentModel.Data.EntryRoutes.CommonRoutes;
-            return existingCommonRoutes.FirstOrDefault(r => r.RouteName == routeName);
         }
 
         private async Task<HttpStatusCode> UpsertAndRefreshSegmentModel(HowToBecomeSegmentModel existingSegmentModel)

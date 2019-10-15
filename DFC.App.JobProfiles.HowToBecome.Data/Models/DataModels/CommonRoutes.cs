@@ -13,8 +13,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models.DataModels
 
         public string EntryRequirementPreface { get; set; }
 
-        public IEnumerable<EntryRequirement> EntryRequirements { get; set; }
+        public IList<EntryRequirement> EntryRequirements { get; set; }
 
-        public IEnumerable<AdditionalInformation> AdditionalInformation { get; set; }
+        public IList<AdditionalInformation> AdditionalInformation { get; set; }
     }
 }

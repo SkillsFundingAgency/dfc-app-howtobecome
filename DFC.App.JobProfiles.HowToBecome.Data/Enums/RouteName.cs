@@ -2,6 +2,7 @@
 {
     public enum RouteName
     {
+        Unknown,
         College,
         University,
         Apprenticeship,

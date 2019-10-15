@@ -2,6 +2,7 @@
 using DFC.App.JobProfiles.HowToBecome.Data.Models.PatchModels;
 using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Extensions;
 using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Models;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -16,20 +17,17 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
     {
         private readonly HttpClient httpClient;
         private readonly SegmentClientOptions segmentClientOptions;
+        private readonly ILogger logger;
 
-        public HttpClientService(SegmentClientOptions segmentClientOptions, HttpClient httpClient)
+        public HttpClientService(SegmentClientOptions segmentClientOptions, HttpClient httpClient, ILogger logger)
         {
             this.segmentClientOptions = segmentClientOptions;
             this.httpClient = httpClient;
+            this.logger = logger;
         }
 
         public async Task<HowToBecomeSegmentDataModel> GetByIdAsync(Guid id)
         {
-            if (httpClient == null)
-            {
-                return default;
-            }
-
             var url = segmentClientOptions?.GetEndpoint.GetFormattedUrl(segmentClientOptions.BaseAddress, id);
 
             using (var request = new HttpRequestMessage(HttpMethod.Get, url))
@@ -51,24 +49,37 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
 
         public async Task<HttpStatusCode> PatchLinksAsync(PatchLinksModel patchLinksModel)
         {
-            if (httpClient == null)
-            {
-                return default;
-            }
-
-            var url = segmentClientOptions?.PatchLinksEndpoint.GetFormattedUrl(segmentClientOptions.BaseAddress, patchLinksModel?.JobProfileId);
+            var url = $"{segmentClientOptions.BaseAddress}/segment/{patchLinksModel?.JobProfileId}/links";
 
             using (var request = new HttpRequestMessage(HttpMethod.Patch, url))
             {
-                request.Headers.Accept.Clear();
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+                request.Headers.Accept.Clear(); //why do we need this?
+                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json)); //why do we need this?
                 request.Content = new ObjectContent(typeof(PatchLinksModel), patchLinksModel, new JsonMediaTypeFormatter(), MediaTypeNames.Application.Json);
 
                 var response = await httpClient.SendAsync(request).ConfigureAwait(false);
-
                 if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.NotFound)
                 {
                     //log error with message from server
+                    response.EnsureSuccessStatusCode();
+                }
+
+                return response.StatusCode;
+            }
+        }
+
+        public async Task<HttpStatusCode> PatchAsync<T>(T patchModel, string patchTypeEndpoint)
+            where T : BasePatchModel
+        {
+            var url = new Uri($"{segmentClientOptions.BaseAddress}/segment/{patchModel?.JobProfileId}/{patchTypeEndpoint}");
+            using (var content = new ObjectContent<T>(patchModel, new JsonMediaTypeFormatter(), MediaTypeNames.Application.Json))
+            {
+                var response = await httpClient.PatchAsync(url, content).ConfigureAwait(false);
+                if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.NotFound)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    logger.LogError($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for patch type {typeof(T)}, Id: {patchModel.JobProfileId}");
+
                     response.EnsureSuccessStatusCode();
                 }
 
@@ -186,17 +197,13 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                 return default;
             }
 
-            var url = segmentClientOptions?.DeleteEndpoint.GetFormattedUrl(segmentClientOptions.BaseAddress, id);
+            var url = new Uri(segmentClientOptions?.DeleteEndpoint.GetFormattedUrl(segmentClientOptions.BaseAddress, id));
 
-            using (var request = new HttpRequestMessage(HttpMethod.Delete, url))
-            {
-                request.Headers.Accept.Clear();
-                request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(MediaTypeNames.Application.Json));
+            var response = await httpClient.DeleteAsync(url).ConfigureAwait(false);
 
-                var response = await httpClient.SendAsync(request).ConfigureAwait(false);
+            //Add Logging
 
-                return response.StatusCode;
-            }
+            return response.StatusCode;
         }
     }
 }

@@ -30,7 +30,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
             this.mappingService = mappingService;
         }
 
-        public async Task ProcessUpdateMessage(string message, long sequenceNumber, string sitefinityContentType, EventType eventType)
+        public async Task ProcessAsync(string message, long sequenceNumber, string sitefinityContentType, EventType eventType)
         {
             // Remove this mapping once confirmed there can be a routename added to the message
             var routeName = GetMappedRouteName(sitefinityContentType);
@@ -47,7 +47,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         patchLinksModel.EventType = eventType;
                         patchLinksModel.SequenceNumber = sequenceNumber;
 
-                        await httpClientService.PatchLinksAsync(patchLinksModel).ConfigureAwait(false);
+                        await httpClientService.PatchAsync(patchLinksModel, "links").ConfigureAwait(false)
 
                         break;
                     }
@@ -62,7 +62,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         patchRequirementsModel.EventType = eventType;
                         patchRequirementsModel.SequenceNumber = sequenceNumber;
 
-                        await httpClientService.PatchRequirementsAsync(patchRequirementsModel).ConfigureAwait(false);
+                        await httpClientService.PatchAsync(patchRequirementsModel, "requirements").ConfigureAwait(false);
 
                         break;
                     }
@@ -76,31 +76,35 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         patchSimpleClassificationModel.RouteName = routeName;
                         patchSimpleClassificationModel.EventType = eventType;
                         patchSimpleClassificationModel.SequenceNumber = sequenceNumber;
-
-                        await httpClientService.PatchSimpleClassificationAsync(patchSimpleClassificationModel).ConfigureAwait(false);
+                        await httpClientService.PatchAsync(patchSimpleClassificationModel, "entryRequirement").ConfigureAwait(false);
 
                         break;
                     }
 
-                default:
+                case "JobProfile":
                     await ProcessFullJobProfile(message, sequenceNumber, eventType).ConfigureAwait(false);
                     break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(sitefinityContentType), $"Unexpected sitefinity content type '{sitefinityContentType}'");
             }
         }
 
         private static RouteName GetMappedRouteName(string sitefinityContentType)
         {
-            if (sitefinityContentType.Contains("Apprenticeship", StringComparison.OrdinalIgnoreCase))
+            switch (sitefinityContentType)
             {
-                return RouteName.Apprenticeship;
-            }
-            else if (sitefinityContentType.Contains("University", StringComparison.OrdinalIgnoreCase))
-            {
-                return RouteName.University;
-            }
-            else
-            {
-                return RouteName.College;
+                case var _ when sitefinityContentType.Contains(nameof(RouteName.Apprenticeship), StringComparison.OrdinalIgnoreCase):
+                    return RouteName.Apprenticeship;
+
+                case var _ when sitefinityContentType.Contains(nameof(RouteName.University), StringComparison.OrdinalIgnoreCase):
+                    return RouteName.University;
+
+                case var _ when sitefinityContentType.Contains(nameof(RouteName.College), StringComparison.OrdinalIgnoreCase):
+                    return RouteName.College;
+
+                default:
+                    return RouteName.Unknown;
             }
         }
 
@@ -119,13 +123,13 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
 
         private async Task<HttpStatusCode> SendMessageData(HowToBecomeSegmentModel fullModel)
         {
-            var postResult = await httpClientService.PostFullJobProfileAsync(fullModel).ConfigureAwait(false);
-            if (postResult == HttpStatusCode.AlreadyReported)
+            var result = await httpClientService.PutFullJobProfileAsync(fullModel).ConfigureAwait(false);
+            if (result == HttpStatusCode.NotFound)
             {
-                return await httpClientService.PutFullJobProfileAsync(fullModel).ConfigureAwait(false);
+                return await httpClientService.PostFullJobProfileAsync(fullModel).ConfigureAwait(false);
             }
 
-            return postResult;
+            return result;
         }
 
         private void LogResult(HttpStatusCode response, Guid jobProfileId)

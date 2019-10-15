@@ -22,5 +22,8 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
         Task<HttpStatusCode> PutFullJobProfileAsync(HowToBecomeSegmentModel howToBecomeSegmentModel);
 
         Task<HttpStatusCode> DeleteAsync(Guid id);
+
+        Task<HttpStatusCode> PatchAsync<T>(T patchModel, string patchTypeEndpoint)
+            where T : BasePatchModel;
     }
 }
