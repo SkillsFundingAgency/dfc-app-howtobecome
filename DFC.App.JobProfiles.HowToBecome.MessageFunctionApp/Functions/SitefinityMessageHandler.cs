@@ -31,7 +31,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Functions
             log.LogInformation($"{nameof(SitefinityMessageHandler)}: Received message action '{eventType}' for type '{contentType}' with Id: '{messageContentId}': Correlation id {sitefinityMessage.CorrelationId}");
 
             var message = Encoding.UTF8.GetString(sitefinityMessage?.Body);
-            var parsedEventType = Enum.Parse<EventType>(eventType.ToString());
+            var parsedEventType = Enum.Parse<MessageAction>(eventType.ToString());
 
             await messageProcessor.ProcessAsync(message, sitefinityMessage.SystemProperties.SequenceNumber, contentType?.ToString(), parsedEventType).ConfigureAwait(false);
         }

@@ -25,7 +25,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
             CreateMap<JobProfileMessage, HowToBecomeSegmentModel>()
                 .ForMember(d => d.Data, s => s.MapFrom(a => a))
                 .ForMember(d => d.DocumentId, s => s.MapFrom(a => a.JobProfileId))
-                .ForMember(d => d.SocLevelTwo, s => s.MapFrom(a => a.SocCodeId))
+                .ForMember(d => d.SocLevelTwo, s => s.MapFrom(a => a.SocLevelTwo))
                 .ForMember(d => d.Etag, s => s.Ignore());
 
             CreateMap<SitefinityFurtherMoreInformation, MoreInformation>();

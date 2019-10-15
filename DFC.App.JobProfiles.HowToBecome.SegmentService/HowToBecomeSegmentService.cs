@@ -106,7 +106,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
 
             if (linkToUpdate != null)
             {
-                if (patchModel.EventType == EventType.Published)
+                if (patchModel.EventType == MessageAction.Published)
                 {
                     var existingIndex = existingCommonRoute.AdditionalInformation.ToList().FindIndex(ai => ai.Id == patchModel.Id);
                     filteredAdditionalInfo.Insert(existingIndex, updatedAdditionalInfo);
@@ -149,10 +149,10 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
 
             if (linkToUpdate is null)
             {
-                return patchModel.EventType == EventType.Deleted ? HttpStatusCode.AlreadyReported : HttpStatusCode.NotFound;
+                return patchModel.EventType == MessageAction.Deleted ? HttpStatusCode.AlreadyReported : HttpStatusCode.NotFound;
             }
 
-            if (patchModel.EventType == EventType.Deleted)
+            if (patchModel.EventType == MessageAction.Deleted)
             {
                 existingSegmentModel
                 .Data
@@ -201,7 +201,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
 
             if (existingRequirement != null)
             {
-                if (patchModel.EventType == EventType.Published)
+                if (patchModel.EventType == MessageAction.Published)
                 {
                     var existingIndex = existingCommonRoute.EntryRequirements.ToList().FindIndex(ai => ai.Id == patchModel.Id);
                     filteredEntryRequirements.Insert(existingIndex, updatedEntryRequirements);
@@ -241,7 +241,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
 
             existingSegmentModel.SequenceNumber = patchModel.SequenceNumber;
             existingCommonRoute.EntryRequirementPreface =
-                !string.IsNullOrEmpty(existingCommonRoute.EntryRequirementPreface) && patchModel.EventType == EventType.Published
+                !string.IsNullOrEmpty(existingCommonRoute.EntryRequirementPreface) && patchModel.EventType == MessageAction.Published
                     ? string.Empty
                     : patchModel.Title;
 

@@ -5,6 +5,6 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
 {
     public interface IMessageProcessor
     {
-        Task ProcessAsync(string message, long sequenceNumber, string sitefinityContentType, EventType eventType);
+        Task ProcessAsync(string message, long sequenceNumber, string sitefinityContentType, MessageAction eventType);
     }
 }

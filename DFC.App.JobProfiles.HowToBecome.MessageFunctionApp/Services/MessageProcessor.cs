@@ -30,7 +30,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
             this.mappingService = mappingService;
         }
 
-        public async Task ProcessAsync(string message, long sequenceNumber, string sitefinityContentType, EventType eventType)
+        public async Task ProcessAsync(string message, long sequenceNumber, string sitefinityContentType, MessageAction eventType)
         {
             // Remove this mapping once confirmed there can be a routename added to the message
             var routeName = GetMappedRouteName(sitefinityContentType);
@@ -106,11 +106,11 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
             }
         }
 
-        private async Task ProcessFullJobProfile(string message, long sequenceNumber, EventType eventType)
+        private async Task ProcessFullJobProfile(string message, long sequenceNumber, MessageAction eventType)
         {
             var fullJobProfile = mappingService.MapToSegmentModel(message, sequenceNumber);
 
-            if (eventType == EventType.Deleted)
+            if (eventType == MessageAction.Deleted)
             {
                 await httpClientService.DeleteAsync(fullJobProfile.DocumentId).ConfigureAwait(false);
             }

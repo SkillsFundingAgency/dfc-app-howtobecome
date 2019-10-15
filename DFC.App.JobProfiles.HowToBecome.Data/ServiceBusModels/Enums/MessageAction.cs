@@ -1,9 +1,9 @@
 ﻿namespace DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels.Enums
 {
-    public enum EventType
+    public enum MessageAction
     {
         Published,
         Deleted,
-        Draft
+        Draft,
     }
 }
