@@ -97,7 +97,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
                 return HttpStatusCode.AlreadyReported;
             }
 
-            var existingCommonRoute = GetExistingCommonRoute(existingSegmentModel, patchModel.RouteName);
+            var existingCommonRoute = existingSegmentModel.GetExistingCommonRoute(patchModel.RouteName);
             var linkToUpdate = existingCommonRoute?.AdditionalInformation.FirstOrDefault(a => a.Id == patchModel.Id);
 
             var updatedAdditionalInfo = mapper.Map<AdditionalInformation>(patchModel);
@@ -190,7 +190,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
                 return HttpStatusCode.AlreadyReported;
             }
 
-            var existingCommonRoute = GetExistingCommonRoute(existingSegmentModel, patchModel.RouteName);
+            var existingCommonRoute = existingSegmentModel.GetExistingCommonRoute(patchModel.RouteName);
             var existingRequirement = existingCommonRoute?.EntryRequirements.FirstOrDefault(r => r.Id == patchModel.Id);
 
             var updatedEntryRequirements = mapper.Map<EntryRequirement>(patchModel);

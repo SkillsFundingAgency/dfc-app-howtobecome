@@ -47,8 +47,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         patchLinksModel.EventType = eventType;
                         patchLinksModel.SequenceNumber = sequenceNumber;
 
-                        await httpClientService.PatchAsync(patchLinksModel, "links").ConfigureAwait(false)
-
+                        await httpClientService.PatchAsync(patchLinksModel, "links").ConfigureAwait(false);
                         break;
                     }
 
@@ -63,7 +62,6 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         patchRequirementsModel.SequenceNumber = sequenceNumber;
 
                         await httpClientService.PatchAsync(patchRequirementsModel, "requirements").ConfigureAwait(false);
-
                         break;
                     }
 
@@ -76,8 +74,8 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         patchSimpleClassificationModel.RouteName = routeName;
                         patchSimpleClassificationModel.EventType = eventType;
                         patchSimpleClassificationModel.SequenceNumber = sequenceNumber;
-                        await httpClientService.PatchAsync(patchSimpleClassificationModel, "entryRequirement").ConfigureAwait(false);
 
+                        await httpClientService.PatchAsync(patchSimpleClassificationModel, "entryRequirement").ConfigureAwait(false);
                         break;
                     }
 
