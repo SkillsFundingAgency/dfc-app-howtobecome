@@ -18,14 +18,12 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
                 .ForMember(d => d.DirectApplication, s => s.MapFrom(a => a.FurtherRoutes.DirectApplication))
                 .ForMember(d => d.OtherRoutes, s => s.MapFrom(a => a.FurtherRoutes.OtherRoutes))
                 .ForMember(d => d.Volunteering, s => s.MapFrom(a => a.FurtherRoutes.Volunteering))
-                .ForMember(d => d.Work, s => s.MapFrom(a => a.FurtherRoutes.Work))
-                //.ForAllMembers(s => s.MapFrom(a => a.FurtherRoutes))
-                ;
+                .ForMember(d => d.Work, s => s.MapFrom(a => a.FurtherRoutes.Work));
 
             CreateMap<JobProfileMessage, HowToBecomeSegmentModel>()
                 .ForMember(d => d.Data, s => s.MapFrom(a => a))
                 .ForMember(d => d.DocumentId, s => s.MapFrom(a => a.JobProfileId))
-                .ForMember(d => d.SocLevelTwo, s => s.MapFrom(a => a.SocLevelTwo))
+                .ForMember(d => d.SocLevelTwo, s => s.MapFrom(a => a.SocCodeId))
                 .ForMember(d => d.Etag, s => s.Ignore());
 
             CreateMap<SitefinityFurtherMoreInformation, MoreInformation>();
@@ -39,14 +37,17 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
                 .ForMember(d => d.EntryRouteSummary, s => s.MapFrom(a => a.IntroText));
 
             CreateMap<JobProfileMessage, HowToBecomeSegmentDataModel>()
-                .ForMember(d => d.TitlePrefix, s => s.MapFrom(a => Enum.Parse<TitlePrefix>(a.DynamicTitlePrefix)))
+                .ForMember(d => d.TitlePrefix, s => s.MapFrom((message, model) =>
+                {
+                    var canBeParsed = Enum.TryParse<TitlePrefix>(message.DynamicTitlePrefix, out var result);
+                    return canBeParsed ? result : TitlePrefix.Default;
+                }))
                 .ForMember(d => d.Title, s => s.MapFrom(a => a.Title))
                 .ForMember(d => d.LastReviewed, s => s.MapFrom(o => o.LastModified))
                 .ForMember(d => d.Registrations, o => o.MapFrom(s => s.HowToBecomeData.Registrations))
                 .ForMember(d => d.MoreInformation, o => o.MapFrom(s => s.HowToBecomeData.FurtherMoreInformation))
                 .ForMember(d => d.EntryRouteSummary, o => o.MapFrom(s => s.HowToBecomeData.IntroText))
                 .ForMember(d => d.SegmentName, s => s.Ignore())
-                //.ForMember(d => d.EntryRoutes, o => o.MapFrom(s => s.HowToBecomeData.FurtherRoutes))
                 .ForAllOtherMembers(o => o.MapFrom(s => s.HowToBecomeData));
 
             CreateMap<SitefinityMoreInformationLinks, AdditionalInformation>()
@@ -63,8 +64,6 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
                 .ForMember(d => d.AdditionalInformation, s => s.MapFrom(a => a.MoreInformationLinks));
 
             CreateMap<SitefinityFurtherRoutes, EntryRoutes>();
-
-            CreateMap<JobProfileMessage, PatchSegmentModel>();
 
             CreateMap<PatchLinksServiceBusModel, PatchLinksModel>();
 

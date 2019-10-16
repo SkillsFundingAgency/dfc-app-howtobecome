@@ -6,6 +6,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
 
@@ -31,6 +32,8 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Startup
             builder?.Services.AddSingleton<HttpClient>(new HttpClient());
             builder?.Services.AddSingleton<IHttpClientService, HttpClientService>();
             builder?.Services.AddSingleton<IMessageProcessor, MessageProcessor>();
+            builder?.Services.AddSingleton<ILogger, Logger<WebJobsExtensionStartup>>();
+            builder?.Services.AddSingleton<IMappingService, MappingService>();
         }
     }
 }
