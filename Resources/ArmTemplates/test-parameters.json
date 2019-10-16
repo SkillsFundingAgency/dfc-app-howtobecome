@@ -2,6 +2,9 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "appServiceDomain": {
+            "value": "azurewebsites.net"
+        },
         "appSharedResourceGroup": {
             "value": "dfc-dev-app-sharedresources-rg"
         },
@@ -16,9 +19,6 @@
         },
         "cosmosDbKey": {
             "value": "not-a-real-key"
-        },
-        "cosmosDbResourceGroup": {
-            "value": "dfc-dev-app-sharedresources-rg"
         },
         "Environment": {
             "value": "FOO"

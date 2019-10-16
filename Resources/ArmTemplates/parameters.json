@@ -2,6 +2,9 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "appServiceDomain": {
+            "value": "__appServiceDomain__"
+        },
         "appSharedResourceGroup": {
             "value": "__appSharedResourceGroup__"
         },
@@ -26,9 +29,6 @@
         "cosmosDbKey": {
             "value": "__appSharedCosmosPrimaryKey__"
         },
-        "cosmosDbResourceGroup": {
-            "value": "__appSharedResourceGroup__"
-        },
         "environment": {
             "value": "__ReleaseEnvironmentName__",
             "metadata": {
@@ -43,6 +43,9 @@
         },
         "cosmosDbCollectionName": {
             "value": "__cosmosDbCollectionName__"
+        },
+        "cmsSubscriptionSqlFilter": {
+            "value": "__cmsSubscriptionSqlFilter__"
         }
     }
 }
