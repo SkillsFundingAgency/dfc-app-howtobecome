@@ -29,19 +29,19 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
 
         public static IEnumerable<object[]> SegmentDocumentRouteData => new List<object[]>
         {
-            new object[] {SegmentUrl},
-            new object[] {$"{SegmentUrl}/{DataSeeding.Job1CanonicalName}"},
+            new object[] { SegmentUrl },
+            new object[] { $"{SegmentUrl}/{DataSeeding.Job1CanonicalName}" },
         };
 
         public static IEnumerable<object[]> MissingSegmentContentRouteData => new List<object[]>
         {
-            new object[] {$"{SegmentUrl}/invalid-segment-name"},
+            new object[] { $"{SegmentUrl}/invalid-segment-name" },
         };
 
         public static IEnumerable<object[]> SegmentBodyRouteData => new List<object[]>
         {
-            new object[] {$"{SegmentUrl}/{DataSeeding.Job1CanonicalName}/contents", MediaTypeNames.Application.Json},
-            new object[] {$"{SegmentUrl}/{DataSeeding.Job1CanonicalName}/contents", MediaTypeNames.Text.Html},
+            new object[] { $"{SegmentUrl}/{DataSeeding.MainArticleGuid}/contents", MediaTypeNames.Application.Json },
+            new object[] { $"{SegmentUrl}/{DataSeeding.MainArticleGuid}/contents", MediaTypeNames.Text.Html },
         };
 
         [Theory]
@@ -103,7 +103,6 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = Guid.NewGuid().ToString(),
-                LastReviewed = DateTime.UtcNow,
                 SocLevelTwo = "12PostSoc",
                 Data = GetDefaultHowToBecomeSegmentDataModel(nameof(PostSegmentEndpointsReturnCreated)),
             };
@@ -128,7 +127,6 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
             {
                 DocumentId = DataSeeding.MainArticleGuid,
                 CanonicalName = DataSeeding.Job1CanonicalName,
-                LastReviewed = DateTime.UtcNow,
                 SocLevelTwo = DataSeeding.MainJobSocLevelTwo,
                 Data = GetDefaultHowToBecomeSegmentDataModel(nameof(PostSegmentEndpointsForDefaultArticleRefreshAllReturnOk)),
             };
@@ -142,7 +140,6 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
 
             // Assert
             response.EnsureSuccessStatusCode();
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
 
         [Fact]
@@ -153,7 +150,6 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = Guid.NewGuid().ToString(),
-                LastReviewed = DateTime.UtcNow,
                 SocLevelTwo = "11PutSoc",
                 Data = GetDefaultHowToBecomeSegmentDataModel(nameof(PutSegmentEndpointsReturnOk)),
             };
@@ -165,6 +161,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
                 .ConfigureAwait(false);
 
             // Act
+            howToBecomeSegmentModel.SequenceNumber++;
             var response = await client.PutAsync(SegmentUrl, howToBecomeSegmentModel, new JsonMediaTypeFormatter())
                 .ConfigureAwait(false);
 
@@ -237,16 +234,16 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
                             Subject = "<p>You could do a foundation degree, higher national diploma or  degree in:</p><ul><li>web design and development</li><li>computer science</li><li>digital media development</li><li>software engineering</li></ul>",
                             FurtherInformation = "<p>Further information</p>",
                             EntryRequirementPreface = "You will usually need:",
-                            EntryRequirements = new List<GenericListContent>
+                            EntryRequirements = new List<EntryRequirement>
                             {
-                                new GenericListContent{ Id = "1", Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1},
-                                new GenericListContent{ Id = "2", Description = "2 to 3 A levels for a degree", Rank = 2},
+                                new EntryRequirement { Id = Guid.NewGuid(), Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1, Title = "Title 1" },
+                                new EntryRequirement { Id = Guid.NewGuid(), Description = "2 to 3 A levels for a degree", Rank = 2, Title = "Title 2" },
                             },
                             AdditionalInformation = new List<AdditionalInformation>
                             {
-                                new AdditionalInformation {Link = "https://something", Text = "Equivalent entry requirements"},
-                                new AdditionalInformation {Link = "https://something", Text = "Equivalent entry requirements"},
-                                new AdditionalInformation {Link = "https://something", Text = "Equivalent entry requirements"},
+                                new AdditionalInformation { Link = "https://something", Text = "Equivalent entry requirements" },
+                                new AdditionalInformation { Link = "https://something", Text = "Equivalent entry requirements" },
+                                new AdditionalInformation { Link = "https://something", Text = "Equivalent entry requirements" },
                             },
                         },
                     },
@@ -261,9 +258,10 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
                     ProfessionalAndIndustryBodies = "<p>Professional and Industry bodies here</p>",
                     CareerTips = "<h4>Career tips</h4><p>Make sure that you're up to date with the latest industry trends and web development standards.</p>",
                 },
-                Registrations = new List<GenericListContent> {
-                    new GenericListContent{ Id = "1", Description = "Registration 1", Rank = 1},
-                    new GenericListContent{ Id = "2", Description = "Registration 1", Rank = 2},
+                Registrations = new List<GenericListContent>
+                {
+                    new GenericListContent { Id = "1", Description = "Registration 1", Rank = 1 },
+                    new GenericListContent { Id = "2", Description = "Registration 1", Rank = 2 },
                 },
             };
         }

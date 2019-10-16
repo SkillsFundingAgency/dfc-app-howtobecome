@@ -25,6 +25,14 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
 
         public IEnumerable<GenericListContent> Registrations { get; set; }
 
+        public bool HasRegistrations => Registrations != null && Registrations.Any();
+
+        public bool HasProfessionalAndIndustryBodies => !string.IsNullOrEmpty(MoreInformation?.ProfessionalAndIndustryBodies?.Value);
+
+        public bool HasCareerTips => !string.IsNullOrEmpty(MoreInformation?.CareerTips?.Value);
+
+        public bool HasFurtherInformation => !string.IsNullOrEmpty(MoreInformation?.FurtherInformation?.Value);
+
         public string GetDynamicTitle()
         {
             switch (TitlePrefix)
@@ -45,14 +53,6 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
 
         private static string GetDefaultDynamicTitle(string title) => IsStartsWithVowel(title) ? $"an {title}" : $"a {title}";
 
-        private static bool IsStartsWithVowel(string title) => new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(title.ToLower().First());
-
-        public bool HasRegistrations => Registrations != null && Registrations.Any();
-
-        public bool HasProfessionalAndIndustryBodies => !string.IsNullOrEmpty(MoreInformation?.ProfessionalAndIndustryBodies?.Value);
-
-        public bool HasCareerTips => !string.IsNullOrEmpty(MoreInformation?.CareerTips?.Value);
-
-        public bool HasFurtherInformation => !string.IsNullOrEmpty(MoreInformation?.FurtherInformation?.Value);
+        private static bool IsStartsWithVowel(string title) => new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(title.ToLowerInvariant().First());
     }
 }

@@ -11,7 +11,7 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
     [Trait("Segment Controller", "Get Body Tests")]
     public class SegmentControllerGetBodyTests : BaseSegmentController
     {
-        private const string Article = "an-article-name";
+        private readonly Guid documentId = Guid.NewGuid();
 
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
@@ -21,14 +21,14 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
             var expectedResult = A.Fake<HowToBecomeSegmentModel>();
             var controller = BuildSegmentController(mediaTypeName);
 
-            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeHowToBecomeSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<HowToBecomeSegmentModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
 
             // Act
-            var result = await controller.Body(Article).ConfigureAwait(false);
+            var result = await controller.Body(documentId).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHowToBecomeSegmentService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<HowToBecomeSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -43,13 +43,13 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
         {
             // Arrange
             var controller = BuildSegmentController(mediaTypeName);
-            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns((HowToBecomeSegmentModel)null);
+            A.CallTo(() => FakeHowToBecomeSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns((HowToBecomeSegmentModel)null);
 
             // Act
-            var result = await controller.Body(Article).ConfigureAwait(false);
+            var result = await controller.Body(documentId).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHowToBecomeSegmentService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
             var statusResult = Assert.IsType<NoContentResult>(result);
             Assert.Equal((int)HttpStatusCode.NoContent, statusResult.StatusCode);
 
@@ -66,14 +66,14 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
 
             var controller = BuildSegmentController(mediaTypeName);
 
-            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(howToBecomeSegmentModel);
+            A.CallTo(() => FakeHowToBecomeSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns(howToBecomeSegmentModel);
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<HowToBecomeSegmentModel>.Ignored)).Returns(fakeDocumentViewModel);
 
             // Act
-            var result = await controller.Body(Article).ConfigureAwait(false);
+            var result = await controller.Body(documentId).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHowToBecomeSegmentService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<HowToBecomeSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
@@ -92,15 +92,15 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
             var expectedResult = A.Fake<HowToBecomeSegmentModel>();
             var controller = BuildSegmentController(mediaTypeName);
 
-            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeHowToBecomeSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns(expectedResult);
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<HowToBecomeSegmentModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
 
             // Act
-            var result = await controller.Body(Article).ConfigureAwait(false);
+            var result = await controller.Body(documentId).ConfigureAwait(false);
             var viewResult = Assert.IsType<StatusCodeResult>(result);
 
             // Assert
-            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHowToBecomeSegmentService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<HowToBecomeSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             Assert.Equal((int)HttpStatusCode.NotAcceptable, viewResult.StatusCode);

@@ -11,6 +11,23 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
 {
     public class SegmentBodyTests : TestsBase
     {
+        public static IEnumerable<object[]> FurtherEntryRoutesSet => new List<object[]>
+        {
+            new object[] { true, true, true, true },
+            new object[] { false, true, true, true },
+            new object[] { true, false, true, true },
+            new object[] { true, true, false, true },
+            new object[] { true, true, true, false },
+        };
+
+        public static IEnumerable<object[]> MoreInformationPropertiesSet => new List<object[]>
+        {
+            new object[] { true, true, true },
+            new object[] { false, true, true },
+            new object[] { true, false, true },
+            new object[] { true, true, false },
+        };
+
         [Fact]
         public void ContainsContentFromModel()
         {
@@ -25,7 +42,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
             };
 
             var viewBag = new Dictionary<string, object>();
-            var viewRenderer = new RazorEngineRenderer(viewRootPath);
+            var viewRenderer = new RazorEngineRenderer(ViewRootPath);
 
             // Act
             var viewRenderResponse = viewRenderer.Render(@"Body", model, viewBag);
@@ -46,8 +63,12 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
                 RouteName = RouteName.University,
                 Subject = new HtmlString("<p>Subject</p>"),
                 EntryRequirementPreface = "Entry Requirement Preface",
-                EntryRequirements = new List<GenericListContent> { new GenericListContent { Id = "1", Description = "Some entry requirement" } },
-                AdditionalInformation = new List<AdditionalInformation>{
+                EntryRequirements = new List<EntryRequirement>
+                {
+                    new EntryRequirement { Id = Guid.NewGuid(), Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1, Title = "Title 1" },
+                },
+                AdditionalInformation = new List<AdditionalInformation>
+                {
                     new AdditionalInformation
                     {
                         Link = "http://Something",
@@ -57,7 +78,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
             };
 
             var viewBag = new Dictionary<string, object>();
-            var viewRenderer = new RazorEngineRenderer(viewRootPath);
+            var viewRenderer = new RazorEngineRenderer(ViewRootPath);
 
             // Act
             var viewRenderResponse = viewRenderer.Render(@"RouteEntry", model, viewBag);
@@ -77,12 +98,12 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
             {
                 RouteName = RouteName.University,
                 EntryRequirementPreface = string.Empty,
-                EntryRequirements = new List<GenericListContent>(),
+                EntryRequirements = new List<EntryRequirement>(),
                 Subject = new HtmlString("<p>Subject</p>"),
             };
 
             var viewBag = new Dictionary<string, object>();
-            var viewRenderer = new RazorEngineRenderer(viewRootPath);
+            var viewRenderer = new RazorEngineRenderer(ViewRootPath);
 
             // Act
             var viewRenderResponse = viewRenderer.Render(@"RouteEntry", model, viewBag);
@@ -105,7 +126,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
             };
 
             var viewBag = new Dictionary<string, object>();
-            var viewRenderer = new RazorEngineRenderer(viewRootPath);
+            var viewRenderer = new RazorEngineRenderer(ViewRootPath);
 
             // Act
             var viewRenderResponse = viewRenderer.Render(@"RouteEntry", model, viewBag);
@@ -113,15 +134,6 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
             // Assert
             Assert.DoesNotContain(expectedAbsentHeading, viewRenderResponse, StringComparison.OrdinalIgnoreCase);
         }
-
-        public static IEnumerable<object[]> FurtherEntryRoutesSet => new List<object[]>
-        {
-            new object[] { true, true, true, true },
-            new object[] { false, true, true, true },
-            new object[] { true, false, true, true },
-            new object[] { true, true, false, true },
-            new object[] { true, true, true, false },
-        };
 
         [Theory]
         [MemberData(nameof(FurtherEntryRoutesSet))]
@@ -142,7 +154,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
             };
 
             var viewBag = new Dictionary<string, object>();
-            var viewRenderer = new RazorEngineRenderer(viewRootPath);
+            var viewRenderer = new RazorEngineRenderer(ViewRootPath);
 
             // Act
             var viewRenderResponse = viewRenderer.Render(@"FurtherRoutes", model, viewBag);
@@ -163,20 +175,12 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
             var model = GetDefaultHowToBecomeSegmentDataModel(hasRegistrations);
 
             var viewBag = new Dictionary<string, object>();
-            var viewRenderer = new RazorEngineRenderer(viewRootPath);
+            var viewRenderer = new RazorEngineRenderer(ViewRootPath);
 
             // Act
             var viewRenderResponse = viewRenderer.Render(@"MoreInformation", model, viewBag);
             Assert.True(hasRegistrations ? viewRenderResponse.Contains(expectedHeader, StringComparison.OrdinalIgnoreCase) : !viewRenderResponse.Contains(expectedHeader, StringComparison.OrdinalIgnoreCase));
         }
-
-        public static IEnumerable<object[]> MoreInformationPropertiesSet => new List<object[]>
-        {
-            new object[] { true, true, true},
-            new object[] { false, true, true},
-            new object[] { true, false, true},
-            new object[] { true, true, false},
-        };
 
         [Theory]
         [MemberData(nameof(MoreInformationPropertiesSet))]
@@ -188,9 +192,10 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
 
             var model = new DocumentDataViewModel
             {
-                Registrations = new List<GenericListContent> {
-                    new GenericListContent{ Id = "1", Description = "Registration 1", Rank = 1},
-                    new GenericListContent{ Id = "2", Description = "Registration 1", Rank = 2},
+                Registrations = new List<GenericListContent>
+                {
+                    new GenericListContent { Id = "1", Description = "Registration 1", Rank = 1 },
+                    new GenericListContent { Id = "2", Description = "Registration 1", Rank = 2 },
                 },
                 MoreInformation = new MoreInformation
                 {
@@ -201,7 +206,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
             };
 
             var viewBag = new Dictionary<string, object>();
-            var viewRenderer = new RazorEngineRenderer(viewRootPath);
+            var viewRenderer = new RazorEngineRenderer(ViewRootPath);
 
             // Act
             var viewRenderResponse = viewRenderer.Render(@"MoreInformation", model, viewBag);
@@ -228,16 +233,16 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
                             Subject = new HtmlString("<p>You could do a foundation degree, higher national diploma or  degree in:</p><ul><li>web design and development</li><li>computer science</li><li>digital media development</li><li>software engineering</li></ul>"),
                             FurtherInformation = new HtmlString("<p>Further information</p>"),
                             EntryRequirementPreface = "You will usually need:",
-                            EntryRequirements = new List<GenericListContent>
+                            EntryRequirements = new List<EntryRequirement>
                             {
-                                new GenericListContent{ Id = "1", Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1},
-                                new GenericListContent{ Id = "2", Description = "2 to 3 A levels for a degree", Rank = 2},
+                                new EntryRequirement { Id = Guid.NewGuid(), Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1, Title = "Title 1" },
+                                new EntryRequirement { Id = Guid.NewGuid(), Description = "2 to 3 A levels for a degree", Rank = 2, Title = "Title 2" },
                             },
                             AdditionalInformation = new List<AdditionalInformation>
                             {
-                                new AdditionalInformation {Link = "https://something", Text = "Equivalent entry requirements"},
-                                new AdditionalInformation {Link = "https://something", Text = "Equivalent entry requirements"},
-                                new AdditionalInformation {Link = "https://something", Text = "Equivalent entry requirements"},
+                                new AdditionalInformation { Link = "https://something", Text = "Equivalent entry requirements" },
+                                new AdditionalInformation { Link = "https://something", Text = "Equivalent entry requirements" },
+                                new AdditionalInformation { Link = "https://something", Text = "Equivalent entry requirements" },
                             },
                         },
                     },
@@ -254,8 +259,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
                 },
                 Registrations = hasRegistrations ? new List<GenericListContent>
                     {
-                        new GenericListContent{ Id = "1", Description = "Registration 1", Rank = 1 },
-                        new GenericListContent{ Id = "2", Description = "Registration 1", Rank = 2 },
+                        new GenericListContent { Id = "1", Description = "Registration 1", Rank = 1 },
+                        new GenericListContent { Id = "2", Description = "Registration 1", Rank = 2 },
                     }
                     : null,
             };

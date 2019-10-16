@@ -1,4 +1,5 @@
 ﻿using DFC.App.JobProfiles.HowToBecome.Data.Models;
+using DFC.App.JobProfiles.HowToBecome.Data.Models.PatchModels;
 using DFC.App.JobProfiles.HowToBecome.Extensions;
 using DFC.App.JobProfiles.HowToBecome.SegmentService;
 using DFC.App.JobProfiles.HowToBecome.ViewModels;
@@ -16,8 +17,12 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
         private const string IndexActionName = nameof(Index);
         private const string DocumentActionName = nameof(Document);
         private const string BodyActionName = nameof(Body);
-        private const string SaveActionName = nameof(Save);
+        private const string PostActionName = nameof(Post);
+        private const string PutActionName = nameof(Put);
         private const string DeleteActionName = nameof(Delete);
+        private const string PatchLinksActionName = nameof(PatchLinks);
+        private const string PatchRequirementsActionName = nameof(PatchRequirements);
+        private const string PatchSimpleClassificationActionName = nameof(PatchEntryRequirement);
 
         private readonly ILogger<SegmentController> logger;
         private readonly IHowToBecomeSegmentService howToBecomeSegmentService;
@@ -78,32 +83,31 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
         }
 
         [HttpGet]
-        [Route("segment/{article}/contents")]
-        public async Task<IActionResult> Body(string article)
+        [Route("segment/{documentId}/contents")]
+        public async Task<IActionResult> Body(Guid documentId)
         {
-            logger.LogInformation($"{BodyActionName} has been called with: {article}");
+            logger.LogInformation($"{BodyActionName} has been called with: {documentId}");
 
-            var howToBecomeSegmentModel = await howToBecomeSegmentService.GetByNameAsync(article, Request.IsDraftRequest()).ConfigureAwait(false);
+            var howToBecomeSegmentModel = await howToBecomeSegmentService.GetByIdAsync(documentId).ConfigureAwait(false);
             if (howToBecomeSegmentModel != null)
             {
                 var viewModel = mapper.Map<DocumentViewModel>(howToBecomeSegmentModel);
 
-                logger.LogInformation($"{BodyActionName} has succeeded for: {article}");
+                logger.LogInformation($"{BodyActionName} has succeeded for: {documentId}");
 
                 return this.NegotiateContentResult(viewModel, howToBecomeSegmentModel.Data);
             }
 
-            logger.LogWarning($"{BodyActionName} has returned no content for: {article}");
+            logger.LogWarning($"{BodyActionName} has returned no content for: {documentId}");
 
             return NoContent();
         }
 
-        [HttpPut]
         [HttpPost]
         [Route("segment")]
-        public async Task<IActionResult> Save([FromBody]HowToBecomeSegmentModel upsertHowToBecomeSegmentModel)
+        public async Task<IActionResult> Post([FromBody]HowToBecomeSegmentModel upsertHowToBecomeSegmentModel)
         {
-            logger.LogInformation($"{SaveActionName} has been called");
+            logger.LogInformation($"{PostActionName} has been called");
 
             if (upsertHowToBecomeSegmentModel == null)
             {
@@ -115,25 +119,128 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
                 return BadRequest(ModelState);
             }
 
+            var existingDocument = await howToBecomeSegmentService.GetByIdAsync(upsertHowToBecomeSegmentModel.DocumentId).ConfigureAwait(false);
+            if (existingDocument != null)
+            {
+                return new StatusCodeResult((int)HttpStatusCode.AlreadyReported);
+            }
+
             var response = await howToBecomeSegmentService.UpsertAsync(upsertHowToBecomeSegmentModel)
                 .ConfigureAwait(false);
 
-            if (response.ResponseStatusCode == HttpStatusCode.Created)
-            {
-                logger.LogInformation($"{SaveActionName} has created content for: {upsertHowToBecomeSegmentModel.CanonicalName}");
+            logger.LogInformation($"{PostActionName} has upserted content for: {upsertHowToBecomeSegmentModel.CanonicalName}");
 
-                return new CreatedAtActionResult(
-                    SaveActionName,
-                    "Segment",
-                    new { article = response.HowToBecomeSegmentModel.CanonicalName },
-                    response.HowToBecomeSegmentModel);
-            }
-            else
-            {
-                logger.LogInformation($"{SaveActionName} has updated content for: {upsertHowToBecomeSegmentModel.CanonicalName}");
+            return new StatusCodeResult((int)response);
+        }
 
-                return new OkObjectResult(response.HowToBecomeSegmentModel);
+        [HttpPut]
+        [Route("segment")]
+        public async Task<IActionResult> Put([FromBody]HowToBecomeSegmentModel upsertHowToBecomeSegmentModel)
+        {
+            logger.LogInformation($"{PutActionName} has been called");
+
+            if (upsertHowToBecomeSegmentModel == null)
+            {
+                return BadRequest();
             }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var existingDocument = await howToBecomeSegmentService.GetByIdAsync(upsertHowToBecomeSegmentModel.DocumentId).ConfigureAwait(false);
+            if (existingDocument == null)
+            {
+                return new StatusCodeResult((int)HttpStatusCode.NotFound);
+            }
+
+            if (upsertHowToBecomeSegmentModel.SequenceNumber <= existingDocument.SequenceNumber)
+            {
+                return new StatusCodeResult((int)HttpStatusCode.AlreadyReported);
+            }
+
+            upsertHowToBecomeSegmentModel.Etag = existingDocument.Etag;
+            upsertHowToBecomeSegmentModel.SocLevelTwo = existingDocument.SocLevelTwo;
+
+            var response = await howToBecomeSegmentService.UpsertAsync(upsertHowToBecomeSegmentModel).ConfigureAwait(false);
+
+            return new StatusCodeResult((int)response);
+        }
+
+        [HttpPatch]
+        [Route("segment/{documentId}/links")]
+        public async Task<IActionResult> PatchLinks([FromBody]PatchLinksModel patchLinksModel, Guid documentId)
+        {
+            logger.LogInformation($"{PatchLinksActionName} has been called");
+
+            if (patchLinksModel == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var response = await howToBecomeSegmentService.PatchLinksAsync(patchLinksModel, documentId).ConfigureAwait(false);
+            if (response != HttpStatusCode.OK && response != HttpStatusCode.Created)
+            {
+                logger.LogError($"{PatchLinksActionName}: Error while patching Additional Information content for Job Profile with Id: {patchLinksModel.JobProfileId} for the {patchLinksModel.RouteName.ToString()} link");
+            }
+
+            return new StatusCodeResult((int)response);
+        }
+
+        [HttpPatch]
+        [Route("segment/{documentId}/requirements")]
+        public async Task<IActionResult> PatchRequirements([FromBody]PatchRequirementsModel patchRequirementsModel, Guid documentId)
+        {
+            logger.LogInformation($"{PatchRequirementsActionName} has been called");
+
+            if (patchRequirementsModel == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var response = await howToBecomeSegmentService.PatchRequirementsAsync(patchRequirementsModel, documentId).ConfigureAwait(false);
+            if (response != HttpStatusCode.OK && response != HttpStatusCode.Created)
+            {
+                logger.LogError($"{PatchRequirementsActionName}: Error while patching Additional Information content for Job Profile with Id: {patchRequirementsModel.JobProfileId} for the {patchRequirementsModel.RouteName.ToString()} link");
+            }
+
+            return new StatusCodeResult((int)response);
+        }
+
+        [HttpPatch]
+        [Route("segment/{documentId}/entryRequirement")]
+        public async Task<IActionResult> PatchEntryRequirement([FromBody]PatchSimpleClassificationModel patchSimpleClassificationModel, Guid documentId)
+        {
+            logger.LogInformation($"{PatchSimpleClassificationActionName} has been called");
+
+            if (patchSimpleClassificationModel == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var response = await howToBecomeSegmentService.PatchSimpleClassificationAsync(patchSimpleClassificationModel, documentId).ConfigureAwait(false);
+            if (response != HttpStatusCode.OK && response != HttpStatusCode.Created)
+            {
+                logger.LogError($"{PatchSimpleClassificationActionName}: Error while patching Additional Information content for Job Profile with Id: {patchSimpleClassificationModel.JobProfileId} for the {patchSimpleClassificationModel.RouteName.ToString()} link");
+            }
+
+            return new StatusCodeResult((int)response);
         }
 
         [HttpDelete]
