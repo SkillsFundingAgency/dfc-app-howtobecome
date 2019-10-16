@@ -5,6 +5,9 @@
         "appSharedResourceGroup": {
             "type": "string"
         },
+        "appSharedServiceBusName": {
+            "type": "string"
+        },
         "appSharedStorageAccountName": {
             "type": "string"
         },
@@ -61,7 +64,8 @@
         "cosmosDbDatabaseName": "dfc-app-jobprofiles",
         "cosmosDbEndpoint": "[concat('https://', parameters('cosmosDbName'), '.documents.azure.com:443/')]",
         "resourcePrefix": "[tolower(concat('dfc-', parameters('Environment'), '-app-howto'))]",
-        "webAppName": "[concat(variables('ResourcePrefix'), '-as')]"
+        "webAppName": "[concat(variables('ResourcePrefix'), '-as')]",
+        "refreshTopicName": "job-profile-refresh"
     },
     "resources": [
         {
@@ -176,6 +180,14 @@
                             {
                                 "name": "Configuration__CosmosDbConnections__JobProfileSegment__PartitionKey",
                                 "value": "[variables('cosmosDbCollectionPartitionKey')]"
+                            },
+                            {
+                                "name": "ServiceBusOptions__ServiceBusConnectionString",
+                                "value": "[listKeys(resourceId(parameters('appSharedResourceGroup'), 'Microsoft.ServiceBus/namespaces/authorizationRules', parameters('appSharedServiceBusName'), 'ReadWrite'), '2017-04-01').primaryConnectionString]"
+                            },
+                            {
+                                "name": "ServiceBusOptions__topicName",
+                                "value": "[variables('refreshTopicName')]"
                             }
                         ]
                     }
