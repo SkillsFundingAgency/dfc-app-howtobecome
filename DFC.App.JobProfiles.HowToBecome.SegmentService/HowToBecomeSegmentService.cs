@@ -102,14 +102,14 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
 
             if (linkToUpdate is null)
             {
-                return patchModel.EventType == MessageAction.Deleted ? HttpStatusCode.AlreadyReported : HttpStatusCode.NotFound;
+                return patchModel.MessageAction == MessageAction.Deleted ? HttpStatusCode.AlreadyReported : HttpStatusCode.NotFound;
             }
 
             var updatedAdditionalInfo = mapper.Map<AdditionalInformation>(patchModel);
 
             var filteredAdditionalInfo = existingCommonRoute?.AdditionalInformation.Where(ai => ai.Id != patchModel.Id).ToList(); //why do we need this?
 
-            if (patchModel.EventType == MessageAction.Published)
+            if (patchModel.MessageAction == MessageAction.Published)
             {
                 var existingIndex = existingCommonRoute.AdditionalInformation.ToList().FindIndex(ai => ai.Id == patchModel.Id);
                 filteredAdditionalInfo.Insert(existingIndex, updatedAdditionalInfo);
@@ -144,7 +144,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
 
             if (existingRequirement is null)
             {
-                return patchModel.EventType == MessageAction.Deleted ? HttpStatusCode.AlreadyReported : HttpStatusCode.NotFound;
+                return patchModel.MessageAction == MessageAction.Deleted ? HttpStatusCode.AlreadyReported : HttpStatusCode.NotFound;
             }
 
             var updatedEntryRequirements = mapper.Map<EntryRequirement>(patchModel);
@@ -153,7 +153,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
                 .First(e => e.RouteName == patchModel.RouteName).EntryRequirements
                 .Where(ai => ai.Id != patchModel.Id).ToList();
 
-            if (patchModel.EventType == MessageAction.Published)
+            if (patchModel.MessageAction == MessageAction.Published)
             {
                 var existingIndex = existingCommonRoute.EntryRequirements.ToList().FindIndex(ai => ai.Id == patchModel.Id);
                 filteredEntryRequirements.Insert(existingIndex, updatedEntryRequirements);
@@ -185,7 +185,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
             }
 
             var existingCommonRoute = existingSegmentModel.GetExistingCommonRoute(patchModel.RouteName);
-            existingCommonRoute.EntryRequirementPreface = patchModel.EventType != MessageAction.Published ? string.Empty : patchModel.Title;
+            existingCommonRoute.EntryRequirementPreface = patchModel.MessageAction != MessageAction.Published ? string.Empty : patchModel.Title;
 
             existingSegmentModel.SequenceNumber = patchModel.SequenceNumber;
             return await UpsertAndRefreshSegmentModel(existingSegmentModel).ConfigureAwait(false);
