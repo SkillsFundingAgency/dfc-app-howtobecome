@@ -23,7 +23,7 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
         [Display(Name = "More Information")]
         public MoreInformation MoreInformation { get; set; }
 
-        public IEnumerable<GenericListContent> Registrations { get; set; }
+        public IEnumerable<Registration> Registrations { get; set; }
 
         public bool HasRegistrations => Registrations != null && Registrations.Any();
 
@@ -37,13 +37,17 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
         {
             switch (TitlePrefix)
             {
-                case TitlePrefix.None:
+                case TitlePrefix.AsDefined:
+                case TitlePrefix.NoPrefix:
                     return $"{Title}";
 
-                case TitlePrefix.A:
+                case TitlePrefix.NoTitle:
+                    return string.Empty;
+
+                case TitlePrefix.PrefixWithA:
                     return $"a {Title}";
 
-                case TitlePrefix.An:
+                case TitlePrefix.PrefixWithAn:
                     return $"an {Title}";
 
                 default:

@@ -30,7 +30,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
             CreateMap<SitefinityHowToBecomeMessage, MoreInformation>()
                 .ForAllMembers(o => o.MapFrom(s => s.FurtherMoreInformation));
 
-            CreateMap<SitefinityRegistrations, GenericListContent>()
+            CreateMap<SitefinityRegistrations, Registration>()
                 .ForMember(d => d.Description, s => s.MapFrom(a => a.Info));
 
             CreateMap<SitefinityHowToBecomeMessage, HowToBecomeSegmentDataModel>()
@@ -40,7 +40,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
                 .ForMember(d => d.TitlePrefix, s => s.MapFrom((message, model) =>
                 {
                     var canBeParsed = Enum.TryParse<TitlePrefix>(message.DynamicTitlePrefix, out var result);
-                    return canBeParsed ? result : TitlePrefix.Default;
+                    return canBeParsed ? result : TitlePrefix.AsDefined;
                 }))
                 .ForMember(d => d.Title, s => s.MapFrom(a => a.Title))
                 .ForMember(d => d.LastReviewed, s => s.MapFrom(o => o.LastModified))
@@ -69,6 +69,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
 
             CreateMap<PatchRequirementsServiceBusModel, PatchRequirementsModel>();
             CreateMap<PatchSimpleClassificationServiceBusModel, PatchSimpleClassificationModel>();
+            CreateMap<PatchRegistrationsServiceBusModel, PatchRegistrationModel>();
         }
     }
 }
