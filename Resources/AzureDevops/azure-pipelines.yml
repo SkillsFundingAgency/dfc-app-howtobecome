@@ -10,7 +10,7 @@ resources:
   - repository: dfc-devops
     type: github
     name: SkillsFundingAgency/dfc-devops
-    ref: refs/tags/v1.6.1
+    ref: refs/tags/v1.6.4
     endpoint: 'GitHub (ESFA)'
 
 jobs:
@@ -39,6 +39,15 @@ jobs:
       DotNetCoreVersion: 2.2.402
       PublishWebApp: true
       TestSuffix: UnitTests
+
+  # Build DFC.App.JobProfiles.HowToBecome.MessageFunctionApp
+  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build-notests.yml@dfc-devops
+    parameters:
+      SolutionBaseName: $(SolutionBaseName).MessageFunctionApp
+      BuildPlatform: $(BuildPlatform)
+      BuildConfiguration: $(BuildConfiguration)
+      DotNetCoreVersion: 2.2.402
+
   # Test DFC.App.JobProfiles.HowToBecome Views
   - powershell: Copy-Item -Path '$(SolutionBaseName).Views.Tests\appsettings-template.json' -Destination '$(SolutionBaseName).Views.Tests\appsettings.json'
     displayName: Copy and rename appsettings-template.json
@@ -53,6 +62,7 @@ jobs:
       command: test
       projects: '$(SolutionBaseName).Views.Tests\$(SolutionBaseName).Views.Tests.csproj'
       arguments: '--configuration $(BuildConfiguration) --collect "Code coverage"'    
+
   # Test DFC.App.JobProfiles.HowToBecome.DraftSegmentService (an artifact will be built but isn't consumed in the release) 
   - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
     parameters:
@@ -61,6 +71,7 @@ jobs:
       BuildConfiguration: $(BuildConfiguration)
       DotNetCoreVersion: 2.2.402
       TestSuffix: UnitTests
+
   # Test DFC.App.JobProfiles.HowToBecome.SegmentService (an artifact will be built but isn't consumed in the release) 
   - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build.yml@dfc-devops
     parameters:
