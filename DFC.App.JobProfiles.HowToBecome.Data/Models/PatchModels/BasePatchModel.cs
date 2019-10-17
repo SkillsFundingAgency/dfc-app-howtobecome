@@ -14,7 +14,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models.PatchModels
         public Guid JobProfileId { get; set; }
 
         [Required]
-        public MessageAction EventType { get; set; }
+        public MessageAction MessageAction { get; set; }
 
         [Required]
         public RouteName RouteName { get; set; }

@@ -37,7 +37,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         var serviceBusMessage = JsonConvert.DeserializeObject<PatchLinksServiceBusModel>(message);
                         var patchLinksModel = mapper.Map<PatchLinksModel>(serviceBusMessage);
                         patchLinksModel.RouteName = routeName;
-                        patchLinksModel.EventType = messageAction;
+                        patchLinksModel.MessageAction = messageAction;
                         patchLinksModel.SequenceNumber = sequenceNumber;
 
                         return await httpClientService.PatchAsync(patchLinksModel, "links").ConfigureAwait(false);
@@ -50,7 +50,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         var serviceBusMessage = JsonConvert.DeserializeObject<PatchRequirementsServiceBusModel>(message);
                         var patchRequirementsModel = mapper.Map<PatchRequirementsModel>(serviceBusMessage);
                         patchRequirementsModel.RouteName = routeName;
-                        patchRequirementsModel.EventType = messageAction;
+                        patchRequirementsModel.MessageAction = messageAction;
                         patchRequirementsModel.SequenceNumber = sequenceNumber;
 
                         return await httpClientService.PatchAsync(patchRequirementsModel, "requirements").ConfigureAwait(false);
@@ -63,7 +63,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         var serviceBusMessage = JsonConvert.DeserializeObject<PatchSimpleClassificationServiceBusModel>(message);
                         var patchSimpleClassificationModel = mapper.Map<PatchSimpleClassificationModel>(serviceBusMessage);
                         patchSimpleClassificationModel.RouteName = routeName;
-                        patchSimpleClassificationModel.EventType = messageAction;
+                        patchSimpleClassificationModel.MessageAction = messageAction;
                         patchSimpleClassificationModel.SequenceNumber = sequenceNumber;
 
                         return await httpClientService.PatchAsync(patchSimpleClassificationModel, "entryRequirement").ConfigureAwait(false);
