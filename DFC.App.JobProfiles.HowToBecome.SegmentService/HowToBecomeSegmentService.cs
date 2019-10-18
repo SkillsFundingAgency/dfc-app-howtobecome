@@ -109,7 +109,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
 
             var filteredAdditionalInfo = existingCommonRoute?.AdditionalInformation.Where(ai => ai.Id != patchModel.Id).ToList(); //why do we need this?
 
-            if (patchModel.MessageAction == MessageAction.Published)
+            if (patchModel.MessageAction == MessageAction.Published || patchModel.MessageAction == MessageAction.Draft)
             {
                 var existingIndex = existingCommonRoute.AdditionalInformation.ToList().FindIndex(ai => ai.Id == patchModel.Id);
                 filteredAdditionalInfo.Insert(existingIndex, updatedAdditionalInfo);
@@ -153,7 +153,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
                 .First(e => e.RouteName == patchModel.RouteName).EntryRequirements
                 .Where(ai => ai.Id != patchModel.Id).ToList();
 
-            if (patchModel.MessageAction == MessageAction.Published)
+            if (patchModel.MessageAction == MessageAction.Published || patchModel.MessageAction == MessageAction.Draft)
             {
                 var existingIndex = existingCommonRoute.EntryRequirements.ToList().FindIndex(ai => ai.Id == patchModel.Id);
                 filteredEntryRequirements.Insert(existingIndex, updatedEntryRequirements);
@@ -185,9 +185,48 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
             }
 
             var existingCommonRoute = existingSegmentModel.GetExistingCommonRoute(patchModel.RouteName);
-            existingCommonRoute.EntryRequirementPreface = patchModel.MessageAction != MessageAction.Published ? string.Empty : patchModel.Title;
+            existingCommonRoute.EntryRequirementPreface = patchModel.MessageAction == MessageAction.Deleted ? string.Empty : patchModel.Title;
 
             existingSegmentModel.SequenceNumber = patchModel.SequenceNumber;
+            return await UpsertAndRefreshSegmentModel(existingSegmentModel).ConfigureAwait(false);
+        }
+
+        public async Task<HttpStatusCode> PatchRegistrationAsync(PatchRegistrationModel patchModel, Guid documentId)
+        {
+            if (patchModel is null)
+            {
+                throw new ArgumentNullException(nameof(patchModel));
+            }
+
+            var existingSegmentModel = await GetByIdAsync(documentId).ConfigureAwait(false);
+            if (existingSegmentModel is null)
+            {
+                return HttpStatusCode.NotFound;
+            }
+
+            if (patchModel.SequenceNumber <= existingSegmentModel.SequenceNumber)
+            {
+                return HttpStatusCode.AlreadyReported;
+            }
+
+            var existingRegistration = existingSegmentModel.Data.Registrations.SingleOrDefault(r => r.Id == patchModel.Id);
+            if (existingRegistration is null)
+            {
+                return patchModel.MessageAction == MessageAction.Deleted ? HttpStatusCode.AlreadyReported : HttpStatusCode.NotFound;
+            }
+
+            var filteredRegistrations = existingSegmentModel.Data.Registrations.Where(ai => ai.Id != patchModel.Id).ToList();
+
+            if (patchModel.MessageAction == MessageAction.Published || patchModel.MessageAction == MessageAction.Draft)
+            {
+                var updatedRegistration = mapper.Map<Registration>(patchModel);
+                var existingIndex = existingSegmentModel.Data.Registrations.ToList().FindIndex(ai => ai.Id == patchModel.Id);
+                filteredRegistrations.Insert(existingIndex, updatedRegistration);
+            }
+
+            existingSegmentModel.Data.Registrations = filteredRegistrations;
+            existingSegmentModel.SequenceNumber = patchModel.SequenceNumber;
+
             return await UpsertAndRefreshSegmentModel(existingSegmentModel).ConfigureAwait(false);
         }
 

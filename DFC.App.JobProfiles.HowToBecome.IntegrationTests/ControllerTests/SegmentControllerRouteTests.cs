@@ -222,7 +222,7 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
             {
                 LastReviewed = DateTime.UtcNow,
                 Title = $"{title} created title",
-                TitlePrefix = TitlePrefix.Default,
+                TitlePrefix = TitlePrefix.AsDefined,
                 EntryRouteSummary = "<p>You can get into this job through:</p><ul><li>a university course </li><li> a college course </li><li> an apprenticeship </li><li> working towards this role </li></ul>",
                 EntryRoutes = new EntryRoutes
                 {
@@ -258,10 +258,10 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
                     ProfessionalAndIndustryBodies = "<p>Professional and Industry bodies here</p>",
                     CareerTips = "<h4>Career tips</h4><p>Make sure that you're up to date with the latest industry trends and web development standards.</p>",
                 },
-                Registrations = new List<GenericListContent>
+                Registrations = new List<Registration>
                 {
-                    new GenericListContent { Id = "1", Description = "Registration 1", Rank = 1 },
-                    new GenericListContent { Id = "2", Description = "Registration 1", Rank = 2 },
+                    new Registration { Id = Guid.NewGuid(), Title = "RegistrationTitle1", Description = "Registration 1", Rank = 1 },
+                    new Registration { Id = Guid.NewGuid(), Title = "RegistrationTitle2", Description = "Registration 1", Rank = 2 },
                 },
             };
         }

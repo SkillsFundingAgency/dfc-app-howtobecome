@@ -192,10 +192,10 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
 
             var model = new DocumentDataViewModel
             {
-                Registrations = new List<GenericListContent>
+                Registrations = new List<Registration>
                 {
-                    new GenericListContent { Id = "1", Description = "Registration 1", Rank = 1 },
-                    new GenericListContent { Id = "2", Description = "Registration 1", Rank = 2 },
+                    new Registration { Id = Guid.NewGuid(), Title = "Title 1", Description = "Registration 1", Rank = 1 },
+                    new Registration { Id = Guid.NewGuid(), Title = "Title 2", Description = "Registration 2", Rank = 2 },
                 },
                 MoreInformation = new MoreInformation
                 {
@@ -221,7 +221,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
             {
                 LastReviewed = DateTime.UtcNow,
                 Title = "Web Developer",
-                TitlePrefix = TitlePrefix.Default,
+                TitlePrefix = TitlePrefix.PrefixWithA,
                 EntryRouteSummary = new HtmlString("<p>You can get into this job through:</p><ul><li>a university course </li><li> a college course </li><li> an apprenticeship </li><li> working towards this role </li></ul>"),
                 EntryRoutes = new EntryRoutes
                 {
@@ -257,10 +257,10 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
                     ProfessionalAndIndustryBodies = new HtmlString("<p>Professional and Industry bodies here</p>"),
                     CareerTips = new HtmlString("<h4>Career tips</h4><p>Make sure that you're up to date with the latest industry trends and web development standards.</p>"),
                 },
-                Registrations = hasRegistrations ? new List<GenericListContent>
+                Registrations = hasRegistrations ? new List<Registration>
                     {
-                        new GenericListContent { Id = "1", Description = "Registration 1", Rank = 1 },
-                        new GenericListContent { Id = "2", Description = "Registration 1", Rank = 2 },
+                        new Registration { Id = Guid.NewGuid(), Title = "Title 2", Description = "Registration 1", Rank = 1 },
+                        new Registration { Id = Guid.NewGuid(), Title = "Title 2", Description = "Registration 1", Rank = 2 },
                     }
                     : null,
             };

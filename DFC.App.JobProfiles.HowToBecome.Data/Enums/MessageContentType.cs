@@ -12,5 +12,6 @@
         ApprenticeshipEntryRequirements,
         UniversityEntryRequirements,
         CollegeEntryRequirements,
+        Registrations,
     }
 }

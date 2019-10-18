@@ -23,6 +23,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
         private const string PatchLinksActionName = nameof(PatchLinks);
         private const string PatchRequirementsActionName = nameof(PatchRequirements);
         private const string PatchSimpleClassificationActionName = nameof(PatchEntryRequirement);
+        private const string PatchRegistrationActionName = nameof(PatchRegistration);
 
         private readonly ILogger<SegmentController> logger;
         private readonly IHowToBecomeSegmentService howToBecomeSegmentService;
@@ -187,7 +188,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
             var response = await howToBecomeSegmentService.PatchLinksAsync(patchLinksModel, documentId).ConfigureAwait(false);
             if (response != HttpStatusCode.OK && response != HttpStatusCode.Created)
             {
-                logger.LogError($"{PatchLinksActionName}: Error while patching Additional Information content for Job Profile with Id: {patchLinksModel.JobProfileId} for the {patchLinksModel.RouteName.ToString()} link");
+                logger.LogError($"{PatchLinksActionName}: Error while patching Link content for Job Profile with Id: {patchLinksModel.JobProfileId} for the {patchLinksModel.RouteName.ToString()} link");
             }
 
             return new StatusCodeResult((int)response);
@@ -212,7 +213,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
             var response = await howToBecomeSegmentService.PatchRequirementsAsync(patchRequirementsModel, documentId).ConfigureAwait(false);
             if (response != HttpStatusCode.OK && response != HttpStatusCode.Created)
             {
-                logger.LogError($"{PatchRequirementsActionName}: Error while patching Additional Information content for Job Profile with Id: {patchRequirementsModel.JobProfileId} for the {patchRequirementsModel.RouteName.ToString()} link");
+                logger.LogError($"{PatchRequirementsActionName}: Error while patching Requirement content for Job Profile with Id: {patchRequirementsModel.JobProfileId} for the {patchRequirementsModel.RouteName.ToString()} link");
             }
 
             return new StatusCodeResult((int)response);
@@ -237,7 +238,32 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
             var response = await howToBecomeSegmentService.PatchSimpleClassificationAsync(patchSimpleClassificationModel, documentId).ConfigureAwait(false);
             if (response != HttpStatusCode.OK && response != HttpStatusCode.Created)
             {
-                logger.LogError($"{PatchSimpleClassificationActionName}: Error while patching Additional Information content for Job Profile with Id: {patchSimpleClassificationModel.JobProfileId} for the {patchSimpleClassificationModel.RouteName.ToString()} link");
+                logger.LogError($"{PatchSimpleClassificationActionName}: Error while patching Entry Requirement content for Job Profile with Id: {patchSimpleClassificationModel.JobProfileId} for the {patchSimpleClassificationModel.RouteName.ToString()} link");
+            }
+
+            return new StatusCodeResult((int)response);
+        }
+
+        [HttpPatch]
+        [Route("segment/{documentId}/registration")]
+        public async Task<IActionResult> PatchRegistration([FromBody]PatchRegistrationModel patchRegistrationModel, Guid documentId)
+        {
+            logger.LogInformation($"{PatchSimpleClassificationActionName} has been called");
+
+            if (patchRegistrationModel == null)
+            {
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var response = await howToBecomeSegmentService.PatchRegistrationAsync(patchRegistrationModel, documentId).ConfigureAwait(false);
+            if (response != HttpStatusCode.OK && response != HttpStatusCode.Created)
+            {
+                logger.LogError($"{PatchRegistrationActionName}: Error while patching Registration content for Job Profile with Id: {patchRegistrationModel.JobProfileId} for the {patchRegistrationModel.RouteName.ToString()} link");
             }
 
             return new StatusCodeResult((int)response);

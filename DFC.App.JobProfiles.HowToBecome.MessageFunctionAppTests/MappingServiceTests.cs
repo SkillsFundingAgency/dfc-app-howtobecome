@@ -50,8 +50,8 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests
         private static readonly Guid EntryRequirementId2 = Guid.NewGuid();
         private static readonly Guid MoreInformationId1 = Guid.NewGuid();
         private static readonly Guid MoreInformationId2 = Guid.NewGuid();
-        private static readonly string RegistrationId2 = Guid.NewGuid().ToString();
-        private static readonly string RegistrationId1 = Guid.NewGuid().ToString();
+        private static readonly Guid RegistrationId1 = Guid.NewGuid();
+        private static readonly Guid RegistrationId2 = Guid.NewGuid();
 
         private readonly IMappingService mappingService;
 
@@ -89,7 +89,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests
                 JobProfileId = JobProfileId,
                 LastModified = LastModified,
                 CanonicalName = TestJobName,
-                DynamicTitlePrefix = "An",
+                DynamicTitlePrefix = TitlePrefix.PrefixWithAn.ToString(),
                 SocCodeId = SocCodeId,
                 HowToBecomeData = new SitefinityHowToBecomeMessage
                 {
@@ -180,7 +180,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests
                     Title = Title,
                     LastReviewed = LastModified,
                     EntryRouteSummary = IntroText,
-                    TitlePrefix = TitlePrefix.An,
+                    TitlePrefix = TitlePrefix.PrefixWithAn,
                     EntryRoutes = new EntryRoutes
                     {
                         CommonRoutes = new List<CommonRoutes>
@@ -230,10 +230,10 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests
                         ProfessionalAndIndustryBodies = ProfessionalAndIndustryBodies1,
                         CareerTips = CareerTips1,
                     },
-                    Registrations = new List<GenericListContent>
+                    Registrations = new List<Registration>
                     {
-                        new GenericListContent { Id = RegistrationId1, Description = RegistrationDescription1 },
-                        new GenericListContent { Id = RegistrationId2, Description = RegistrationDescription2 },
+                        new Registration { Id = RegistrationId1, Title = RegistrationTitle1, Description = RegistrationDescription1 },
+                        new Registration { Id = RegistrationId2, Title = RegistrationTitle2, Description = RegistrationDescription2 },
                     },
                 },
             };

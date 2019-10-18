@@ -19,6 +19,10 @@ namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
             CreateMap<PatchRequirementsModel, EntryRequirement>()
                .ForMember(d => d.Description, s => s.MapFrom(a => a.Info));
 
+            CreateMap<PatchRegistrationModel, Registration>()
+               .ForMember(d => d.Description, s => s.MapFrom(a => a.Info))
+               .ForMember(d => d.Rank, s => s.Ignore());
+
             CreateMap<HowToBecomeSegmentModel, RefreshJobProfileSegmentServiceBusModel>()
                 .ForMember(d => d.JobProfileId, s => s.MapFrom(a => a.DocumentId))
                 .ForMember(d => d.Segment, s => s.MapFrom(a => a.Data.SegmentName));
@@ -28,7 +32,7 @@ namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
 
             CreateMap<AdditionalInformation, ViewModels.DataModels.AdditionalInformation>();
 
-            CreateMap<GenericListContent, ViewModels.DataModels.GenericListContent>();
+            CreateMap<Registration, ViewModels.DataModels.Registration>();
 
             CreateMap<MoreInformation, ViewModels.DataModels.MoreInformation>()
                 .ForMember(d => d.ProfessionalAndIndustryBodies, s => s.MapFrom(a => new HtmlString(a.ProfessionalAndIndustryBodies)))

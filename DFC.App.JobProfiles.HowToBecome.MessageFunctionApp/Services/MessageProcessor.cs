@@ -69,6 +69,17 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         return await httpClientService.PatchAsync(patchSimpleClassificationModel, "entryRequirement").ConfigureAwait(false);
                     }
 
+                case MessageContentType.Registrations:
+                    {
+                        var serviceBusMessage = JsonConvert.DeserializeObject<PatchRegistrationsServiceBusModel>(message);
+                        var patchRegistrationsModel = mapper.Map<PatchRegistrationModel>(serviceBusMessage);
+                        patchRegistrationsModel.RouteName = routeName;
+                        patchRegistrationsModel.MessageAction = messageAction;
+                        patchRegistrationsModel.SequenceNumber = sequenceNumber;
+
+                        return await httpClientService.PatchAsync(patchRegistrationsModel, "registration").ConfigureAwait(false);
+                    }
+
                 case MessageContentType.JobProfile:
                     return await ProcessFullJobProfile(message, sequenceNumber, messageAction).ConfigureAwait(false);
 

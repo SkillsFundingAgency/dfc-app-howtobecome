@@ -2,10 +2,10 @@
 {
     public enum TitlePrefix
     {
-        Default,
-        None,
-        Exclude,
-        A,
-        An,
+        AsDefined,
+        NoPrefix,
+        NoTitle,
+        PrefixWithA,
+        PrefixWithAn,
     }
 }
