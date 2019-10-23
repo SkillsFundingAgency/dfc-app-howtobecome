@@ -90,7 +90,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests
                 LastModified = LastModified,
                 CanonicalName = TestJobName,
                 DynamicTitlePrefix = TitlePrefix.PrefixWithAn.ToString(),
-                SocCodeId = SocCodeId,
+                SocLevelTwo = SocCodeId,
                 HowToBecomeData = new SitefinityHowToBecomeMessage
                 {
                     IntroText = IntroText,
