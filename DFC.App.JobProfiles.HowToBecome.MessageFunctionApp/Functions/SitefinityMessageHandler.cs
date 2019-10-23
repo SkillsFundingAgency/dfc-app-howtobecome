@@ -18,7 +18,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Functions
 
         [FunctionName("SitefinityMessageHandler")]
         public async Task Run(
-            [ServiceBusTrigger("%cms-messages-topic%", "%cms-messages-subscription%", Connection = "service-bus-connection-string")] Message sitefinityMessage,
+            [ServiceBusTrigger("%CmsMessagesTopic%", "%CmsMessagesSubscription%", Connection = "service-bus-connection-string")] Message sitefinityMessage,
             [Inject] IMessageProcessor messageProcessor,
             [Inject] ILogger log)
         {
