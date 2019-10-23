@@ -286,27 +286,27 @@
                                 "value": "[variables('cmsSubscriptionName')]"
                             },
                             {
-                                "name": "JobProfileOverviewSegmentClientOptions__Timeout",
+                                "name": "HowToBecomeSegmentClientOptions__Timeout",
                                 "value": "00:00:10"
                             },
                             {
-                                "name": "JobProfileOverviewSegmentClientOptions__BaseAddress",
+                                "name": "HowToBecomeSegmentClientOptions__BaseAddress",
                                 "value": "[variables('urlJobProfileHowToBecome')]"
                             },
                             {
-                                "name": "JobProfileOverviewSegmentClientOptions__GetEndpoint",
+                                "name": "HowToBecomeSegmentClientOptions__GetEndpoint",
                                 "value": "segment/{0}/contents"
                             },
                             {
-                                "name": "JobProfileOverviewSegmentClientOptions__PatchEndpoint",
+                                "name": "HowToBecomeSegmentClientOptions__PatchEndpoint",
                                 "value": "segment/{0}/content-type/markup"
                             },
                             {
-                                "name": "JobProfileOverviewSegmentClientOptions__PostEndpoint",
+                                "name": "HowToBecomeSegmentClientOptions__PostEndpoint",
                                 "value": "segment"
                             },
                             {
-                                "name": "JobProfileOverviewSegmentClientOptions__DeleteEndpoint",
+                                "name": "HowToBecomeSegmentClientOptions__DeleteEndpoint",
                                 "value": "segment/{0}"
                             }
                         ]
