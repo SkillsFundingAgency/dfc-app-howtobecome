@@ -6,7 +6,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels
     public class JobProfileMessage : BaseJobProfileMessage
     {
         [Required]
-        public string SocCodeId { get; set; }
+        public string SocLevelTwo { get; set; }
 
         public DateTime LastModified { get; set; }
 
