@@ -32,7 +32,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
         public void ContainsContentFromModel()
         {
             // Arrange
-            const string expectedHeading = "<h2 class=\"heading-large job-profile-heading\">How to become a Web Developer</h2>";
+            const string expectedHeading = "<h2 class=\"job-profile-heading\">How to become a Web Developer</h2>";
 
             var model = new DocumentViewModel
             {
