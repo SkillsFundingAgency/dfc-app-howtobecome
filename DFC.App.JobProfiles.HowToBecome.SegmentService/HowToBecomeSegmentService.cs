@@ -219,7 +219,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
 
             if (patchModel.MessageAction == MessageAction.Deleted)
             {
-                existingSegmentModel.Data.EntryRoutes.CommonRoutes.First(e => e.RouteName == patchModel.RouteName).EntryRequirements.RemoveAt(existingIndex);
+                existingSegmentModel.Data.Registrations.RemoveAt(existingIndex);
             }
             else
             {
