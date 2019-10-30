@@ -27,12 +27,12 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Functions
                 throw new ArgumentNullException(nameof(sitefinityMessage));
             }
 
-            sitefinityMessage.UserProperties.TryGetValue("EventType", out var eventType);
+            sitefinityMessage.UserProperties.TryGetValue("ActionType", out var actionType);
             sitefinityMessage.UserProperties.TryGetValue("CType", out var contentType);
             sitefinityMessage.UserProperties.TryGetValue("Id", out var messageContentId);
 
             // loggger should allow setting up correlation id and should be picked up from message
-            log.LogInformation($"{nameof(SitefinityMessageHandler)}: Received message action '{eventType}' for type '{contentType}' with Id: '{messageContentId}': Correlation id {sitefinityMessage.CorrelationId}");
+            log.LogInformation($"{nameof(SitefinityMessageHandler)}: Received message action '{actionType}' for type '{contentType}' with Id: '{messageContentId}': Correlation id {sitefinityMessage.CorrelationId}");
 
             var message = Encoding.UTF8.GetString(sitefinityMessage?.Body);
 
@@ -41,9 +41,9 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Functions
                 throw new ArgumentException("Message cannot be null or empty.", nameof(sitefinityMessage));
             }
 
-            if (!Enum.TryParse<MessageAction>(eventType?.ToString(), out var messageAction))
+            if (!Enum.TryParse<MessageAction>(actionType?.ToString(), out var messageAction))
             {
-                throw new ArgumentOutOfRangeException(nameof(eventType), $"Invalid message action '{messageAction}' received, should be one of '{string.Join(",", Enum.GetNames(typeof(MessageAction)))}'");
+                throw new ArgumentOutOfRangeException(nameof(actionType), $"Invalid message action '{messageAction}' received, should be one of '{string.Join(",", Enum.GetNames(typeof(MessageAction)))}'");
             }
 
             if (!Enum.TryParse<MessageContentType>(contentType?.ToString(), out var messageContentType))
