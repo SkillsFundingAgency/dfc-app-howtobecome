@@ -3,15 +3,15 @@
     public enum MessageContentType
     {
         JobProfile,
-        ApprenticeshipLinks,
-        UniversityLinks,
-        CollegeLinks,
-        ApprenticeshipRequirements,
-        UniversityRequirements,
-        CollegeRequirements,
+        ApprenticeshipLink,
+        UniversityLink,
+        CollegeLink,
+        ApprenticeshipRequirement,
+        UniversityRequirement,
+        CollegeRequirement,
         ApprenticeshipEntryRequirements,
         UniversityEntryRequirements,
         CollegeEntryRequirements,
-        Registrations,
+        Registration,
     }
 }

@@ -116,7 +116,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests
                         DirectApplication = DirectApplication1,
                         Work = Work1,
                     },
-                    FurtherMoreInformation = new SitefinityFurtherMoreInformation
+                    FurtherInformation = new SitefinityFurtherInformation
                     {
                         FurtherInformation = FurtherMoreInformation1,
                         CareerTips = CareerTips1,

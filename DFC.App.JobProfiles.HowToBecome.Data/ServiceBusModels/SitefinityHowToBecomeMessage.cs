@@ -6,7 +6,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels
     {
         public IEnumerable<SitefinityRouteEntries> RouteEntries { get; set; }
 
-        public SitefinityFurtherMoreInformation FurtherMoreInformation { get; set; }
+        public SitefinityFurtherInformation FurtherInformation { get; set; }
 
         public SitefinityFurtherRoutes FurtherRoutes { get; set; }
 
