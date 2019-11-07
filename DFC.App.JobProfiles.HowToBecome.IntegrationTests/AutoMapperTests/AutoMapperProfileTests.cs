@@ -30,6 +30,20 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.AutoMapperTests
         }
 
         [Fact]
+        public void AutoMapperProfileConfigurationForApiModelProfileReturnSuccess()
+        {
+            // Arrange
+            _ = factory.CreateClient();
+            var mapper = factory.Server.Host.Services.GetRequiredService<IMapper>();
+
+            // Act
+            mapper.ConfigurationProvider.AssertConfigurationIsValid<ApiModelProfile>();
+
+            // Assert
+            Assert.True(true);
+        }
+
+        [Fact]
         public void AutoMapperProfileConfigurationForAllProfilesReturnSuccess()
         {
             // Arrange

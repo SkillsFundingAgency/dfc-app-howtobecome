@@ -1,4 +1,5 @@
-﻿using DFC.App.JobProfiles.HowToBecome.Data.Models;
+﻿using DFC.App.JobProfiles.HowToBecome.ApiModels;
+using DFC.App.JobProfiles.HowToBecome.Data.Models;
 using DFC.App.JobProfiles.HowToBecome.Data.Models.PatchModels;
 using DFC.App.JobProfiles.HowToBecome.Extensions;
 using DFC.App.JobProfiles.HowToBecome.SegmentService;
@@ -96,7 +97,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
 
                 logger.LogInformation($"{BodyActionName} has succeeded for: {documentId}");
 
-                return this.NegotiateContentResult(viewModel, howToBecomeSegmentModel.Data);
+                return this.NegotiateContentResult(viewModel, mapper.Map<HowToBecomeApiModel>(howToBecomeSegmentModel.Data));
             }
 
             logger.LogWarning($"{BodyActionName} has returned no content for: {documentId}");
