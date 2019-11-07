@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.62
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome", "DFC.App.JobProfiles.HowToBecome\DFC.App.JobProfiles.HowToBecome.csproj", "{32D04997-66FB-41A1-966F-126CF596AA88}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C1FB0E35-9A76-4AD5-82E2-706A040A3575}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{91D6C924-05D6-4F74-AEAC-1F3695B81ADD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{0D26D48C-7F3C-40A5-B7D2-0F620E0F6C76}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome.UnitTests", "DFC.App.JobProfiles.HowToBecome.UnitTests\DFC.App.JobProfiles.HowToBecome.UnitTests.csproj", "{89D71075-E68F-4A2C-BA3E-120AC8AC0DD9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32D04997-66FB-41A1-966F-126CF596AA88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32D04997-66FB-41A1-966F-126CF596AA88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32D04997-66FB-41A1-966F-126CF596AA88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32D04997-66FB-41A1-966F-126CF596AA88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89D71075-E68F-4A2C-BA3E-120AC8AC0DD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89D71075-E68F-4A2C-BA3E-120AC8AC0DD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89D71075-E68F-4A2C-BA3E-120AC8AC0DD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89D71075-E68F-4A2C-BA3E-120AC8AC0DD9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{91D6C924-05D6-4F74-AEAC-1F3695B81ADD} = {C1FB0E35-9A76-4AD5-82E2-706A040A3575}
+		{0D26D48C-7F3C-40A5-B7D2-0F620E0F6C76} = {91D6C924-05D6-4F74-AEAC-1F3695B81ADD}
+		{89D71075-E68F-4A2C-BA3E-120AC8AC0DD9} = {0D26D48C-7F3C-40A5-B7D2-0F620E0F6C76}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {696A5DAA-2A35-46E3-BBCD-C9B55866F0A7}
+	EndGlobalSection
+EndGlobal
