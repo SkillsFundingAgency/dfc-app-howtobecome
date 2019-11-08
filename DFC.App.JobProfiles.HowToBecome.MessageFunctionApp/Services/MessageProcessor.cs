@@ -30,9 +30,9 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
 
             switch (messageContentType)
             {
-                case MessageContentType.ApprenticeshipLinks:
-                case MessageContentType.CollegeLinks:
-                case MessageContentType.UniversityLinks:
+                case MessageContentType.ApprenticeshipLink:
+                case MessageContentType.CollegeLink:
+                case MessageContentType.UniversityLink:
                     {
                         var serviceBusMessage = JsonConvert.DeserializeObject<PatchLinksServiceBusModel>(message);
                         var patchLinksModel = mapper.Map<PatchLinksModel>(serviceBusMessage);
@@ -43,9 +43,9 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         return await httpClientService.PatchAsync(patchLinksModel, "links").ConfigureAwait(false);
                     }
 
-                case MessageContentType.ApprenticeshipRequirements:
-                case MessageContentType.UniversityRequirements:
-                case MessageContentType.CollegeRequirements:
+                case MessageContentType.ApprenticeshipRequirement:
+                case MessageContentType.UniversityRequirement:
+                case MessageContentType.CollegeRequirement:
                     {
                         var serviceBusMessage = JsonConvert.DeserializeObject<PatchRequirementsServiceBusModel>(message);
                         var patchRequirementsModel = mapper.Map<PatchRequirementsModel>(serviceBusMessage);
@@ -69,7 +69,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         return await httpClientService.PatchAsync(patchSimpleClassificationModel, "entryRequirement").ConfigureAwait(false);
                     }
 
-                case MessageContentType.Registrations:
+                case MessageContentType.Registration:
                     {
                         var serviceBusMessage = JsonConvert.DeserializeObject<PatchRegistrationsServiceBusModel>(message);
                         var patchRegistrationsModel = mapper.Map<PatchRegistrationModel>(serviceBusMessage);

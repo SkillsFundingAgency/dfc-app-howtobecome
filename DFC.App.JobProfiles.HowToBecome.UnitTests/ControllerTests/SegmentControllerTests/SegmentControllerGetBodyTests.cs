@@ -1,4 +1,5 @@
-﻿using DFC.App.JobProfiles.HowToBecome.Data.Models;
+﻿using DFC.App.JobProfiles.HowToBecome.ApiModels;
+using DFC.App.JobProfiles.HowToBecome.Data.Models;
 using DFC.App.JobProfiles.HowToBecome.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
@@ -62,24 +63,22 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
         {
             // Arrange
             var howToBecomeSegmentModel = new HowToBecomeSegmentModel { CanonicalName = "SomeCanonicalName" };
-            var fakeDocumentViewModel = new DocumentViewModel { CanonicalName = howToBecomeSegmentModel.CanonicalName };
+            var fakeHowToBecomeApiModel = A.Dummy<HowToBecomeApiModel>();
 
             var controller = BuildSegmentController(mediaTypeName);
 
             A.CallTo(() => FakeHowToBecomeSegmentService.GetByIdAsync(A<Guid>.Ignored)).Returns(howToBecomeSegmentModel);
-            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<HowToBecomeSegmentModel>.Ignored)).Returns(fakeDocumentViewModel);
+            A.CallTo(() => FakeMapper.Map<HowToBecomeApiModel>(A<HowToBecomeSegmentDataModel>.Ignored)).Returns(fakeHowToBecomeApiModel);
 
             // Act
             var result = await controller.Body(documentId).ConfigureAwait(false);
 
             // Assert
             A.CallTo(() => FakeHowToBecomeSegmentService.GetByIdAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
-            A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<HowToBecomeSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeMapper.Map<HowToBecomeApiModel>(A<HowToBecomeSegmentDataModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
-            var model = Assert.IsAssignableFrom<DocumentViewModel>(jsonResult.Value);
-
-            Assert.True(!string.IsNullOrWhiteSpace(model.CanonicalName) && model.CanonicalName.Equals(howToBecomeSegmentModel.CanonicalName, StringComparison.OrdinalIgnoreCase));
+            var model = Assert.IsAssignableFrom<HowToBecomeApiModel>(jsonResult.Value);
 
             controller.Dispose();
         }

@@ -25,9 +25,9 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
                 .ForMember(d => d.DocumentId, s => s.MapFrom(a => a.JobProfileId))
                 .ForMember(d => d.Etag, s => s.Ignore());
 
-            CreateMap<SitefinityFurtherMoreInformation, MoreInformation>();
+            CreateMap<SitefinityFurtherInformation, MoreInformation>();
             CreateMap<SitefinityHowToBecomeMessage, MoreInformation>()
-                .ForAllMembers(o => o.MapFrom(s => s.FurtherMoreInformation));
+                .ForAllMembers(o => o.MapFrom(s => s.FurtherInformation));
 
             CreateMap<SitefinityRegistrations, Registration>()
                 .ForMember(d => d.Description, s => s.MapFrom(a => a.Info));
@@ -44,7 +44,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
                 .ForMember(d => d.Title, s => s.MapFrom(a => a.Title))
                 .ForMember(d => d.LastReviewed, s => s.MapFrom(o => o.LastModified))
                 .ForMember(d => d.Registrations, o => o.MapFrom(s => s.HowToBecomeData.Registrations))
-                .ForMember(d => d.MoreInformation, o => o.MapFrom(s => s.HowToBecomeData.FurtherMoreInformation))
+                .ForMember(d => d.MoreInformation, o => o.MapFrom(s => s.HowToBecomeData.FurtherInformation))
                 .ForMember(d => d.EntryRouteSummary, o => o.MapFrom(s => s.HowToBecomeData.IntroText))
                 .ForMember(d => d.SegmentName, s => s.Ignore())
                 .ForAllOtherMembers(o => o.MapFrom(s => s.HowToBecomeData));
