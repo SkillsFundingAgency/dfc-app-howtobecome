@@ -97,7 +97,9 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
 
                 logger.LogInformation($"{BodyActionName} has succeeded for: {documentId}");
 
-                return this.NegotiateContentResult(viewModel, mapper.Map<HowToBecomeApiModel>(howToBecomeSegmentModel.Data));
+                var apiModel = mapper.Map<HowToBecomeApiModel>(howToBecomeSegmentModel.Data);
+
+                return this.NegotiateContentResult(viewModel, apiModel);
             }
 
             logger.LogWarning($"{BodyActionName} has returned no content for: {documentId}");
