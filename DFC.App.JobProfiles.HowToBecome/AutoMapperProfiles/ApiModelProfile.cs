@@ -45,7 +45,7 @@ namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
                 .ForMember(d => d.RelevantSubjects, opt => opt.ConvertUsing(new HtmlStringFormatter(), s => s.Subject))
                 .ForMember(d => d.FurtherInformation, opt => opt.ConvertUsing(new HtmlStringFormatter()))
                 .ForMember(d => d.EntryRequirements, s => s.MapFrom(a => a.EntryRequirements.Select(i => i.Description)))
-                .ForMember(d => d.AdditionalInformation, s => s.MapFrom(a => a.AdditionalInformation.Select(i => $"[ {i.Text} | {i.Link} ]")))
+                .ForMember(d => d.AdditionalInformation, s => s.MapFrom(a => a.AdditionalInformation.Select(i => $"[{i.Text} | {i.Link}]")))
                 ;
         }
     }
