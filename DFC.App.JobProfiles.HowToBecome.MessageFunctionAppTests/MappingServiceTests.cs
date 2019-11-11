@@ -195,26 +195,28 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests
                                 {
                                     new EntryRequirement
                                     {
-                                        Id = EntryRequirementId1, Title = EntryRequirementTitle1,
-                                        Description = EntryRequirementInfo1
+                                        Id = EntryRequirementId1,
+                                        Description = EntryRequirementInfo1,
                                     },
                                     new EntryRequirement
                                     {
-                                        Id = EntryRequirementId2, Title = EntryRequirementTitle2,
-                                        Description = EntryRequirementInfo2
+                                        Id = EntryRequirementId2,
+                                        Description = EntryRequirementInfo2,
                                     },
                                 },
                                 AdditionalInformation = new List<AdditionalInformation>
                                 {
                                     new AdditionalInformation
                                     {
-                                        Title = MoreInformationTitle1, Id = MoreInformationId1, Text = MoreInformationText1,
-                                        Link = MoreInformationUrl1
+                                        Id = MoreInformationId1,
+                                        Text = MoreInformationText1,
+                                        Link = MoreInformationUrl1,
                                     },
                                     new AdditionalInformation
                                     {
-                                        Title = MoreInformationTitle2, Id = MoreInformationId2, Text = MoreInformationText2,
-                                        Link = MoreInformationUrl2
+                                        Id = MoreInformationId2,
+                                        Text = MoreInformationText2,
+                                        Link = MoreInformationUrl2,
                                     },
                                 },
                             },

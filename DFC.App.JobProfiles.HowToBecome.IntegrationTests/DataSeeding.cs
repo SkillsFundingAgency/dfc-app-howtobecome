@@ -56,14 +56,14 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests
                             EntryRequirementPreface = "You will usually need:",
                             EntryRequirements = new List<EntryRequirement>
                             {
-                                new EntryRequirement { Id = Guid.NewGuid(), Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1, Title = "Title 1" },
-                                new EntryRequirement { Id = Guid.NewGuid(), Description = "2 to 3 A levels for a degree", Rank = 2, Title = "Title 2" },
+                                new EntryRequirement { Id = Guid.NewGuid(), Description = "1 or 2 A levels for a foundation degree or higher national diploma" },
+                                new EntryRequirement { Id = Guid.NewGuid(), Description = "2 to 3 A levels for a degree" },
                             },
                             AdditionalInformation = new List<AdditionalInformation>
                             {
-                                new AdditionalInformation { Link = "https://something", Text = "Equivalent entry requirements", Title = "link title 1" },
-                                new AdditionalInformation { Link = "https://something", Text = "Equivalent entry requirements", Title = "link title 2" },
-                                new AdditionalInformation { Link = "https://something", Text = "Equivalent entry requirements", Title = "link title 3" },
+                                new AdditionalInformation { Link = "https://something", Text = "Equivalent entry requirements" },
+                                new AdditionalInformation { Link = "https://something", Text = "Equivalent entry requirements" },
+                                new AdditionalInformation { Link = "https://something", Text = "Equivalent entry requirements" },
                             },
                         },
                     },
@@ -80,8 +80,8 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests
                 },
                 Registrations = new List<Registration>
                 {
-                    new Registration { Id = Guid.NewGuid(), Title = "RegistrationTitle1", Description = "Registration 1", Rank = 1 },
-                    new Registration { Id = Guid.NewGuid(), Title = "RegistrationTitle1", Description = "Registration 1", Rank = 2 },
+                    new Registration { Id = Guid.NewGuid(), Title = "RegistrationTitle1", Description = "Registration 1" },
+                    new Registration { Id = Guid.NewGuid(), Title = "RegistrationTitle1", Description = "Registration 1" },
                 },
             };
         }
