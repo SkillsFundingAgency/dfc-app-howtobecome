@@ -20,8 +20,7 @@ namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
                .ForMember(d => d.Description, s => s.MapFrom(a => a.Info));
 
             CreateMap<PatchRegistrationModel, Registration>()
-               .ForMember(d => d.Description, s => s.MapFrom(a => a.Info))
-               .ForMember(d => d.Rank, s => s.Ignore());
+               .ForMember(d => d.Description, s => s.MapFrom(a => a.Info));
 
             CreateMap<HowToBecomeSegmentModel, RefreshJobProfileSegmentServiceBusModel>()
                 .ForMember(d => d.JobProfileId, s => s.MapFrom(a => a.DocumentId))

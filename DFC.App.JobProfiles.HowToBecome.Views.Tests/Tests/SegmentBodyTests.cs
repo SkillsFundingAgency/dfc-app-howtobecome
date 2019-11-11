@@ -65,7 +65,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
                 EntryRequirementPreface = "Entry Requirement Preface",
                 EntryRequirements = new List<EntryRequirement>
                 {
-                    new EntryRequirement { Id = Guid.NewGuid(), Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1, Title = "Title 1" },
+                    new EntryRequirement { Id = Guid.NewGuid(), Description = "1 or 2 A levels for a foundation degree or higher national diploma" },
                 },
                 AdditionalInformation = new List<AdditionalInformation>
                 {
@@ -194,8 +194,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
             {
                 Registrations = new List<Registration>
                 {
-                    new Registration { Id = Guid.NewGuid(), Title = "Title 1", Description = "Registration 1", Rank = 1 },
-                    new Registration { Id = Guid.NewGuid(), Title = "Title 2", Description = "Registration 2", Rank = 2 },
+                    new Registration { Id = Guid.NewGuid(), Title = "Title 1", Description = "Registration 1" },
+                    new Registration { Id = Guid.NewGuid(), Title = "Title 2", Description = "Registration 2" },
                 },
                 MoreInformation = new MoreInformation
                 {
@@ -235,8 +235,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
                             EntryRequirementPreface = "You will usually need:",
                             EntryRequirements = new List<EntryRequirement>
                             {
-                                new EntryRequirement { Id = Guid.NewGuid(), Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1, Title = "Title 1" },
-                                new EntryRequirement { Id = Guid.NewGuid(), Description = "2 to 3 A levels for a degree", Rank = 2, Title = "Title 2" },
+                                new EntryRequirement { Id = Guid.NewGuid(), Description = "1 or 2 A levels for a foundation degree or higher national diploma" },
+                                new EntryRequirement { Id = Guid.NewGuid(), Description = "2 to 3 A levels for a degree" },
                             },
                             AdditionalInformation = new List<AdditionalInformation>
                             {
@@ -259,8 +259,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
                 },
                 Registrations = hasRegistrations ? new List<Registration>
                     {
-                        new Registration { Id = Guid.NewGuid(), Title = "Title 2", Description = "Registration 1", Rank = 1 },
-                        new Registration { Id = Guid.NewGuid(), Title = "Title 2", Description = "Registration 1", Rank = 2 },
+                        new Registration { Id = Guid.NewGuid(), Title = "Title 2", Description = "Registration 1" },
+                        new Registration { Id = Guid.NewGuid(), Title = "Title 2", Description = "Registration 1" },
                     }
                     : null,
             };

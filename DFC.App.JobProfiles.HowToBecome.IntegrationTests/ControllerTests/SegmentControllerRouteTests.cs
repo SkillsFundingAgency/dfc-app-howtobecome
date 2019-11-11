@@ -236,8 +236,8 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
                             EntryRequirementPreface = "You will usually need:",
                             EntryRequirements = new List<EntryRequirement>
                             {
-                                new EntryRequirement { Id = Guid.NewGuid(), Description = "1 or 2 A levels for a foundation degree or higher national diploma", Rank = 1, Title = "Title 1" },
-                                new EntryRequirement { Id = Guid.NewGuid(), Description = "2 to 3 A levels for a degree", Rank = 2, Title = "Title 2" },
+                                new EntryRequirement { Id = Guid.NewGuid(), Description = "1 or 2 A levels for a foundation degree or higher national diploma" },
+                                new EntryRequirement { Id = Guid.NewGuid(), Description = "2 to 3 A levels for a degree" },
                             },
                             AdditionalInformation = new List<AdditionalInformation>
                             {
@@ -260,8 +260,8 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
                 },
                 Registrations = new List<Registration>
                 {
-                    new Registration { Id = Guid.NewGuid(), Title = "RegistrationTitle1", Description = "Registration 1", Rank = 1 },
-                    new Registration { Id = Guid.NewGuid(), Title = "RegistrationTitle2", Description = "Registration 1", Rank = 2 },
+                    new Registration { Id = Guid.NewGuid(), Title = "RegistrationTitle1", Description = "Registration 1" },
+                    new Registration { Id = Guid.NewGuid(), Title = "RegistrationTitle2", Description = "Registration 1" },
                 },
             };
         }
