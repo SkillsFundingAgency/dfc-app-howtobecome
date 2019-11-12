@@ -185,6 +185,11 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
             }
 
             var existingCommonRoute = existingSegmentModel.GetExistingCommonRoute(patchModel.RouteName);
+            if (existingCommonRoute is null)
+            {
+                return patchModel.MessageAction == MessageAction.Deleted ? HttpStatusCode.AlreadyReported : HttpStatusCode.NotFound;
+            }
+
             existingCommonRoute.EntryRequirementPreface = patchModel.MessageAction == MessageAction.Deleted ? string.Empty : patchModel.Title;
 
             existingSegmentModel.SequenceNumber = patchModel.SequenceNumber;

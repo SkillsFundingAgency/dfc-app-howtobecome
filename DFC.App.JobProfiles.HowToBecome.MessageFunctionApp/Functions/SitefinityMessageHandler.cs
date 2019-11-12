@@ -43,12 +43,12 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Functions
 
             if (!Enum.TryParse<MessageAction>(actionType?.ToString(), out var messageAction))
             {
-                throw new ArgumentOutOfRangeException(nameof(actionType), $"Invalid message action '{messageAction}' received, should be one of '{string.Join(",", Enum.GetNames(typeof(MessageAction)))}'");
+                throw new ArgumentOutOfRangeException(nameof(actionType), $"Invalid message action '{actionType}' received, should be one of '{string.Join(",", Enum.GetNames(typeof(MessageAction)))}'");
             }
 
             if (!Enum.TryParse<MessageContentType>(contentType?.ToString(), out var messageContentType))
             {
-                throw new ArgumentOutOfRangeException(nameof(contentType), $"Invalid message content type '{messageContentType}' received, should be one of '{string.Join(",", Enum.GetNames(typeof(MessageContentType)))}'");
+                throw new ArgumentOutOfRangeException(nameof(contentType), $"Invalid message content type '{contentType}' received, should be one of '{string.Join(",", Enum.GetNames(typeof(MessageContentType)))}'");
             }
 
             var result = await messageProcessor.ProcessAsync(message, sitefinityMessage.SystemProperties.SequenceNumber, messageContentType, messageAction).ConfigureAwait(false);
@@ -62,11 +62,11 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Functions
                 case HttpStatusCode.Created:
                     log.LogInformation($"{ClassFullName}: JobProfile Id: {messageContentId}: Created segment");
                     break;
-                    
+
                 case HttpStatusCode.AlreadyReported:
-                   log.LogInformation($"{ClassFullName}: JobProfile Id: {messageContentId}: Segment previously updated");
-                   break;
-                    
+                    log.LogInformation($"{ClassFullName}: JobProfile Id: {messageContentId}: Segment previously updated");
+                    break;
+
                 default:
                     log.LogWarning($"{ClassFullName}: JobProfile Id: {messageContentId}: Segment not Posted: Status: {result}");
                     break;

@@ -3,6 +3,7 @@ using DFC.App.JobProfiles.HowToBecome.Data.Enums;
 using DFC.App.JobProfiles.HowToBecome.Data.Models;
 using DFC.App.JobProfiles.HowToBecome.Data.Models.DataModels;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels;
+using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile;
 using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -59,7 +60,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests
         {
             var config = new MapperConfiguration(opts =>
                 {
-                    opts.AddProfile(new MessageFunctionApp.AutoMapperProfile.HowToBecomeSegmentModelProfile());
+                    opts.AddProfile(new HowToBecomeSegmentModelProfile());
                 });
 
             var mapper = new Mapper(config);

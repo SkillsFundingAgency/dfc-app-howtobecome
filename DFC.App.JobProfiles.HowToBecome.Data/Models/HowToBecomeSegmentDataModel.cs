@@ -7,7 +7,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models
 {
     public class HowToBecomeSegmentDataModel
     {
-        public string SegmentName { get; private set; } = "HowToBecome";
+        public const string SegmentName = "HowToBecome";
 
         public DateTime LastReviewed { get; set; }
 
