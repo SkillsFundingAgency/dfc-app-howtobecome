@@ -46,7 +46,6 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
                 .ForMember(d => d.Registrations, o => o.MapFrom(s => s.HowToBecomeData.Registrations))
                 .ForMember(d => d.MoreInformation, o => o.MapFrom(s => s.HowToBecomeData.FurtherInformation))
                 .ForMember(d => d.EntryRouteSummary, o => o.MapFrom(s => s.HowToBecomeData.IntroText))
-                .ForMember(d => d.SegmentName, s => s.Ignore())
                 .ForAllOtherMembers(o => o.MapFrom(s => s.HowToBecomeData));
 
             CreateMap<SitefinityMoreInformationLinks, AdditionalInformation>()

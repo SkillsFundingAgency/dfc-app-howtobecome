@@ -6,9 +6,6 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models.PatchModels
     public class PatchRequirementsModel : BasePatchModel
     {
         [Required]
-        public Guid Id { get; set; }
-
-        [Required]
         public string Title { get; set; }
 
         [Required]

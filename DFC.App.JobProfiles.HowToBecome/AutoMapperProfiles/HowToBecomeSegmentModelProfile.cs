@@ -24,7 +24,7 @@ namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
 
             CreateMap<HowToBecomeSegmentModel, RefreshJobProfileSegmentServiceBusModel>()
                 .ForMember(d => d.JobProfileId, s => s.MapFrom(a => a.DocumentId))
-                .ForMember(d => d.Segment, s => s.MapFrom(a => a.Data.SegmentName));
+                .ForMember(d => d.Segment, s => s.MapFrom(a => HowToBecomeSegmentDataModel.SegmentName));
 
             // View Models maps
             CreateMap<EntryRequirement, ViewModels.DataModels.EntryRequirement>();
