@@ -2,9 +2,9 @@
 {
     public enum RouteName
     {
-        Unknown,
+        Unknown = -1,
+        Apprenticeship,
         College,
         University,
-        Apprenticeship,
     }
 }
