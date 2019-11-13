@@ -20,7 +20,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Functions
         public async Task Run(
             [ServiceBusTrigger("%cms-messages-topic%", "%cms-messages-subscription%", Connection = "service-bus-connection-string")] Message sitefinityMessage,
             [Inject] IMessageProcessor messageProcessor,
-            [Inject] ILogger log)
+            ILogger log)
         {
             if (sitefinityMessage == null)
             {
