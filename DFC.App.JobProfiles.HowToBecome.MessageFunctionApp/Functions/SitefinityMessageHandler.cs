@@ -26,13 +26,14 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Functions
             {
                 throw new ArgumentNullException(nameof(sitefinityMessage));
             }
+            long sequenceNumber = sitefinityMessage.SystemProperties.SequenceNumber;
 
             sitefinityMessage.UserProperties.TryGetValue("ActionType", out var actionType);
             sitefinityMessage.UserProperties.TryGetValue("CType", out var contentType);
             sitefinityMessage.UserProperties.TryGetValue("Id", out var messageContentId);
 
             // loggger should allow setting up correlation id and should be picked up from message
-            log.LogInformation($"{nameof(SitefinityMessageHandler)}: Received message action '{actionType}' for type '{contentType}' with Id: '{messageContentId}': Correlation id {sitefinityMessage.CorrelationId}");
+            log.LogInformation($"{nameof(SitefinityMessageHandler)}: Received message action '{actionType}' for type '{contentType}' with Id: '{messageContentId}', Sequence Number: {sequenceNumber}, Correlation id {sitefinityMessage.CorrelationId}");
 
             var message = Encoding.UTF8.GetString(sitefinityMessage?.Body);
 
@@ -51,24 +52,36 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Functions
                 throw new ArgumentOutOfRangeException(nameof(contentType), $"Invalid message content type '{contentType}' received, should be one of '{string.Join(",", Enum.GetNames(typeof(MessageContentType)))}'");
             }
 
-            var result = await messageProcessor.ProcessAsync(message, sitefinityMessage.SystemProperties.SequenceNumber, messageContentType, messageAction).ConfigureAwait(false);
+            HttpStatusCode result;
+
+            try
+            {
+                result = await messageProcessor.ProcessAsync(message, sequenceNumber, messageContentType, messageAction).ConfigureAwait(false);
+
+                log.LogError($"{ClassFullName}: JobProfile Id: {messageContentId}: messageAction: {messageAction}, messageContentType: {messageContentType}, Sequence Number: {sequenceNumber}, RESULT: {result}");
+            }
+            catch (Exception ex)
+            {
+                log.LogError(ex, $"{ClassFullName}: JobProfile Id: {messageContentId}: messageAction: {messageAction}, messageContentType: {messageContentType}, Sequence Number: {sequenceNumber}");
+                throw;
+            }
 
             switch (result)
             {
                 case HttpStatusCode.OK:
-                    log.LogInformation($"{ClassFullName}: JobProfile Id: {messageContentId}: Updated segment");
+                    log.LogInformation($"{ClassFullName}: JobProfile Id: {messageContentId}: Sequence Number: {sequenceNumber}, Updated segment");
                     break;
 
                 case HttpStatusCode.Created:
-                    log.LogInformation($"{ClassFullName}: JobProfile Id: {messageContentId}: Created segment");
+                    log.LogInformation($"{ClassFullName}: JobProfile Id: {messageContentId}: Sequence Number: {sequenceNumber}, Created segment");
                     break;
 
                 case HttpStatusCode.AlreadyReported:
-                    log.LogInformation($"{ClassFullName}: JobProfile Id: {messageContentId}: Segment previously updated");
+                    log.LogInformation($"{ClassFullName}: JobProfile Id: {messageContentId}: Sequence Number: {sequenceNumber}, Segment previously updated");
                     break;
 
                 default:
-                    log.LogWarning($"{ClassFullName}: JobProfile Id: {messageContentId}: Segment not Posted: Status: {result}");
+                    log.LogWarning($"{ClassFullName}: JobProfile Id: {messageContentId}: Sequence Number: {sequenceNumber}, Segment not Posted: Status: {result}");
                     break;
             }
         }
