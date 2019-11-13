@@ -13,7 +13,6 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels.PatchContentType
 
         public string Text { get; set; }
 
-        [Required]
         public Uri Url { get; set; }
     }
 }
