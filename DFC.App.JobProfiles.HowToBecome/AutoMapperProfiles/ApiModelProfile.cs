@@ -2,6 +2,7 @@
 using DFC.App.JobProfiles.HowToBecome.ApiModels;
 using DFC.App.JobProfiles.HowToBecome.Data.Models;
 using DFC.App.JobProfiles.HowToBecome.Data.Models.DataModels;
+using DFC.HtmlToDataTranslator.Services;
 using DFC.HtmlToDataTranslator.ValueConverters;
 using System.Linq;
 
@@ -11,7 +12,8 @@ namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
     {
         public ApiModelProfile()
         {
-            var htmlToStringConverter = new HtmlToStringValueConverter();
+            var htmlTranslator = new HtmlAgilityPackDataTranslator();
+            var htmlToStringConverter = new HtmlToStringValueConverter(htmlTranslator);
 
             CreateMap<HowToBecomeSegmentDataModel, HowToBecomeApiModel>()
                 .ForMember(d => d.EntryRouteSummary, opt => opt.ConvertUsing(htmlToStringConverter))
