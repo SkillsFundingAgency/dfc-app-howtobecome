@@ -5,6 +5,7 @@ using DFC.App.JobProfiles.HowToBecome.Data.Models.DataModels;
 using DFC.App.JobProfiles.HowToBecome.Data.Models.PatchModels;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels.PatchContentTypeModels;
+using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile.ValueConverters;
 using System;
 
 namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
@@ -36,11 +37,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
                 .ForMember(d => d.EntryRouteSummary, s => s.MapFrom(a => a.IntroText));
 
             CreateMap<JobProfileMessage, HowToBecomeSegmentDataModel>()
-                .ForMember(d => d.TitlePrefix, s => s.MapFrom((message, model) =>
-                {
-                    var canBeParsed = Enum.TryParse<TitlePrefix>(message.DynamicTitlePrefix, out var result);
-                    return canBeParsed ? result : TitlePrefix.AsDefined;
-                }))
+                .ForMember(d => d.TitlePrefix, opt => opt.ConvertUsing(new StringToTitlePrefixConverter(), s => s.DynamicTitlePrefix))
                 .ForMember(d => d.Title, s => s.MapFrom(a => a.Title))
                 .ForMember(d => d.LastReviewed, s => s.MapFrom(o => o.LastModified))
                 .ForMember(d => d.Registrations, o => o.MapFrom(s => s.HowToBecomeData.Registrations))

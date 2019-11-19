@@ -1,5 +1,7 @@
 ﻿using DFC.App.JobProfiles.HowToBecome.Data.Enums;
 using DFC.App.JobProfiles.HowToBecome.Data.Models.DataModels;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
 
@@ -13,6 +15,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models
 
         public string Title { get; set; }
 
+        [JsonConverter(typeof(StringEnumConverter))]
         public TitlePrefix TitlePrefix { get; set; }
 
         public string EntryRouteSummary { get; set; }
