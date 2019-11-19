@@ -5,6 +5,7 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <CodeAnalysisRuleSet>../DFC.Digital.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
+	<ProjectGuid>{32D04997-66FB-41A1-966F-126CF596AA88}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
