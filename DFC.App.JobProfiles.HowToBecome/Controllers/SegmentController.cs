@@ -68,7 +68,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
         {
             logger.LogInformation($"{DocumentActionName} has been called with: {article}");
 
-            var howToBecomeSegmentModel = await howToBecomeSegmentService.GetByNameAsync(article, Request.IsDraftRequest()).ConfigureAwait(false);
+            var howToBecomeSegmentModel = await howToBecomeSegmentService.GetByNameAsync(article).ConfigureAwait(false);
 
             if (howToBecomeSegmentModel != null)
             {

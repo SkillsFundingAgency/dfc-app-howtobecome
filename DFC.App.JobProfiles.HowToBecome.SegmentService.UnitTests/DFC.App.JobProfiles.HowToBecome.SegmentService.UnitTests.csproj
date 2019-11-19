@@ -30,7 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.DraftSegmentService\DFC.App.JobProfiles.HowToBecome.DraftSegmentService.csproj" />
     <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb\DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb.csproj" />
     <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.SegmentService\DFC.App.JobProfiles.HowToBecome.SegmentService.csproj" />
   </ItemGroup>

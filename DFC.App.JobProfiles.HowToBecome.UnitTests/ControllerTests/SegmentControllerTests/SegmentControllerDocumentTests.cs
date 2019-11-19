@@ -20,14 +20,14 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
             var expectedResult = A.Fake<HowToBecomeSegmentModel>();
             var controller = BuildSegmentController(mediaTypeName);
 
-            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored)).Returns(expectedResult);
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<HowToBecomeSegmentModel>.Ignored)).Returns(A.Fake<DocumentViewModel>());
 
             // Act
             var result = await controller.Document(Article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
             A.CallTo(() => FakeMapper.Map<DocumentViewModel>(A<HowToBecomeSegmentModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -42,13 +42,13 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
         {
             // Arrange
             var controller = BuildSegmentController(mediaTypeName);
-            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).Returns((HowToBecomeSegmentModel)null);
+            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored)).Returns((HowToBecomeSegmentModel)null);
 
             // Act
             var result = await controller.Document(Article).ConfigureAwait(false);
 
             // Assert
-            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored, A<bool>.Ignored)).MustHaveHappenedOnceExactly();
+            A.CallTo(() => FakeHowToBecomeSegmentService.GetByNameAsync(A<string>.Ignored)).MustHaveHappenedOnceExactly();
             var statusResult = Assert.IsType<NoContentResult>(result);
             Assert.Equal((int)HttpStatusCode.NoContent, statusResult.StatusCode);
 

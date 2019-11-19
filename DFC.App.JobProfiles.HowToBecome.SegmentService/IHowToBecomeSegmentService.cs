@@ -15,7 +15,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
 
         Task<HowToBecomeSegmentModel> GetByIdAsync(Guid documentId);
 
-        Task<HowToBecomeSegmentModel> GetByNameAsync(string canonicalName, bool isDraft = false);
+        Task<HowToBecomeSegmentModel> GetByNameAsync(string canonicalName);
 
         Task<HttpStatusCode> UpsertAsync(HowToBecomeSegmentModel howToBecomeSegmentModel);
 

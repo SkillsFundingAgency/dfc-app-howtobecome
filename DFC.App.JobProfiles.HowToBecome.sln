@@ -27,8 +27,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{76
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome.SegmentService", "DFC.App.JobProfiles.HowToBecome.SegmentService\DFC.App.JobProfiles.HowToBecome.SegmentService.csproj", "{5D3722B8-7E2A-434B-A8DA-6617052F54B8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome.DraftSegmentService", "DFC.App.JobProfiles.HowToBecome.DraftSegmentService\DFC.App.JobProfiles.HowToBecome.DraftSegmentService.csproj", "{6188C7B7-C4D1-4B51-B85B-B64093FFA89E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome", "DFC.App.JobProfiles.HowToBecome\DFC.App.JobProfiles.HowToBecome.csproj", "{32D04997-66FB-41A1-966F-126CF596AA88}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C1FB0E35-9A76-4AD5-82E2-706A040A3575}"
@@ -36,8 +34,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{91D6C924-05D6-4F74-AEAC-1F3695B81ADD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{DCA86395-FBA4-4D6D-BAD8-BEC14075C92F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome.DraftSegmentService.UnitTests", "DFC.App.JobProfiles.HowToBecome.DraftSegmentService.UnitTests\DFC.App.JobProfiles.HowToBecome.DraftSegmentService.UnitTests.csproj", "{B3B3FB06-1E7E-4898-AFDF-4E181240D31D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome.SegmentService.UnitTests", "DFC.App.JobProfiles.HowToBecome.SegmentService.UnitTests\DFC.App.JobProfiles.HowToBecome.SegmentService.UnitTests.csproj", "{571DCED3-82A0-48EC-90BC-63DF28C24F60}"
 EndProject
@@ -61,7 +57,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MessagingFunction", "MessagingFunction", "{DA1540EF-9854-4211-9ACD-55F7F72B0174}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests", "DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests\DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests.csproj", "{BFEF351F-6772-4700-9CEB-620C02557656}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests", "DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests\DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests.csproj", "{BFEF351F-6772-4700-9CEB-620C02557656}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,18 +81,10 @@ Global
 		{5D3722B8-7E2A-434B-A8DA-6617052F54B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D3722B8-7E2A-434B-A8DA-6617052F54B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D3722B8-7E2A-434B-A8DA-6617052F54B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6188C7B7-C4D1-4B51-B85B-B64093FFA89E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6188C7B7-C4D1-4B51-B85B-B64093FFA89E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6188C7B7-C4D1-4B51-B85B-B64093FFA89E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6188C7B7-C4D1-4B51-B85B-B64093FFA89E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{32D04997-66FB-41A1-966F-126CF596AA88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{32D04997-66FB-41A1-966F-126CF596AA88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32D04997-66FB-41A1-966F-126CF596AA88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32D04997-66FB-41A1-966F-126CF596AA88}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B3B3FB06-1E7E-4898-AFDF-4E181240D31D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3B3FB06-1E7E-4898-AFDF-4E181240D31D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B3B3FB06-1E7E-4898-AFDF-4E181240D31D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3B3FB06-1E7E-4898-AFDF-4E181240D31D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{571DCED3-82A0-48EC-90BC-63DF28C24F60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{571DCED3-82A0-48EC-90BC-63DF28C24F60}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{571DCED3-82A0-48EC-90BC-63DF28C24F60}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -130,10 +118,8 @@ Global
 		{D642B945-C697-453B-96EA-3CC9EF9A9964} = {7915C856-F958-4C9A-9E43-6BF800400903}
 		{FCF6E3DB-07F0-40F0-A326-C00C1EB9786D} = {7915C856-F958-4C9A-9E43-6BF800400903}
 		{5D3722B8-7E2A-434B-A8DA-6617052F54B8} = {76E43F6A-D81D-44B6-803E-897F9350248B}
-		{6188C7B7-C4D1-4B51-B85B-B64093FFA89E} = {76E43F6A-D81D-44B6-803E-897F9350248B}
 		{91D6C924-05D6-4F74-AEAC-1F3695B81ADD} = {C1FB0E35-9A76-4AD5-82E2-706A040A3575}
 		{DCA86395-FBA4-4D6D-BAD8-BEC14075C92F} = {91D6C924-05D6-4F74-AEAC-1F3695B81ADD}
-		{B3B3FB06-1E7E-4898-AFDF-4E181240D31D} = {DCA86395-FBA4-4D6D-BAD8-BEC14075C92F}
 		{571DCED3-82A0-48EC-90BC-63DF28C24F60} = {DCA86395-FBA4-4D6D-BAD8-BEC14075C92F}
 		{0D26D48C-7F3C-40A5-B7D2-0F620E0F6C76} = {91D6C924-05D6-4F74-AEAC-1F3695B81ADD}
 		{89D71075-E68F-4A2C-BA3E-120AC8AC0DD9} = {0D26D48C-7F3C-40A5-B7D2-0F620E0F6C76}
