@@ -8,9 +8,14 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile.V
     {
         public TitlePrefix Convert(string sourceMember, ResolutionContext context)
         {
-            if (Enum.TryParse<TitlePrefix>(sourceMember, out var result))
+            if (!string.IsNullOrWhiteSpace(sourceMember))
             {
-                return result;
+                sourceMember = sourceMember.Replace(" ", string.Empty, StringComparison.OrdinalIgnoreCase);
+
+                if (Enum.TryParse<TitlePrefix>(sourceMember, true, out var result))
+                {
+                    return result;
+                }
             }
 
             return TitlePrefix.AsDefined;
