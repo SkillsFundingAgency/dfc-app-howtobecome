@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.Data\DFC.App.JobProfiles.HowToBecome.Data.csproj" />
-    <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.DraftSegmentService\DFC.App.JobProfiles.HowToBecome.DraftSegmentService.csproj" />
     <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb\DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb.csproj" />
   </ItemGroup>
 

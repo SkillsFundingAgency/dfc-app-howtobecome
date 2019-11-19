@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace DFC.App.JobProfiles.HowToBecome.Data.Models.PatchModels
 {

@@ -1,6 +1,5 @@
 ﻿using DFC.App.JobProfiles.HowToBecome.Data.Models;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels;
-using DFC.App.JobProfiles.HowToBecome.DraftSegmentService;
 using DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb;
 using FakeItEasy;
 using Xunit;
@@ -21,7 +20,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService.UnitTests
 
             A.CallTo(() => repository.PingAsync()).Returns(expectedResult);
 
-            var howToBecomeSegmentService = new HowToBecomeSegmentService(repository, A.Fake<IDraftHowToBecomeSegmentService>(), jobProfileSegmentRefreshService, mapper);
+            var howToBecomeSegmentService = new HowToBecomeSegmentService(repository, jobProfileSegmentRefreshService, mapper);
 
             // act
             var result = howToBecomeSegmentService.PingAsync().Result;
@@ -42,7 +41,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService.UnitTests
 
             A.CallTo(() => repository.PingAsync()).Returns(expectedResult);
 
-            var howToBecomeSegmentService = new HowToBecomeSegmentService(repository, A.Fake<IDraftHowToBecomeSegmentService>(), jobProfileSegmentRefreshService, mapper);
+            var howToBecomeSegmentService = new HowToBecomeSegmentService(repository, jobProfileSegmentRefreshService, mapper);
 
             // act
             var result = howToBecomeSegmentService.PingAsync().Result;

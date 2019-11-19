@@ -5,7 +5,6 @@ using DFC.App.JobProfiles.HowToBecome.Data.Models.DataModels;
 using DFC.App.JobProfiles.HowToBecome.Data.Models.PatchModels;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels.Enums;
-using DFC.App.JobProfiles.HowToBecome.DraftSegmentService;
 using DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb;
 using System;
 using System.Collections.Generic;
@@ -18,14 +17,12 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
     public class HowToBecomeSegmentService : IHowToBecomeSegmentService
     {
         private readonly ICosmosRepository<HowToBecomeSegmentModel> repository;
-        private readonly IDraftHowToBecomeSegmentService draftHowToBecomeSegmentService;
         private readonly IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService;
         private readonly IMapper mapper;
 
-        public HowToBecomeSegmentService(ICosmosRepository<HowToBecomeSegmentModel> repository, IDraftHowToBecomeSegmentService draftHowToBecomeSegmentService, IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService, IMapper mapper)
+        public HowToBecomeSegmentService(ICosmosRepository<HowToBecomeSegmentModel> repository, IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> jobProfileSegmentRefreshService, IMapper mapper)
         {
             this.repository = repository;
-            this.draftHowToBecomeSegmentService = draftHowToBecomeSegmentService;
             this.jobProfileSegmentRefreshService = jobProfileSegmentRefreshService;
             this.mapper = mapper;
         }
@@ -45,16 +42,14 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
             return await repository.GetAsync(d => d.DocumentId == documentId).ConfigureAwait(false);
         }
 
-        public async Task<HowToBecomeSegmentModel> GetByNameAsync(string canonicalName, bool isDraft = false)
+        public async Task<HowToBecomeSegmentModel> GetByNameAsync(string canonicalName)
         {
             if (string.IsNullOrWhiteSpace(canonicalName))
             {
                 throw new ArgumentNullException(nameof(canonicalName));
             }
 
-            return isDraft
-                ? await draftHowToBecomeSegmentService.GetSitefinityData(canonicalName.ToLowerInvariant()).ConfigureAwait(false)
-                : await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
+            return await repository.GetAsync(d => d.CanonicalName == canonicalName.ToLowerInvariant()).ConfigureAwait(false);
         }
 
         public async Task<HttpStatusCode> UpsertAsync(HowToBecomeSegmentModel howToBecomeSegmentModel)

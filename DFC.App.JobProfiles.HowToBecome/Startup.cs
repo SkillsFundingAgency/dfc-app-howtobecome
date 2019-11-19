@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DFC.App.JobProfiles.HowToBecome.Data.Models;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels;
-using DFC.App.JobProfiles.HowToBecome.DraftSegmentService;
 using DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb;
 using DFC.App.JobProfiles.HowToBecome.SegmentService;
 using Microsoft.AspNetCore.Builder;
@@ -49,7 +48,6 @@ namespace DFC.App.JobProfiles.HowToBecome
             services.AddSingleton<IDocumentClient>(documentClient);
             services.AddSingleton<ICosmosRepository<HowToBecomeSegmentModel>, CosmosRepository<HowToBecomeSegmentModel>>();
             services.AddScoped<IHowToBecomeSegmentService, HowToBecomeSegmentService>();
-            services.AddScoped<IDraftHowToBecomeSegmentService, DraftHowToBecomeSegmentService>();
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddScoped<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>, JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
 

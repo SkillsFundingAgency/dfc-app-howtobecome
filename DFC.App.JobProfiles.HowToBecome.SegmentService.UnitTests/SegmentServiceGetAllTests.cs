@@ -1,6 +1,5 @@
 ﻿using DFC.App.JobProfiles.HowToBecome.Data.Models;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels;
-using DFC.App.JobProfiles.HowToBecome.DraftSegmentService;
 using DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb;
 using FakeItEasy;
 using System.Collections.Generic;
@@ -17,11 +16,10 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService.UnitTests
 
         public SegmentServiceGetAllTests()
         {
-            var draftHowToBecomeSegmentService = A.Fake<IDraftHowToBecomeSegmentService>();
             var jobProfileSegmentRefreshService = A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
             var mapper = A.Fake<AutoMapper.IMapper>();
             repository = A.Fake<ICosmosRepository<HowToBecomeSegmentModel>>();
-            howToBecomeSegmentService = new HowToBecomeSegmentService(repository, draftHowToBecomeSegmentService, jobProfileSegmentRefreshService, mapper);
+            howToBecomeSegmentService = new HowToBecomeSegmentService(repository, jobProfileSegmentRefreshService, mapper);
         }
 
         [Fact]
