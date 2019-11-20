@@ -129,7 +129,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests
                         {
                             RouteSubjects = RouteSubjects,
                             RouteRequirement = RouteRequirement1,
-                            RouteName = (int) RouteName.University,
+                            RouteName = (int)RouteName.University,
                             FurtherRouteInformation = FurtherRouteInformation,
                             MoreInformationLinks = new List<SitefinityMoreInformationLinks>
                             {
