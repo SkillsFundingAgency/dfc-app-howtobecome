@@ -3,19 +3,49 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
-    <ProjectGuid>{32D04997-66FB-41A1-966F-126CF596AA88}</ProjectGuid>
+    <CodeAnalysisRuleSet>../DFC.Digital.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
+	<ProjectGuid>{32D04997-66FB-41A1-966F-126CF596AA88}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="appsettings-template.json" />
+    <Content Remove="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\stylecop.json" Link="../stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appsettings-template.json" />
+    <None Include="appsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="DFC.HtmlToDataTranslator" Version="1.0.5" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Azure.DocumentDB.Core" Version="2.6.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Http.Polly" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.0.76" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.Data\DFC.App.JobProfiles.HowToBecome.Data.csproj" />
+    <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.Repository.SitefinityApi\DFC.App.JobProfiles.HowToBecome.Repository.SitefinityApi.csproj" />
+    <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.SegmentService\DFC.App.JobProfiles.HowToBecome.SegmentService.csproj" />
   </ItemGroup>
 
 </Project>

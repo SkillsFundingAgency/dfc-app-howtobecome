@@ -1,0 +1,21 @@
+﻿@using DFC.App.JobProfiles.HowToBecome.Data.Enums
+@using DFC.App.JobProfiles.HowToBecome.ViewModels.DataModels
+
+<section id="HowToBecome">
+    <h2 class="job-profile-heading">How to become @Model.Data.GetDynamicTitle()</h2>
+
+    @Html.Raw(Model.Data.EntryRouteSummary)
+
+    @{
+        var entryRoutes = Model.Data.EntryRoutes as EntryRoutes;
+        var universityRoute = entryRoutes.CommonRoutes.FirstOrDefault(route => route.RouteName.Equals(RouteName.University));
+        var collegeRoute = entryRoutes.CommonRoutes.FirstOrDefault(route => route.RouteName.Equals(RouteName.College));
+        var apprenticeshipRoute = entryRoutes.CommonRoutes.FirstOrDefault(route => route.RouteName.Equals(RouteName.Apprenticeship));
+
+        <partial name="RouteEntry" , model="@universityRoute" />
+        <partial name="RouteEntry" , model="@collegeRoute" />
+        <partial name="RouteEntry" , model="@apprenticeshipRoute" />
+    }
+    <partial name="FurtherRoutes" , model="@Model.Data.EntryRoutes" />
+    <partial name="MoreInformation" , model="Model.Data" />
+</section>

@@ -1,0 +1,32 @@
+﻿@if (Model.HasRegistrations || Model.HasProfessionalAndIndustryBodies || Model.HasCareerTips || Model.HasFurtherInformation)
+{
+    <section class="job-profile-subsection" id="moreinfo">
+        <h3>More Information</h3>
+        <div class="job-profile-subsection-content">
+            @if (Model.HasRegistrations)
+            {
+
+                <h4>Registrations</h4>
+                <ul>
+                    @foreach (var registration in Model.Registrations)
+                    {
+                        <li>@Html.Raw(registration.Title)</li>
+                    }
+                </ul>
+            }
+
+            @if (Model.HasCareerTips)
+            {
+                @Html.Raw(Model.MoreInformation.CareerTips)
+            }
+            @if (Model.HasProfessionalAndIndustryBodies)
+            {
+                @Html.Raw(Model.MoreInformation.ProfessionalAndIndustryBodies)
+            }
+            @if (Model.HasFurtherInformation)
+            {
+                @Html.Raw(Model.MoreInformation.FurtherInformation)
+            }
+        </div>
+    </section>
+}
