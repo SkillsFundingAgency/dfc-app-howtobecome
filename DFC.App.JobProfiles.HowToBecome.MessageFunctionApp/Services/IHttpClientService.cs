@@ -8,8 +8,6 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
 {
     public interface IHttpClientService
     {
-        Task<HowToBecomeSegmentDataModel> GetByIdAsync(Guid id);
-
         Task<HttpStatusCode> PostFullJobProfileAsync(HowToBecomeSegmentModel howToBecomeSegmentModel);
 
         Task<HttpStatusCode> PutFullJobProfileAsync(HowToBecomeSegmentModel howToBecomeSegmentModel);

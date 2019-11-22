@@ -11,8 +11,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Data
         {
             return existingSegmentModel
                 ?.Data
-                .EntryRoutes
-                .CommonRoutes
+                ?.EntryRoutes
+                ?.CommonRoutes
                 .SingleOrDefault(e => e.RouteName == routeName);
         }
     }
