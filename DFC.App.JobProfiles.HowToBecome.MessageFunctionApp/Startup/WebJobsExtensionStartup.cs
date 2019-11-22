@@ -8,12 +8,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 
 [assembly: WebJobsStartup(typeof(DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Startup.WebJobsExtensionStartup), "Web Jobs Extension Startup")]
 
 namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Startup
 {
+    [ExcludeFromCodeCoverage]
     public class WebJobsExtensionStartup : IWebJobsStartup
     {
         public void Configure(IWebJobsBuilder builder)
@@ -34,6 +36,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Startup
             builder?.Services.AddSingleton<IMessageProcessor, MessageProcessor>();
             builder?.Services.AddSingleton<ILogger, Logger<WebJobsExtensionStartup>>();
             builder?.Services.AddSingleton<IMappingService, MappingService>();
+            builder?.Services.AddSingleton<IMessagePropertiesService, MessagePropertiesService>();
         }
     }
 }

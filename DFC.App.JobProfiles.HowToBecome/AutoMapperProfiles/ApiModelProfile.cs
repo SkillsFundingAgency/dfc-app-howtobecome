@@ -4,10 +4,12 @@ using DFC.App.JobProfiles.HowToBecome.Data.Models;
 using DFC.App.JobProfiles.HowToBecome.Data.Models.DataModels;
 using DFC.HtmlToDataTranslator.Services;
 using DFC.HtmlToDataTranslator.ValueConverters;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
 {
+    [ExcludeFromCodeCoverage]
     public class ApiModelProfile : Profile
     {
         public ApiModelProfile()

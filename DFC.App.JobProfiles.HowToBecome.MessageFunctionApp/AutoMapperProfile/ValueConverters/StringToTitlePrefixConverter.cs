@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using DFC.App.JobProfiles.HowToBecome.Data.Enums;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile.ValueConverters
 {
+    [ExcludeFromCodeCoverage]
     public class StringToTitlePrefixConverter : IValueConverter<string, TitlePrefix>
     {
         public TitlePrefix Convert(string sourceMember, ResolutionContext context)

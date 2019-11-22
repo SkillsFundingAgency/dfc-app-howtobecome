@@ -6,6 +6,7 @@ using Microsoft.Azure.Documents.Linq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb
 {
+    [ExcludeFromCodeCoverage]
     public class CosmosRepository<T> : ICosmosRepository<T>
         where T : IDataModel
     {
@@ -156,6 +158,9 @@ namespace DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb
             }
         }
 
-        private Uri CreateDocumentUri(Guid documentId) => UriFactory.CreateDocumentUri(cosmosDbConnection.DatabaseId, cosmosDbConnection.CollectionId, documentId.ToString());
+        private Uri CreateDocumentUri(Guid documentId)
+        {
+            return UriFactory.CreateDocumentUri(cosmosDbConnection.DatabaseId, cosmosDbConnection.CollectionId, documentId.ToString());
+        }
     }
 }

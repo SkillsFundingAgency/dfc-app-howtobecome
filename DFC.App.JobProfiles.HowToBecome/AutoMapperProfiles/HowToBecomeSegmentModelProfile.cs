@@ -5,9 +5,11 @@ using DFC.App.JobProfiles.HowToBecome.Data.Models.PatchModels;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels;
 using DFC.App.JobProfiles.HowToBecome.ViewModels;
 using Microsoft.AspNetCore.Html;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
 {
+    [ExcludeFromCodeCoverage]
     public class HowToBecomeSegmentModelProfile : Profile
     {
         public HowToBecomeSegmentModelProfile()

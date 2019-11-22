@@ -44,7 +44,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.Data\DFC.App.JobProfiles.HowToBecome.Data.csproj" />
-    <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.Repository.SitefinityApi\DFC.App.JobProfiles.HowToBecome.Repository.SitefinityApi.csproj" />
     <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.SegmentService\DFC.App.JobProfiles.HowToBecome.SegmentService.csproj" />
   </ItemGroup>
 

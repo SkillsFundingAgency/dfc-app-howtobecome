@@ -14,6 +14,7 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
         public async void SegmentControllerDeleteReturnsSuccess(string mediaTypeName)
         {
             // Arrange
+            const HttpStatusCode expectedResponse = HttpStatusCode.OK;
             const bool documentExists = true;
             var controller = BuildSegmentController(mediaTypeName);
 
@@ -24,8 +25,8 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
 
             // Assert
             A.CallTo(() => FakeHowToBecomeSegmentService.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
-            var okResult = Assert.IsType<OkResult>(result);
-            Assert.Equal((int)HttpStatusCode.OK, okResult.StatusCode);
+            var statusResult = Assert.IsType<OkResult>(result);
+            Assert.Equal((int)expectedResponse, statusResult.StatusCode);
 
             controller.Dispose();
         }
@@ -35,6 +36,7 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
         public async void SegmentControllerDeleteReturnsNotFound(string mediaTypeName)
         {
             // Arrange
+            const HttpStatusCode expectedResponse = HttpStatusCode.NotFound;
             const bool documentExists = false;
             var controller = BuildSegmentController(mediaTypeName);
 
@@ -46,7 +48,7 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
             // Assert
             A.CallTo(() => FakeHowToBecomeSegmentService.DeleteAsync(A<Guid>.Ignored)).MustHaveHappenedOnceExactly();
             var statusResult = Assert.IsType<NotFoundResult>(result);
-            Assert.Equal((int)HttpStatusCode.NotFound, statusResult.StatusCode);
+            Assert.Equal((int)expectedResponse, statusResult.StatusCode);
 
             controller.Dispose();
         }
