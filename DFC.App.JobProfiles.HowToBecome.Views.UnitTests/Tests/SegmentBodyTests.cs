@@ -1,13 +1,13 @@
 ﻿using DFC.App.JobProfiles.HowToBecome.Data.Enums;
 using DFC.App.JobProfiles.HowToBecome.ViewModels;
 using DFC.App.JobProfiles.HowToBecome.ViewModels.DataModels;
-using DFC.App.JobProfiles.HowToBecome.Views.Tests.ViewRenderer;
+using DFC.App.JobProfiles.HowToBecome.Views.UnitTests.ViewRenderer;
 using Microsoft.AspNetCore.Html;
 using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
+namespace DFC.App.JobProfiles.HowToBecome.Views.UnitTests.Tests
 {
     public class SegmentBodyTests : TestsBase
     {

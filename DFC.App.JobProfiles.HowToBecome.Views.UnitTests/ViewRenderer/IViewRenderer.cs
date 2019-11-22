@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.ViewRenderer
+namespace DFC.App.JobProfiles.HowToBecome.Views.UnitTests.ViewRenderer
 {
     public interface IViewRenderer
     {

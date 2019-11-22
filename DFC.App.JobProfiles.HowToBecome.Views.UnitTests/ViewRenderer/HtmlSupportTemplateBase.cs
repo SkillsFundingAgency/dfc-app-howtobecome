@@ -1,6 +1,6 @@
 ﻿using RazorEngine.Templating;
 
-namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.ViewRenderer
+namespace DFC.App.JobProfiles.HowToBecome.Views.UnitTests.ViewRenderer
 {
     public class HtmlSupportTemplateBase<T> : TemplateBase<T>
     {
