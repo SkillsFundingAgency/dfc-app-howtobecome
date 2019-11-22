@@ -55,7 +55,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MessagingFunction", "MessagingFunction", "{DA1540EF-9854-4211-9ACD-55F7F72B0174}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests", "DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests\DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests.csproj", "{BFEF351F-6772-4700-9CEB-620C02557656}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.IntegrationTests", "DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests\DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.IntegrationTests.csproj", "{BFEF351F-6772-4700-9CEB-620C02557656}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Functions", "Functions", "{7E42A252-88C9-484A-8CF8-035E59593201}"
 EndProject

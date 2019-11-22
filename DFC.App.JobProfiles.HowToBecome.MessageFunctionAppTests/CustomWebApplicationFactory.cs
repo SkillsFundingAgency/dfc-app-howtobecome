@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests
+namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.IntegrationTests
 {
     public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
         where TStartup : class

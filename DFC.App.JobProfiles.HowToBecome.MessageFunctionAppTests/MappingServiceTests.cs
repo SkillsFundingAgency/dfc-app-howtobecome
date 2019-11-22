@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionAppTests
+namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.IntegrationTests
 {
     public class MappingServiceTests
     {
