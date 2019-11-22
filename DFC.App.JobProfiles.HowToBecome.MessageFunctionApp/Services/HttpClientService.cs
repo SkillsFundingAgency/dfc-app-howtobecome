@@ -28,50 +28,56 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
             where T : BasePatchModel
         {
             var url = new Uri($"{segmentClientOptions.BaseAddress}segment/{patchModel?.JobProfileId}/{patchTypeEndpoint}");
-            using var content = new ObjectContent<T>(patchModel, new JsonMediaTypeFormatter(), MediaTypeNames.Application.Json);
-            var response = await httpClient.PatchAsync(url, content).ConfigureAwait(false);
-
-            if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.NotFound)
+            using (var content = new ObjectContent<T>(patchModel, new JsonMediaTypeFormatter(), MediaTypeNames.Application.Json))
             {
-                var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                logger.LogError($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for patch type {typeof(T)}, Id: {patchModel?.JobProfileId}");
+                var response = await httpClient.PatchAsync(url, content).ConfigureAwait(false);
 
-                response.EnsureSuccessStatusCode();
+                if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.NotFound)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    logger.LogError($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for patch type {typeof(T)}, Id: {patchModel?.JobProfileId}");
+
+                    response.EnsureSuccessStatusCode();
+                }
+
+                return response.StatusCode;
             }
-
-            return response.StatusCode;
         }
 
         public async Task<HttpStatusCode> PostFullJobProfileAsync(HowToBecomeSegmentModel howToBecomeSegmentModel)
         {
             var url = new Uri($"{segmentClientOptions?.BaseAddress}segment");
-            using var content = new ObjectContent(typeof(HowToBecomeSegmentModel), howToBecomeSegmentModel, new JsonMediaTypeFormatter(), MediaTypeNames.Application.Json);
-            var response = await httpClient.PostAsync(url, content).ConfigureAwait(false);
-
-            if (!response.IsSuccessStatusCode)
+            using (var content = new ObjectContent(typeof(HowToBecomeSegmentModel), howToBecomeSegmentModel, new JsonMediaTypeFormatter(), MediaTypeNames.Application.Json))
             {
-                var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                logger.LogError($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for POST, Id: {howToBecomeSegmentModel.DocumentId}.");
-                response.EnsureSuccessStatusCode();
-            }
+                var response = await httpClient.PostAsync(url, content).ConfigureAwait(false);
 
-            return response.StatusCode;
+                if (!response.IsSuccessStatusCode)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    logger.LogError($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for POST, Id: {howToBecomeSegmentModel.DocumentId}.");
+                    response.EnsureSuccessStatusCode();
+                }
+
+                return response.StatusCode;
+            }
         }
 
         public async Task<HttpStatusCode> PutFullJobProfileAsync(HowToBecomeSegmentModel howToBecomeSegmentModel)
         {
             var url = new Uri($"{segmentClientOptions?.BaseAddress}segment");
-            using var content = new ObjectContent(typeof(HowToBecomeSegmentModel), howToBecomeSegmentModel, new JsonMediaTypeFormatter(), MediaTypeNames.Application.Json);
-            var response = await httpClient.PutAsync(url, content).ConfigureAwait(false);
-
-            if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.NotFound)
+            using (var content = new ObjectContent(typeof(HowToBecomeSegmentModel), howToBecomeSegmentModel, new JsonMediaTypeFormatter(), MediaTypeNames.Application.Json))
             {
-                var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                logger.LogError($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for Put type {typeof(HowToBecomeSegmentModel)}, Id: {howToBecomeSegmentModel?.DocumentId}");
-                response.EnsureSuccessStatusCode();
-            }
+                var response = await httpClient.PutAsync(url, content).ConfigureAwait(false);
 
-            return response.StatusCode;
+                if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.NotFound)
+                {
+                    var responseContent = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    logger.LogError($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for Put type {typeof(HowToBecomeSegmentModel)}, Id: {howToBecomeSegmentModel?.DocumentId}");
+                    response.EnsureSuccessStatusCode();
+                }
+
+                return response.StatusCode;
+            }
         }
 
         public async Task<HttpStatusCode> DeleteAsync(Guid id)
