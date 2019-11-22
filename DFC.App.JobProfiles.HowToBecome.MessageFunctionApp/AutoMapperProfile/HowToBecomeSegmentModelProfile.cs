@@ -7,9 +7,11 @@ using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels.PatchContentTypeModels;
 using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile.ValueConverters;
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
 {
+    [ExcludeFromCodeCoverage]
     public class HowToBecomeSegmentModelProfile : Profile
     {
         public HowToBecomeSegmentModelProfile()

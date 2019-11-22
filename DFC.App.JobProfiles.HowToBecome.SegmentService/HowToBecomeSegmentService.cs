@@ -209,7 +209,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
                 return HttpStatusCode.AlreadyReported;
             }
 
-            var existingRegistration = existingSegmentModel.Data.Registrations.SingleOrDefault(r => r.Id == patchModel.Id);
+            var existingRegistration = existingSegmentModel.Data?.Registrations.SingleOrDefault(r => r.Id == patchModel.Id);
             if (existingRegistration is null)
             {
                 return patchModel.MessageAction == MessageAction.Deleted ? HttpStatusCode.AlreadyReported : HttpStatusCode.NotFound;
