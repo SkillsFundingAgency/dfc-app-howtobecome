@@ -18,12 +18,10 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
 
         public async Task SendMessageAsync(TModel model)
         {
-            {
-                var messageJson = JsonConvert.SerializeObject(model);
-                var message = new Message(Encoding.UTF8.GetBytes(messageJson));
+            var messageJson = JsonConvert.SerializeObject(model);
+            var message = new Message(Encoding.UTF8.GetBytes(messageJson));
 
-                await topicClient.SendAsync(message).ConfigureAwait(false);
-            }
+            await topicClient.SendAsync(message).ConfigureAwait(false);
         }
     }
 }
