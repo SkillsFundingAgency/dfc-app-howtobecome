@@ -4,6 +4,7 @@
     <AzureFunctionsVersion>v2</AzureFunctionsVersion>
     <CodeAnalysisRuleSet>../DFC.Digital.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
+    <ProjectGuid>{3E578F7F-787C-47D4-ACE9-8D3DD6505B00}</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
