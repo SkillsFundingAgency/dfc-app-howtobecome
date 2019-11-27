@@ -93,7 +93,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
             }
 
             var existingCommonRoute = existingSegmentModel.GetExistingCommonRoute(patchModel.RouteName);
-            var linkToUpdate = existingCommonRoute?.AdditionalInformation?.SingleOrDefault(ai => ai.Id == patchModel.Id);
+            var linkToUpdate = existingCommonRoute?.AdditionalInformation?.FirstOrDefault(ai => ai.Id == patchModel.Id);
 
             if (linkToUpdate is null)
             {
@@ -209,7 +209,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
                 return HttpStatusCode.AlreadyReported;
             }
 
-            var existingRegistration = existingSegmentModel.Data?.Registrations.SingleOrDefault(r => r.Id == patchModel.Id);
+            var existingRegistration = existingSegmentModel.Data?.Registrations.FirstOrDefault(r => r.Id == patchModel.Id);
             if (existingRegistration is null)
             {
                 return patchModel.MessageAction == MessageAction.Deleted ? HttpStatusCode.AlreadyReported : HttpStatusCode.NotFound;

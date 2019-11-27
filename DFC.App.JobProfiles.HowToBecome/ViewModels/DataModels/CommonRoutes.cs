@@ -19,11 +19,11 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels.DataModels
 
         public IEnumerable<AdditionalInformation> AdditionalInformation { get; set; }
 
-        public bool HasSubject => !string.IsNullOrEmpty(Subject.Value);
+        public bool HasSubject => !string.IsNullOrWhiteSpace(Subject.Value);
 
-        public bool HasFurtherInformation => !string.IsNullOrEmpty(FurtherInformation.Value);
+        public bool HasFurtherInformation => !string.IsNullOrWhiteSpace(FurtherInformation.Value);
 
-        public bool HasEntryRequirementPreface => !string.IsNullOrEmpty(EntryRequirementPreface);
+        public bool HasEntryRequirementPreface => !string.IsNullOrWhiteSpace(EntryRequirementPreface);
 
         public bool HasEntryRequirements => EntryRequirements != null && EntryRequirements.Any();
 
