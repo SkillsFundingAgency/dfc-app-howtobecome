@@ -11,9 +11,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
 
         public JobProfileSegmentRefreshService(ITopicClient topicClient)
         {
-            {
-                this.topicClient = topicClient;
-            }
+            this.topicClient = topicClient;
         }
 
         public async Task SendMessageAsync(TModel model)

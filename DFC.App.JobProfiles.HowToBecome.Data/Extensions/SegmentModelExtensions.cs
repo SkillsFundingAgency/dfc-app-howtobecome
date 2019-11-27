@@ -13,7 +13,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Data
                 ?.Data
                 ?.EntryRoutes
                 ?.CommonRoutes
-                .SingleOrDefault(e => e.RouteName == routeName);
+                .FirstOrDefault(e => e.RouteName == routeName);
         }
     }
 }
