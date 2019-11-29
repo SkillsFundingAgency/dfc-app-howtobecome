@@ -24,8 +24,7 @@ jobs:
 - job: BuildDotNetCore
   displayName: Build-DotNetCore
   pool:
-    #vmImage: 'vs2017-win2016'
-    vmImage: 'windows-2019'
+    vmImage: 'vs2017-win2016'
 
   steps:
   # Build DFC.App.JobProfiles.HowToBecome
