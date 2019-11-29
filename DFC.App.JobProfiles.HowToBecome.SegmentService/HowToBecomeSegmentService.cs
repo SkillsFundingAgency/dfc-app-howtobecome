@@ -8,12 +8,14 @@ using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels.Enums;
 using DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
 namespace DFC.App.JobProfiles.HowToBecome.SegmentService
 {
+    [ExcludeFromCodeCoverage]
     public class HowToBecomeSegmentService : IHowToBecomeSegmentService
     {
         private readonly ICosmosRepository<HowToBecomeSegmentModel> repository;
