@@ -1,5 +1,4 @@
 ﻿using DFC.App.JobProfiles.HowToBecome.Data.Models;
-using DFC.App.JobProfiles.HowToBecome.Data.Models.PatchModels;
 using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Models;
 using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services;
 using DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.FakeHttpHandlers;

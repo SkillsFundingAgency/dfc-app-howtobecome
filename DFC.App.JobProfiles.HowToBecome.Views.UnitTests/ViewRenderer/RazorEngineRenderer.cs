@@ -3,7 +3,7 @@ using RazorEngine.Templating;
 using System.Collections.Generic;
 using System.IO;
 
-namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.ViewRenderer
+namespace DFC.App.JobProfiles.HowToBecome.Views.UnitTests.ViewRenderer
 {
     public class RazorEngineRenderer : IViewRenderer
     {

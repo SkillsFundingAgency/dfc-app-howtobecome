@@ -1,4 +1,4 @@
-﻿namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Tests
+﻿namespace DFC.App.JobProfiles.HowToBecome.Views.UnitTests.Tests
 {
     public class TestsBase
     {

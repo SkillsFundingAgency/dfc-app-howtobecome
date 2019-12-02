@@ -24,10 +24,7 @@ jobs:
 - job: BuildDotNetCore
   displayName: Build-DotNetCore
   pool:
-    name: NCS - CI and CD
-    demands:
-    - msbuild
-    - visualstudio
+    vmImage: 'vs2017-win2016'
 
   steps:
   # Build DFC.App.JobProfiles.HowToBecome

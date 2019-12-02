@@ -27,11 +27,11 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
 
         public bool HasRegistrations => Registrations != null && Registrations.Any();
 
-        public bool HasProfessionalAndIndustryBodies => !string.IsNullOrEmpty(MoreInformation?.ProfessionalAndIndustryBodies?.Value);
+        public bool HasProfessionalAndIndustryBodies => !string.IsNullOrWhiteSpace(MoreInformation?.ProfessionalAndIndustryBodies?.Value);
 
-        public bool HasCareerTips => !string.IsNullOrEmpty(MoreInformation?.CareerTips?.Value);
+        public bool HasCareerTips => !string.IsNullOrWhiteSpace(MoreInformation?.CareerTips?.Value);
 
-        public bool HasFurtherInformation => !string.IsNullOrEmpty(MoreInformation?.FurtherInformation?.Value);
+        public bool HasFurtherInformation => !string.IsNullOrWhiteSpace(MoreInformation?.FurtherInformation?.Value);
 
         public string GetDynamicTitle()
         {

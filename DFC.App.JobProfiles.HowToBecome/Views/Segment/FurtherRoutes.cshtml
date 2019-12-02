@@ -1,4 +1,4 @@
-﻿@if (!string.IsNullOrEmpty(Model?.Work?.Value))
+﻿@if (!string.IsNullOrWhiteSpace(Model?.Work?.Value))
 {
     <section class="job-profile-subsection" id="work">
         <h3>Work</h3>
@@ -8,7 +8,7 @@
     </section>
 }
 
-@if (!string.IsNullOrEmpty(Model?.Volunteering?.Value))
+@if (!string.IsNullOrWhiteSpace(Model?.Volunteering?.Value))
 {
     <section class="job-profile-subsection" id="volunteering">
         <h3>Volunteering</h3>
@@ -18,7 +18,7 @@
     </section>
 }
 
-@if (!string.IsNullOrEmpty(Model?.DirectApplication?.Value))
+@if (!string.IsNullOrWhiteSpace(Model?.DirectApplication?.Value))
 {
     <section class="job-profile-subsection" id="directapplication">
         <h3>Direct Application</h3>
@@ -28,7 +28,7 @@
     </section>
 }
 
-@if (!string.IsNullOrEmpty(Model?.OtherRoutes?.Value))
+@if (!string.IsNullOrWhiteSpace(Model?.OtherRoutes?.Value))
 {
     <section class="job-profile-subsection" id="otherroutes">
         <h3>Other Routes</h3>

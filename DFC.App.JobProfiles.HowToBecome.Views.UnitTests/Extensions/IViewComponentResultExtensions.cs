@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 
-namespace DFC.App.JobProfiles.HowToBecome.Views.Tests.Extensions
+namespace DFC.App.JobProfiles.HowToBecome.Views.UnitTests.Extensions
 {
     public static class IViewComponentResultExtensions
     {
