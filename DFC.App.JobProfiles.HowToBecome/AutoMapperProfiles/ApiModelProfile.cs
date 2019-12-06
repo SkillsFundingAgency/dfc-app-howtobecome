@@ -2,8 +2,10 @@
 using DFC.App.JobProfiles.HowToBecome.ApiModels;
 using DFC.App.JobProfiles.HowToBecome.Data.Models;
 using DFC.App.JobProfiles.HowToBecome.Data.Models.DataModels;
+using DFC.HtmlToDataTranslator.Contracts;
 using DFC.HtmlToDataTranslator.Services;
 using DFC.HtmlToDataTranslator.ValueConverters;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
@@ -12,9 +14,11 @@ namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
     [ExcludeFromCodeCoverage]
     public class ApiModelProfile : Profile
     {
+        private readonly IHtmlToDataTranslator htmlTranslator;
+
         public ApiModelProfile()
         {
-            var htmlTranslator = new HtmlAgilityPackDataTranslator();
+            htmlTranslator = new HtmlAgilityPackDataTranslator();
             var htmlToStringConverter = new HtmlToStringValueConverter(htmlTranslator);
 
             CreateMap<HowToBecomeSegmentDataModel, HowToBecomeApiModel>()
@@ -26,7 +30,7 @@ namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
                 .ForMember(d => d.CareerTips, opt => opt.ConvertUsing(htmlToStringConverter, a => a.MoreInformation.CareerTips))
                 .ForMember(d => d.FurtherInformation, opt => opt.ConvertUsing(htmlToStringConverter, a => a.MoreInformation.FurtherInformation))
                 .ForMember(d => d.ProfessionalAndIndustryBodies, opt => opt.ConvertUsing(htmlToStringConverter, a => a.MoreInformation.ProfessionalAndIndustryBodies))
-                .ForMember(d => d.Registrations, s => s.MapFrom(a => a.Registrations.Select(i => i.Description)))
+                .ForMember(d => d.Registrations, s => s.MapFrom(ConvertRegistrationsToList))
                 ;
 
             CreateMap<EntryRoutes, EntryRoutesApiModel>()
@@ -42,9 +46,30 @@ namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
             CreateMap<CommonRoutes, CommonRouteApiModel>()
                 .ForMember(d => d.RelevantSubjects, opt => opt.ConvertUsing(htmlToStringConverter, s => s.Subject))
                 .ForMember(d => d.FurtherInformation, opt => opt.ConvertUsing(htmlToStringConverter))
-                .ForMember(d => d.EntryRequirements, s => s.MapFrom(a => a.EntryRequirements.Select(i => i.Description)))
-                .ForMember(d => d.AdditionalInformation, s => s.MapFrom(a => a.AdditionalInformation.Select(i => $"[{i.Text} | {i.Link}]")))
+                .ForMember(d => d.EntryRequirements, opt => opt.MapFrom(ConvertEntryRequirementsToList))
+                .ForMember(d => d.AdditionalInformation, opt => opt.MapFrom(a => a.AdditionalInformation.Select(i => $"[{i.Text} | {i.Link}]")))
                 ;
+        }
+
+        private List<string> ConvertEntryRequirementsToList(CommonRoutes source, CommonRouteApiModel destination)
+        {
+            return ConvertToList(source.EntryRequirements.Select(x => x.Description).ToList());
+        }
+
+        private List<string> ConvertRegistrationsToList(HowToBecomeSegmentDataModel source, MoreInformationApiModel destination)
+        {
+            return ConvertToList(source.Registrations.Select(x => x.Description).ToList());
+        }
+
+        private List<string> ConvertToList(List<string> source)
+        {
+            var result = new List<string>();
+            foreach (var item in source)
+            {
+                result.AddRange(htmlTranslator.Translate(item));
+            }
+
+            return result;
         }
     }
 }
