@@ -1,8 +1,8 @@
-﻿using DFC.App.JobProfiles.HowToBecome.Extensions;
+﻿using DFC.App.CareerPath.Common.Contracts;
+using DFC.App.JobProfiles.HowToBecome.Extensions;
 using DFC.App.JobProfiles.HowToBecome.SegmentService;
 using DFC.App.JobProfiles.HowToBecome.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -14,13 +14,13 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
     {
         private const string SuccessMessage = "Document store is available";
 
-        private readonly ILogger<HealthController> logger;
+        private readonly ILogService logService;
         private readonly IHowToBecomeSegmentService howToBecomeSegmentService;
         private readonly string resourceName;
 
-        public HealthController(ILogger<HealthController> logger, IHowToBecomeSegmentService howToBecomeSegmentService)
+        public HealthController(ILogService logService, IHowToBecomeSegmentService howToBecomeSegmentService)
         {
-            this.logger = logger;
+            this.logService = logService;
             this.howToBecomeSegmentService = howToBecomeSegmentService;
             resourceName = typeof(Program).Namespace;
         }
@@ -29,7 +29,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
         [Route("health/ping")]
         public IActionResult Ping()
         {
-            logger.LogInformation($"{nameof(Ping)} has been called");
+            logService.LogInformation($"{nameof(Ping)} has been called");
 
             return Ok();
         }
@@ -38,25 +38,25 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
         [Route("health")]
         public async Task<IActionResult> Health()
         {
-            logger.LogInformation($"{nameof(Health)} has been called");
+            logService.LogInformation($"{nameof(Health)} has been called");
 
             try
             {
                 var isHealthy = await howToBecomeSegmentService.PingAsync().ConfigureAwait(false);
                 if (isHealthy)
                 {
-                    logger.LogInformation($"{nameof(Health)} responded with: {resourceName} - {SuccessMessage}");
+                    logService.LogInformation($"{nameof(Health)} responded with: {resourceName} - {SuccessMessage}");
 
                     var viewModel = CreateHealthViewModel();
 
                     return this.NegotiateContentResult(viewModel);
                 }
 
-                logger.LogError($"{nameof(Health)}: Ping to {resourceName} has failed");
+                logService.LogError($"{nameof(Health)}: Ping to {resourceName} has failed");
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, $"{nameof(Health)}: {resourceName} exception: {ex.Message}");
+                logService.LogError($"{nameof(Health)}: {resourceName} exception: {ex.Message}");
             }
 
             return StatusCode((int)HttpStatusCode.ServiceUnavailable);
