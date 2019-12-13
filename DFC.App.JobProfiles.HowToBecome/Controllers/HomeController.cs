@@ -1,5 +1,5 @@
-﻿using DFC.App.CareerPath.Common.Contracts;
-using DFC.App.JobProfiles.HowToBecome.ViewModels;
+﻿using DFC.App.JobProfiles.HowToBecome.ViewModels;
+using DFC.Logger.AppInsights.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

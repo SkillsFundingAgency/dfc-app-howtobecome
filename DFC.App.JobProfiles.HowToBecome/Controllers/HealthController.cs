@@ -1,7 +1,7 @@
-﻿using DFC.App.CareerPath.Common.Contracts;
-using DFC.App.JobProfiles.HowToBecome.Extensions;
+﻿using DFC.App.JobProfiles.HowToBecome.Extensions;
 using DFC.App.JobProfiles.HowToBecome.SegmentService;
 using DFC.App.JobProfiles.HowToBecome.ViewModels;
+using DFC.Logger.AppInsights.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
