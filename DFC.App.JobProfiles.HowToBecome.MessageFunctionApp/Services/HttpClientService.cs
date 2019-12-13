@@ -1,5 +1,4 @@
-﻿using DFC.App.CareerPath.Common.Contracts;
-using DFC.App.JobProfiles.HowToBecome.Data.Models;
+﻿using DFC.App.JobProfiles.HowToBecome.Data.Models;
 using DFC.App.JobProfiles.HowToBecome.Data.Models.PatchModels;
 using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Models;
 using DFC.Logger.AppInsights.Constants;

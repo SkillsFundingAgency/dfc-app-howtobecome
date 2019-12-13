@@ -1,4 +1,3 @@
-using DFC.App.CareerPath.Common.Contracts;
 using DFC.App.JobProfiles.HowToBecome.Data.Enums;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels.Enums;
 using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services;
