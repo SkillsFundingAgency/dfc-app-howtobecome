@@ -1,0 +1,38 @@
+{
+  "RouteName": 2,
+  "EntryRequirements": [
+    {
+      "Id": "42c90766-4606-41bf-abcc-5d94e2a72a53",
+      "Title": "Degree - standard entry requirements",
+      "Info": "2 to 3 A levels for a degree"
+    },
+    {
+      "Id": "fac68c81-f3a2-4cdc-8d8f-5f851b75e471",
+      "Title": "Postgraduate study - relevant degree needed",
+      "Info": "a degree in a relevant subject for postgraduate study"
+    }
+  ],
+  "MoreInformationLinks": [
+    {
+      "Id": "dbb62bc5-07c4-46f9-ad10-75970ee68255",
+      "Title": "Show Equiv Entry Reqs",
+      "Url": "https://www.gov.uk/what-different-qualification-levels-mean/list-of-qualification-levels",
+      "Text": "equivalent entry requirements"
+    },
+    {
+      "Id": "4ca5e788-3fee-4e05-8a6d-3c002ece90ad",
+      "Title": "Show Student finance",
+      "Url": "https://www.gov.uk/student-finance",
+      "Text": "student finance for fees and living costs"
+    },
+    {
+      "Id": "7f0898b8-5db4-4b37-b5f9-824e6a53f303",
+      "Title": "Show UCAS info",
+      "Url": "https://www.ucas.com/",
+      "Text": "university courses and entry requirements"
+    }
+  ],
+  "RouteSubjects": "<p>Most professional archaeologists have a degree, and many also have a postgraduate qualification.</p>\n<p>You can do degree courses in archaeology, as well as those specialising in different aspects of the work, like:</p>\n<ul>\n    <li>conservation</li>\n    <li>environmental archaeology</li>\n    <li>human evolution</li>\n    <li>forensic investigation</li>\n    <li>archaeological science</li>\n</ul>\n<p>You can search for courses on <a href=\"http://www.bajr.org/BAJREducation/UniversitiesSearch.asp\">British Archaeological Jobs and Resources</a>.</p>",
+  "FurtherRouteInformation": "",
+  "RouteRequirement": "You'll usually need:"
+}
