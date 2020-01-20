@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DFC.Api.JobProfiles.IntegrationTests.Model
+namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model
 {
     public class WorkingPattern
     {
@@ -22,11 +22,26 @@ namespace DFC.Api.JobProfiles.IntegrationTests.Model
     public class RouteEntry
     {
         public int RouteName { get; set; }
-        public List<object> EntryRequirements { get; set; }
-        public List<object> MoreInformationLinks { get; set; }
+        public List<EntryRequirement> EntryRequirements { get; set; }
+        public List<MoreInformationLink> MoreInformationLinks { get; set; }
         public string RouteSubjects { get; set; }
         public string FurtherRouteInformation { get; set; }
         public object RouteRequirement { get; set; }
+    }
+
+    public class EntryRequirement
+    {
+        public string Id { get; set; }
+        public string Title { get; set; }
+        public string Info { get; set; }
+    }
+
+    public class MoreInformationLink
+    {
+        public string Id { get; set; }
+        public string Title { get; set; }
+        public string Url { get; set; }
+        public string Text { get; set; }
     }
 
     public class FurtherInformationModel

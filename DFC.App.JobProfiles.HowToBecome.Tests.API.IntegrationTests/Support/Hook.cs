@@ -3,7 +3,7 @@ using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 
-namespace DFC.Api.JobProfiles.IntegrationTests.Support
+namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
     public class Hook
     {

@@ -1,14 +1,14 @@
 using DFC.Api.JobProfiles.Common.APISupport;
-using DFC.Api.JobProfiles.IntegrationTests.Support;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
+using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support;
 using HtmlAgilityPack;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
+using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.EnumLibrary;
 
-namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests
+namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
 {
     public class Tests : Hook
     {
@@ -21,9 +21,25 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests
         [Test]
         public async Task Html()
         {
-            HowToBecomeRouteEntry input = ResourceManager.GetResource<HowToBecomeRouteEntry>("HowToBecomeRouteEntry");
+            CommonAction commonAction = new CommonAction();
+
+            JobProfileCreateMessageBody createInput = ResourceManager.GetResource<JobProfileCreateMessageBody>("JobProfileCreateMessageBody");
+            
+            RouteEntry universityRouteEntry = ResourceManager.GetResource<RouteEntry>("HowToBecomeRouteEntry");
+            universityRouteEntry.RouteName = (int)RequirementType.University;
+            commonAction.AddEntryRequirementToRouteEntry("Requirement one", universityRouteEntry);
+            commonAction.AddEntryRequirementToRouteEntry("Requirement two", universityRouteEntry);
+            commonAction.AddEntryRequirementToRouteEntry("Requirement three", universityRouteEntry);
+            commonAction.AddMoreInformationLinkToRouteEntry("More information link one", universityRouteEntry);
+            commonAction.AddMoreInformationLinkToRouteEntry("More information link two", universityRouteEntry);
+            commonAction.AddMoreInformationLinkToRouteEntry("More information link three", universityRouteEntry);
+            universityRouteEntry.RouteSubjects = "<div id='universityRouteSubjects'><p>This is a paragraph for route subjects.</p><ul><li>Listed item</li></ul></div>";
+            universityRouteEntry.FurtherRouteInformation = "Automated further information";
+            universityRouteEntry.RouteRequirement = "Automated requirement list";
+            createInput.HowToBecomeData.RouteEntries.Add(universityRouteEntry);
+
             HtmlDocument routeSubjects = new HtmlDocument();
-            string inputWithoutNewLines = input.RouteSubjects.Replace(Environment.NewLine, string.Empty).Replace('\u000a'.ToString(), string.Empty).Trim();
+            string inputWithoutNewLines = universityRouteEntry.RouteSubjects.Replace(Environment.NewLine, string.Empty).Replace('\u000a'.ToString(), string.Empty).Trim();
             routeSubjects.LoadHtml(inputWithoutNewLines);
 
             List<HtmlNode> childNodes = new List<HtmlNode>();

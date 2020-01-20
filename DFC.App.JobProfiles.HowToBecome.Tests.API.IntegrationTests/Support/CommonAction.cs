@@ -1,6 +1,7 @@
 ﻿using DFC.Api.JobProfiles.Common.APISupport;
 using DFC.Api.JobProfiles.Common.AzureServiceBusSupport;
-using DFC.Api.JobProfiles.IntegrationTests.Model;
+using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
+using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.Interface;
 using HtmlAgilityPack;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -11,10 +12,11 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static DFC.Api.JobProfiles.Common.APISupport.GetRequest;
+using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.EnumLibrary;
 
-namespace DFC.Api.JobProfiles.IntegrationTests.Support
+namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
-    internal class CommonAction
+    internal class CommonAction : IHowToBecomeSupport
     {
         private static Random Random = new Random();
 
@@ -134,6 +136,37 @@ namespace DFC.Api.JobProfiles.IntegrationTests.Support
             }
 
             return response;
+        }
+
+        public void AddEntryRequirementToRouteEntry(string entryRequirementInformation, RouteEntry routeEntry)
+        {
+            EntryRequirement entryRequirement = CreateEntryRequirement(entryRequirementInformation);
+            routeEntry.EntryRequirements.Add(entryRequirement);
+        }
+
+        private EntryRequirement CreateEntryRequirement(string requirementInformation)
+        {
+            EntryRequirement entryRequirement = new EntryRequirement();
+            entryRequirement.Id = Guid.NewGuid().ToString();
+            entryRequirement.Title = "New entry requirement";
+            entryRequirement.Info = requirementInformation;
+            return entryRequirement;
+        }
+
+        public void AddMoreInformationLinkToRouteEntry(string linkText, RouteEntry routeEntry)
+        {
+            MoreInformationLink moreInformationLink = CreateMoreInformationLink(linkText);
+            routeEntry.MoreInformationLinks.Add(moreInformationLink);
+        }
+
+        private MoreInformationLink CreateMoreInformationLink(string linkText)
+        {
+            MoreInformationLink moreInformationLink = new MoreInformationLink();
+            moreInformationLink.Id = Guid.NewGuid().ToString();
+            moreInformationLink.Title = "New more information link";
+            moreInformationLink.Url = "www.abc.com";
+            moreInformationLink.Text = linkText;
+            return moreInformationLink;
         }
     }
 }

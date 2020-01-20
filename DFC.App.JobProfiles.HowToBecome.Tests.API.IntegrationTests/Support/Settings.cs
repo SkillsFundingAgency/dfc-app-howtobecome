@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DFC.Api.JobProfiles.IntegrationTests.Support
+namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
     public class Settings
     {

@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace DFC.Api.JobProfiles.IntegrationTests.Support
+namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
     internal class ResourceManager
     {

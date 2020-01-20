@@ -36,32 +36,7 @@
   "JobProfileSpecialism": [],
   "IsImported": true,
   "HowToBecomeData": {
-    "RouteEntries": [
-      {
-        "RouteName": 2,
-        "EntryRequirements": [],
-        "MoreInformationLinks": [],
-        "RouteSubjects": "",
-        "FurtherRouteInformation": "",
-        "RouteRequirement": null
-      },
-      {
-        "RouteName": 1,
-        "EntryRequirements": [],
-        "MoreInformationLinks": [],
-        "RouteSubjects": "",
-        "FurtherRouteInformation": "",
-        "RouteRequirement": null
-      },
-      {
-        "RouteName": 0,
-        "EntryRequirements": [],
-        "MoreInformationLinks": [],
-        "RouteSubjects": "",
-        "FurtherRouteInformation": "",
-        "RouteRequirement": null
-      }
-    ],
+    "RouteEntries": [],
     "FurtherInformation": {
       "CareerTips": "",
       "ProfessionalAndIndustryBodies": "",
