@@ -15,9 +15,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
         public async Task OneTimeSetUp()
         {
             MessageId = Guid.NewGuid();
-            //CanonicalName = CommonAction.RandomString(10).ToLower();
-            CanonicalName = "archaeologist";
-
+            CanonicalName = CommonAction.RandomString(10).ToLower();
             CommonAction.InitialiseAppSettings();
             Topic = new Topic(Settings.ServiceBusConfig.Endpoint);
             await CommonAction.CreateJobProfile(Topic, MessageId, CanonicalName);

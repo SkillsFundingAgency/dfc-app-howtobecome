@@ -2,7 +2,7 @@
   "RouteName": 0,
   "EntryRequirements": [],
   "MoreInformationLinks": [],
-  "RouteSubjects": "<p>This is a paragraph for route subjects.</p><ul><li>Listed item</li></ul>",
+  "RouteSubjects": "",
   "FurtherRouteInformation": "",
-  "RouteRequirement": "You'll usually need:"
+  "RouteRequirement": ""
 }
