@@ -6,13 +6,13 @@ using HtmlAgilityPack;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static DFC.Api.JobProfiles.Common.APISupport.GetRequest;
-using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.EnumLibrary;
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
@@ -33,7 +33,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             Settings.ServiceBusConfig.Endpoint = Configuration.GetSection("ServiceBusConfig").GetSection("Endpoint").Value;
             Settings.APIConfig.Version = Configuration.GetSection("APIConfig").GetSection("Version").Value;
             Settings.APIConfig.ApimSubscriptionKey = Configuration.GetSection("APIConfig").GetSection("ApimSubscriptionKey").Value;
-            Settings.APIConfig.EndpointBaseUrl= Configuration.GetSection("APIConfig").GetSection("EndpointBaseUrl").Value;
+            Settings.APIConfig.EndpointBaseUrl.ProfileDetail = Configuration.GetSection("APIConfig").GetSection("EndpointBaseUrl").GetSection("ProfileDetail").Value;
+            Settings.APIConfig.EndpointBaseUrl.HowToSegment = Configuration.GetSection("APIConfig").GetSection("EndpointBaseUrl").GetSection("HowToSegment").Value;
             if (!int.TryParse(Configuration.GetSection("GracePeriodInSeconds").Value, out int gracePeriodInSeconds)) { throw new InvalidCastException("Unable to retrieve an integer value for the grace period setting"); }
             Settings.GracePeriod = TimeSpan.FromSeconds(gracePeriodInSeconds);
         }
@@ -78,9 +79,15 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             await topic.SendAsync(deleteMessage);
         }
 
-        internal async static Task CreateJobProfile(Topic topic, Guid messageId, string canonicalName)
+        internal async static Task CreateJobProfile(Topic topic, Guid messageId, string canonicalName, List<RouteEntry> routeEntries)
         {
             JobProfileCreateMessageBody messageBody = ResourceManager.GetResource<JobProfileCreateMessageBody>("JobProfileCreateMessageBody");
+            
+            foreach(RouteEntry d in routeEntries)
+            {
+                messageBody.HowToBecomeData.RouteEntries.Add(d);
+            }
+            
             messageBody.JobProfileId = messageId.ToString();
             messageBody.UrlName = canonicalName;
             messageBody.CanonicalName = canonicalName;
