@@ -13,6 +13,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static DFC.Api.JobProfiles.Common.APISupport.GetRequest;
+using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.EnumLibrary;
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
@@ -75,7 +76,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
         {
             JobProfileDeleteMessageBody messageBody = ResourceManager.GetResource<JobProfileDeleteMessageBody>("JobProfileDeleteMessageBody");
             messageBody.JobProfileId = jobProfileId.ToString();
-            Message deleteMessage = CommonAction.CreateDeleteMessage(jobProfileId, CommonAction.ConvertObjectToByteArray(messageBody));
+            Message deleteMessage = CreateDeleteMessage(jobProfileId, ConvertObjectToByteArray(messageBody));
             await topic.SendAsync(deleteMessage);
         }
 
@@ -83,15 +84,15 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
         {
             JobProfileCreateMessageBody messageBody = ResourceManager.GetResource<JobProfileCreateMessageBody>("JobProfileCreateMessageBody");
             
-            foreach(RouteEntry d in routeEntries)
+            foreach(RouteEntry routeEntry in routeEntries)
             {
-                messageBody.HowToBecomeData.RouteEntries.Add(d);
+                messageBody.HowToBecomeData.RouteEntries.Add(routeEntry);
             }
             
             messageBody.JobProfileId = messageId.ToString();
             messageBody.UrlName = canonicalName;
             messageBody.CanonicalName = canonicalName;
-            Message message = CreateCreateMessage(messageId, CommonAction.ConvertObjectToByteArray(messageBody));
+            Message message = CreateCreateMessage(messageId, ConvertObjectToByteArray(messageBody));
             await topic.SendAsync(message);
         }
 
@@ -174,6 +175,101 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             moreInformationLink.Url = "www.abc.com";
             moreInformationLink.Text = linkText;
             return moreInformationLink;
+        }
+
+        public RouteEntry CreateARouteEntry(EnumLibrary.RequirementType requirementType)
+        {
+            string htmlId;
+            switch(requirementType)
+            {
+                case RequirementType.University:
+                    htmlId = "universityRouteSubjects";
+                    break;
+
+                case RequirementType.College:
+                    htmlId = "collegeRouteSubjects";
+                    break;
+
+                case RequirementType.Apprentiships:
+                    htmlId = "apprentishipsRouteSubjects";
+                    break;
+
+                default:
+                    throw new ArgumentException("Unrecognised requirement type");
+            }
+
+            RouteEntry routeEntry = ResourceManager.GetResource<RouteEntry>("HowToBecomeRouteEntry");
+            routeEntry.RouteName = (int)requirementType;
+            AddEntryRequirementToRouteEntry("Requirement one", routeEntry);
+            AddEntryRequirementToRouteEntry("Requirement two", routeEntry);
+            AddEntryRequirementToRouteEntry("Requirement three", routeEntry);
+            AddMoreInformationLinkToRouteEntry("More information link one", routeEntry);
+            AddMoreInformationLinkToRouteEntry("More information link two", routeEntry);
+            AddMoreInformationLinkToRouteEntry("More information link three", routeEntry);
+            routeEntry.RouteSubjects = $"<div id='{htmlId}'><p>This is a paragraph for route subjects.</p><ul><li>Listed item</li></ul></div>";
+            routeEntry.FurtherRouteInformation = "<p id='furtherRouteInformation'>Automated further information</p>";
+            routeEntry.RouteRequirement = "Automated requirement list";
+            return routeEntry;
+        }
+
+        public Dictionary<RequirementType, HowToBecomeRouteEntry> GetRouteEntriesFromHtmlResponse(Response<HtmlDocument> response)
+        {
+            Dictionary<RequirementType, HowToBecomeRouteEntry> routeEntries = new Dictionary<RequirementType, HowToBecomeRouteEntry>();
+            List<RequirementType> presentRequirementTypes = new List<RequirementType>();
+            HtmlNode universitySection = response.Data.GetElementbyId("University");
+            HtmlNode collegeSection = response.Data.GetElementbyId("College");
+            HtmlNode apprenticeshipSection = response.Data.GetElementbyId("Apprenticeship");
+
+            if(universitySection != null)
+            {
+                presentRequirementTypes.Add(RequirementType.University);
+            }
+
+            if (collegeSection != null)
+            {
+                presentRequirementTypes.Add(RequirementType.College);
+            }
+
+            if (apprenticeshipSection != null)
+            {
+                presentRequirementTypes.Add(RequirementType.Apprentiships);
+            }
+
+            foreach (RequirementType requirementType in presentRequirementTypes)
+            {
+                string id = null;
+
+                switch (requirementType) {
+                    case RequirementType.University:
+                        id = "universityRouteSubjects";
+                        break;
+
+                    case RequirementType.College:
+                        id = "collegeRouteSubjects";
+                        break;
+
+                    case RequirementType.Apprentiships:
+                        id = "apprentishipsRouteSubjects";
+                        break;
+                }
+
+                routeEntries.Add(requirementType, new HowToBecomeRouteEntry());
+                routeEntries[requirementType].RouteSubjects = universitySection.SelectSingleNode($"//div[@id='{id}']").OuterHtml;
+                routeEntries[requirementType].FurtherRouteInformation = universitySection.SelectSingleNode("//p[@id='furtherRouteInformation']").OuterHtml;
+                routeEntries[requirementType].RouteRequirement = universitySection.SelectSingleNode("//p[2]").InnerText;
+                HtmlNodeCollection entryRequirementsList = universitySection.SelectNodes("//ul[@class='list-reqs']//li");
+                routeEntries[requirementType].EntryRequirements = new List<EntryRequirement>();
+                routeEntries[requirementType].EntryRequirements.Add(new EntryRequirement() { Info = entryRequirementsList[0].InnerText });
+                routeEntries[requirementType].EntryRequirements.Add(new EntryRequirement() { Info = entryRequirementsList[1].InnerText });
+                routeEntries[requirementType].EntryRequirements.Add(new EntryRequirement() { Info = entryRequirementsList[2].InnerText });
+                HtmlNodeCollection moreInformationLinkList = universitySection.SelectNodes("//ul[@class='list-link']//li");
+                routeEntries[requirementType].MoreInformationLinks = new List<MoreInformationLink>();
+                routeEntries[requirementType].MoreInformationLinks.Add(new MoreInformationLink() { Text = moreInformationLinkList[0].InnerText });
+                routeEntries[requirementType].MoreInformationLinks.Add(new MoreInformationLink() { Text = moreInformationLinkList[1].InnerText });
+                routeEntries[requirementType].MoreInformationLinks.Add(new MoreInformationLink() { Text = moreInformationLinkList[2].InnerText });
+            }
+
+            return routeEntries;
         }
     }
 }

@@ -15,58 +15,28 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
         [Test]
         public async Task Json()
         {
-            Response<HowToBecomeRouteEntry> howToBecomeRouteEntry = await CommonAction.ExecuteGetRequestWithJsonResponse<HowToBecomeRouteEntry>(Settings.APIConfig.EndpointBaseUrl + CanonicalName);
+            Response<HowToBecomeRouteEntry> howToBecomeRouteEntry = await CommonAction.ExecuteGetRequestWithJsonResponse<HowToBecomeRouteEntry>(Settings.APIConfig.EndpointBaseUrl.HowToSegment + CanonicalName);
         }
 
         [Test]
         public async Task Html()
         {
             CommonAction commonAction = new CommonAction();
-            JobProfileCreateMessageBody createInput = ResourceManager.GetResource<JobProfileCreateMessageBody>("JobProfileCreateMessageBody");
-            
-            
+            Response<HtmlDocument> howToBecomeResponse = await CommonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HowToSegment + CanonicalName);
+            Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
 
-            Response<JobProfileCreateMessageBody> jobProfileCreateMessageBody = await CommonAction.CreateJobProfile();
-
-
-
-            HtmlDocument routeSubjects = new HtmlDocument();
-            string inputWithoutNewLines = universityRouteEntry.RouteSubjects.Replace(Environment.NewLine, string.Empty).Replace('\u000a'.ToString(), string.Empty).Trim();
-            routeSubjects.LoadHtml(inputWithoutNewLines);
-
-            List<HtmlNode> childNodes = new List<HtmlNode>();
-            foreach (HtmlNode childNode in routeSubjects.DocumentNode.ChildNodes)
-            {
-                if (!childNode.OuterHtml.Equals(string.Empty))
-                {
-                    childNodes.Add(childNode);
-                }
-            }
-
-            Response<HtmlDocument> howToBecomeRouteEntry = await CommonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl + CanonicalName);
-            HtmlNode universitySection = howToBecomeRouteEntry.Data.GetElementbyId("University");
-            string html = universitySection.SelectNodes("//div[@class='job-profile-subsection-content']")[0].InnerHtml;
-            html = html.Replace(Environment.NewLine, string.Empty).Replace('\u000a'.ToString(), string.Empty).Trim();
-
-            HtmlDocument output = new HtmlDocument();
-            output.LoadHtml(html);
-
-            List<HtmlNode> outputChildNodes = new List<HtmlNode>();
-            for (int nodeIndex = 0; nodeIndex < childNodes.Count; nodeIndex++)
-            {
-                outputChildNodes.Add(output.DocumentNode.ChildNodes[nodeIndex]);
-            }
-
-            bool isContentTheSame = true;
-            for (int nodeIndex = 0; nodeIndex < childNodes.Count; nodeIndex++)
-            {
-                if (!childNodes[nodeIndex].InnerHtml.Equals(outputChildNodes[nodeIndex].InnerHtml))
-                {
-                    isContentTheSame = false;
-                }
-            }
-
-            Assert.IsTrue(isContentTheSame);
+            Assert.AreEqual(3, observedRouteEntries.Count);
+            Assert.AreEqual(UniversityRouteEntry.RouteSubjects, observedRouteEntries[RequirementType.University].RouteSubjects);
+            Assert.AreEqual(UniversityRouteEntry.FurtherRouteInformation, observedRouteEntries[RequirementType.University].FurtherRouteInformation);
+            Assert.AreEqual(UniversityRouteEntry.RouteRequirement, observedRouteEntries[RequirementType.University].RouteRequirement);
+            Assert.AreEqual(3, observedRouteEntries[RequirementType.University].EntryRequirements.Count);
+            Assert.AreEqual(UniversityRouteEntry.EntryRequirements[0].Info, observedRouteEntries[RequirementType.University].EntryRequirements[0].Info);
+            Assert.AreEqual(UniversityRouteEntry.EntryRequirements[1].Info, observedRouteEntries[RequirementType.University].EntryRequirements[1].Info);
+            Assert.AreEqual(UniversityRouteEntry.EntryRequirements[2].Info, observedRouteEntries[RequirementType.University].EntryRequirements[2].Info);
+            Assert.AreEqual(3, observedRouteEntries[RequirementType.University].MoreInformationLinks.Count);
+            Assert.AreEqual(UniversityRouteEntry.MoreInformationLinks[0].Text, observedRouteEntries[RequirementType.University].MoreInformationLinks[0].Text);
+            Assert.AreEqual(UniversityRouteEntry.MoreInformationLinks[1].Text, observedRouteEntries[RequirementType.University].MoreInformationLinks[1].Text);
+            Assert.AreEqual(UniversityRouteEntry.MoreInformationLinks[2].Text, observedRouteEntries[RequirementType.University].MoreInformationLinks[2].Text);
         }
     }
 }
