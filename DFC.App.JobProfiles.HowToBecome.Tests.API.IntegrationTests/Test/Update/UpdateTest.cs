@@ -136,5 +136,22 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.Update
             Assert.AreEqual(1, observedRouteEntries[RequirementType.Apprenticeship].EntryRequirements.Count);
             Assert.AreEqual(newEntryRequirementText, observedRouteEntries[RequirementType.Apprenticeship].EntryRequirements[0].Info);
         }
+
+        [Test]
+        public async Task Html_Registration_Apprenticeship()
+        {
+            string newEntryRequirementText = "new registration text for apprenticeship";
+            CommonAction commonAction = new CommonAction();
+            UpdateRegistration updateRegistration = commonAction.GenerateRegistrationUpdate(RegistrationId, JobProfileId, newEntryRequirementText);
+            await commonAction.UpdateRegistration(Topic, updateRegistration);
+            await Task.Delay(5000);
+            Response<HtmlDocument> howToBecomeResponse = await CommonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HowToSegment + CanonicalName);
+            
+            //START HERE!
+            
+            Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
+            Assert.AreEqual(1, observedRouteEntries[RequirementType.Apprenticeship].EntryRequirements.Count);
+            Assert.AreEqual(newEntryRequirementText, observedRouteEntries[RequirementType.Apprenticeship].EntryRequirements[0].Info);
+        }
     }
 }

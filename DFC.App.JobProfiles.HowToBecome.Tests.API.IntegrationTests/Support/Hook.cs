@@ -15,6 +15,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
         public Guid UniversityRouteRequirementId { get; set; }
         public Guid CollegeRouteRequirementId { get; set; }
         public Guid ApprenticeshipsRouteRequirementId { get; set; }
+        public Guid RegistrationId { get; set; }
         public string CanonicalName { get; set; }
         public RouteEntry UniversityRouteEntry { get; set; }
         public RouteEntry CollegeRouteEntry { get; set; }
@@ -28,6 +29,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             UniversityRouteRequirementId = Guid.NewGuid();
             CollegeRouteRequirementId = Guid.NewGuid();
             ApprenticeshipsRouteRequirementId = Guid.NewGuid();
+            RegistrationId = Guid.NewGuid();
             CanonicalName = CommonAction.RandomString(10).ToLower();
             CommonAction.InitialiseAppSettings();
             Topic = new Topic(Settings.ServiceBusConfig.Endpoint);
@@ -50,6 +52,9 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             UpdateRouteRequirement universityUpdateRouteRequirement = commonAction.GenerateRouteRequirementUpdate(UniversityRouteRequirementId, "Initial university value");
             universityUpdateRouteRequirement.JobProfileId = JobProfileId.ToString();
             await commonAction.UpdateRouteRequirement(Topic, universityUpdateRouteRequirement, RequirementType.University);
+
+            UpdateRegistration updateRegistration = commonAction.GenerateRegistrationUpdate(RegistrationId, JobProfileId, string.Empty);
+            await commonAction.UpdateRegistration(Topic, updateRegistration);
         }
 
         [OneTimeTearDown]

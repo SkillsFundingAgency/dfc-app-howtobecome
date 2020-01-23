@@ -70,6 +70,29 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             await topic.SendAsync(updateMessage);
         }
 
+        internal async Task UpdateRegistration(Topic topic, UpdateRegistration updateRegistration)
+        {
+            Message updateMessage = new Message();
+            updateMessage.ContentType = "application/json";
+            updateMessage.Body = ConvertObjectToByteArray(updateRegistration);
+            updateMessage.CorrelationId = Guid.NewGuid().ToString();
+            updateMessage.Label = "Automated route requirement message";
+            updateMessage.MessageId = updateRegistration.Id;
+            updateMessage.UserProperties.Add("Id", updateRegistration.JobProfileId);
+            updateMessage.UserProperties.Add("ActionType", "Published");
+            updateMessage.UserProperties.Add("CType", "Registration");
+            await topic.SendAsync(updateMessage);
+        }
+
+        internal UpdateRegistration GenerateRegistrationUpdate(Guid id, Guid jobProfileId, string info)
+        {
+            UpdateRegistration updateRegistration = ResourceManager.GetResource<UpdateRegistration>("UpdateRegistration");
+            updateRegistration.Id = id.ToString();
+            updateRegistration.JobProfileId = jobProfileId.ToString();
+            updateRegistration.Info = info;
+            return updateRegistration;
+        }
+
         private static byte[] ConvertObjectToByteArray(object obj)
         {
             string serialisedContent = JsonConvert.SerializeObject(obj);
