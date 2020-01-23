@@ -3,16 +3,16 @@ using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support;
 using HtmlAgilityPack;
 using NUnit.Framework;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.EnumLibrary;
 
-namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
+namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.Create
 {
-    public class Tests : Hook
+    public class CreateTest : Hook
     {
         [Test]
+        [Ignore("This is blocked until DFC-11547 has been fixed")]
         public async Task Json()
         {
             Response<HowToBecomeRouteEntry> howToBecomeRouteEntry = await CommonAction.ExecuteGetRequestWithJsonResponse<HowToBecomeRouteEntry>(Settings.APIConfig.EndpointBaseUrl.HowToSegment + CanonicalName);

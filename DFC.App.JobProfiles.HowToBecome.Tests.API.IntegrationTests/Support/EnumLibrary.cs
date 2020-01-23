@@ -6,7 +6,7 @@
         {
             University = 2,
             College = 1,
-            Apprentiships = 0
+            Apprenticeship = 0
         }
     }
 }

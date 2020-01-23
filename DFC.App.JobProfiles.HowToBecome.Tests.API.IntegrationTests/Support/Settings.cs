@@ -5,6 +5,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
     public class Settings
     {
         public static TimeSpan GracePeriod { get; set; }
+        public static string UpdatedRecordPrefix { get; set; }
 
         public class ServiceBusConfig
         {
