@@ -156,6 +156,44 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             return response;
         }
 
+        internal UpdateMoreInformationLink GenerateMoreInformationLinkUpdate(string id, Guid jobProfileId, string linkText)
+        {
+            UpdateMoreInformationLink updateMoreInformationLink = ResourceManager.GetResource<UpdateMoreInformationLink>("UpdateMoreInformationLinks");
+            updateMoreInformationLink.Id = id;
+            updateMoreInformationLink.JobProfileId = jobProfileId.ToString();
+            updateMoreInformationLink.Text = linkText;
+            return updateMoreInformationLink;
+        }
+
+        internal async Task UpdateMoreInformationLinks(Topic topic, UpdateMoreInformationLink updateMoreInformationLink, RequirementType requirementType)
+        {
+            Message updateMessage = new Message();
+            updateMessage.ContentType = "application/json";
+            updateMessage.Body = ConvertObjectToByteArray(updateMoreInformationLink);
+            updateMessage.CorrelationId = Guid.NewGuid().ToString();
+            updateMessage.Label = "Automated more information link message";
+            updateMessage.MessageId = updateMoreInformationLink.Id;
+            updateMessage.UserProperties.Add("Id", updateMoreInformationLink.JobProfileId);
+            updateMessage.UserProperties.Add("ActionType", "Published");
+
+            switch (requirementType)
+            {
+                case RequirementType.University:
+                    updateMessage.UserProperties.Add("CType", "UniversityLink");
+                    break;
+
+                case RequirementType.College:
+                    updateMessage.UserProperties.Add("CType", "CollegeLink");
+                    break;
+
+                case RequirementType.Apprenticeship:
+                    updateMessage.UserProperties.Add("CType", "ApprenticeshipLink");
+                    break;
+            }
+
+            await topic.SendAsync(updateMessage);
+        }
+
         internal async static Task<Response<HtmlDocument>> ExecuteGetRequestWithHtmlResponse(string endpoint, bool AuthoriseRequest = true)
         {
             GetRequest getRequest = new GetRequest(endpoint, ContentType.Html);
@@ -185,6 +223,44 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
         {
             EntryRequirement entryRequirement = CreateEntryRequirement(entryRequirementInformation);
             routeEntry.EntryRequirements.Add(entryRequirement);
+        }
+
+        internal async Task UpdateEntryRequirement(Topic topic, UpdateEntryRequirement updateEntryRequirement, RequirementType requirementType)
+        {
+            Message updateMessage = new Message();
+            updateMessage.ContentType = "application/json";
+            updateMessage.Body = ConvertObjectToByteArray(updateEntryRequirement);
+            updateMessage.CorrelationId = Guid.NewGuid().ToString();
+            updateMessage.Label = "Automated entry requirement message";
+            updateMessage.MessageId = updateEntryRequirement.Id;
+            updateMessage.UserProperties.Add("Id", updateEntryRequirement.JobProfileId);
+            updateMessage.UserProperties.Add("ActionType", "Published");
+
+            switch (requirementType)
+            {
+                case RequirementType.University:
+                    updateMessage.UserProperties.Add("CType", "UniversityRequirement");
+                    break;
+
+                case RequirementType.College:
+                    updateMessage.UserProperties.Add("CType", "CollegeRequirement");
+                    break;
+
+                case RequirementType.Apprenticeship:
+                    updateMessage.UserProperties.Add("CType", "ApprenticeshipRequirement");
+                    break;
+            }
+
+            await topic.SendAsync(updateMessage);
+        }
+
+        internal UpdateEntryRequirement GenerateEntryRequirementUpdate(string id, Guid jobProfileId, string info)
+        {
+            UpdateEntryRequirement updateEntryRequirement = ResourceManager.GetResource<UpdateEntryRequirement>("UpdateEntryRequirement");
+            updateEntryRequirement.Id = id.ToString();
+            updateEntryRequirement.JobProfileId = jobProfileId.ToString();
+            updateEntryRequirement.Info = info;
+            return updateEntryRequirement;
         }
 
         private EntryRequirement CreateEntryRequirement(string requirementInformation)
@@ -236,11 +312,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             RouteEntry routeEntry = ResourceManager.GetResource<RouteEntry>("HowToBecomeRouteEntry");
             routeEntry.RouteName = (int)requirementType;
             AddEntryRequirementToRouteEntry("Requirement one", routeEntry);
-            AddEntryRequirementToRouteEntry("Requirement two", routeEntry);
-            AddEntryRequirementToRouteEntry("Requirement three", routeEntry);
             AddMoreInformationLinkToRouteEntry("More information link one", routeEntry);
-            AddMoreInformationLinkToRouteEntry("More information link two", routeEntry);
-            AddMoreInformationLinkToRouteEntry("More information link three", routeEntry);
             routeEntry.RouteSubjects = $"<div id='{htmlId}'><p>This is a paragraph for route subjects.</p><ul><li>Listed item</li></ul></div>";
             routeEntry.FurtherRouteInformation = "<p id='furtherRouteInformation'>Automated further information</p>";
             routeEntry.RouteRequirement = "";
@@ -299,13 +371,9 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
                 HtmlNodeCollection entryRequirementsList = response.Data.DocumentNode.SelectNodes($"{xpathPrefix}//ul[@class='list-reqs']//li");
                 routeEntries[requirementType].EntryRequirements = new List<EntryRequirement>();
                 routeEntries[requirementType].EntryRequirements.Add(new EntryRequirement() { Info = entryRequirementsList[0].InnerText });
-                routeEntries[requirementType].EntryRequirements.Add(new EntryRequirement() { Info = entryRequirementsList[1].InnerText });
-                routeEntries[requirementType].EntryRequirements.Add(new EntryRequirement() { Info = entryRequirementsList[2].InnerText });
                 HtmlNodeCollection moreInformationLinkList = response.Data.DocumentNode.SelectNodes($"{xpathPrefix}//ul[@class='list-link']//li");
                 routeEntries[requirementType].MoreInformationLinks = new List<MoreInformationLink>();
                 routeEntries[requirementType].MoreInformationLinks.Add(new MoreInformationLink() { Text = moreInformationLinkList[0].InnerText });
-                routeEntries[requirementType].MoreInformationLinks.Add(new MoreInformationLink() { Text = moreInformationLinkList[1].InnerText });
-                routeEntries[requirementType].MoreInformationLinks.Add(new MoreInformationLink() { Text = moreInformationLinkList[2].InnerText });
             }
 
             return routeEntries;
