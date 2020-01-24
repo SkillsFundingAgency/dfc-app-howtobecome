@@ -21,14 +21,14 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
     {
         private static Random Random = new Random();
 
-        internal static string RandomString(int length)
+        internal string RandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             return new string(Enumerable.Repeat(chars, length)
               .Select(s => s[Random.Next(s.Length)]).ToArray());
         }
 
-        internal static void InitialiseAppSettings()
+        internal void InitialiseAppSettings()
         {
             IConfigurationRoot Configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).Build();
             Settings.ServiceBusConfig.Endpoint = Configuration.GetSection("ServiceBusConfig").GetSection("Endpoint").Value;
@@ -166,7 +166,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             await topic.SendAsync(message);
         }
 
-        internal async static Task<Response<T>> ExecuteGetRequestWithJsonResponse<T>(string endpoint, bool AuthoriseRequest = true)
+        internal async Task<Response<T>> ExecuteGetRequestWithJsonResponse<T>(string endpoint, bool AuthoriseRequest = true)
         {
             GetRequest getRequest = new GetRequest(endpoint, ContentType.Json);
             getRequest.AddVersionHeader(Settings.APIConfig.Version);
@@ -229,7 +229,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             await topic.SendAsync(updateMessage);
         }
 
-        internal async static Task<Response<HtmlDocument>> ExecuteGetRequestWithHtmlResponse(string endpoint, bool AuthoriseRequest = true)
+        internal async Task<Response<HtmlDocument>> ExecuteGetRequestWithHtmlResponse(string endpoint, bool AuthoriseRequest = true)
         {
             GetRequest getRequest = new GetRequest(endpoint, ContentType.Html);
             getRequest.AddVersionHeader(Settings.APIConfig.Version);

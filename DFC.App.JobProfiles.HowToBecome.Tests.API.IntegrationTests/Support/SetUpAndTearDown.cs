@@ -8,7 +8,7 @@ using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
-    public class Hook
+    public class SetUpAndTearDown
     {
         public Topic Topic { get; set; }
         public Guid JobProfileId { get; set; }
@@ -30,8 +30,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             CollegeRouteRequirementId = Guid.NewGuid();
             ApprenticeshipsRouteRequirementId = Guid.NewGuid();
             RegistrationId = Guid.NewGuid();
-            CanonicalName = CommonAction.RandomString(10).ToLower();
-            CommonAction.InitialiseAppSettings();
+            CanonicalName = commonAction.RandomString(10).ToLower();
+            commonAction.InitialiseAppSettings();
             Topic = new Topic(Settings.ServiceBusConfig.Endpoint);
 
             UniversityRouteEntry = commonAction.CreateARouteEntry(RequirementType.University);
