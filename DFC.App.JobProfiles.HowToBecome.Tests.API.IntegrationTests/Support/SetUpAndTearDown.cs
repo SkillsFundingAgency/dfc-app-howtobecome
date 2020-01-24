@@ -10,6 +10,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
     public class SetUpAndTearDown
     {
+        internal CommonAction CommonAction { get; } = new CommonAction();
         public Topic Topic { get; set; }
         public Guid JobProfileId { get; set; }
         public Guid UniversityRouteRequirementId { get; set; }
@@ -24,37 +25,36 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
         [OneTimeSetUp]
         public async Task OneTimeSetUp()
         {
-            CommonAction commonAction = new CommonAction();
             JobProfileId = Guid.NewGuid();
             UniversityRouteRequirementId = Guid.NewGuid();
             CollegeRouteRequirementId = Guid.NewGuid();
             ApprenticeshipsRouteRequirementId = Guid.NewGuid();
             RegistrationId = Guid.NewGuid();
-            CanonicalName = commonAction.RandomString(10).ToLower();
-            commonAction.InitialiseAppSettings();
+            CanonicalName = CommonAction.RandomString(10).ToLower();
+            CommonAction.InitialiseAppSettings();
             Topic = new Topic(Settings.ServiceBusConfig.Endpoint);
 
-            UniversityRouteEntry = commonAction.CreateARouteEntry(RequirementType.University);
-            CollegeRouteEntry = commonAction.CreateARouteEntry(RequirementType.College);
-            ApprenticeshipRouteEntry = commonAction.CreateARouteEntry(RequirementType.Apprenticeship);
+            UniversityRouteEntry = CommonAction.CreateARouteEntry(RequirementType.University);
+            CollegeRouteEntry = CommonAction.CreateARouteEntry(RequirementType.College);
+            ApprenticeshipRouteEntry = CommonAction.CreateARouteEntry(RequirementType.Apprenticeship);
 
             await CommonAction.CreateJobProfile(Topic, JobProfileId, RegistrationId, CanonicalName, new List<RouteEntry>() { UniversityRouteEntry, CollegeRouteEntry, ApprenticeshipRouteEntry });
             await Task.Delay(5000);
 
-            UpdateRouteRequirement collegeUpdateRouteRequirement = commonAction.GenerateRouteRequirementUpdate(CollegeRouteRequirementId, "Initial college value");
+            UpdateRouteRequirement collegeUpdateRouteRequirement = CommonAction.GenerateRouteRequirementUpdate(CollegeRouteRequirementId, "Initial college value");
             collegeUpdateRouteRequirement.JobProfileId = JobProfileId.ToString();
-            await commonAction.UpdateRouteRequirement(Topic, collegeUpdateRouteRequirement, RequirementType.College);
+            await CommonAction.UpdateRouteRequirement(Topic, collegeUpdateRouteRequirement, RequirementType.College);
 
-            UpdateRouteRequirement apprenticeshipsUpdateRouteRequirement = commonAction.GenerateRouteRequirementUpdate(ApprenticeshipsRouteRequirementId, "Initial apprenticeship value");
+            UpdateRouteRequirement apprenticeshipsUpdateRouteRequirement = CommonAction.GenerateRouteRequirementUpdate(ApprenticeshipsRouteRequirementId, "Initial apprenticeship value");
             apprenticeshipsUpdateRouteRequirement.JobProfileId = JobProfileId.ToString();
-            await commonAction.UpdateRouteRequirement(Topic, apprenticeshipsUpdateRouteRequirement, RequirementType.Apprenticeship);
+            await CommonAction.UpdateRouteRequirement(Topic, apprenticeshipsUpdateRouteRequirement, RequirementType.Apprenticeship);
 
-            UpdateRouteRequirement universityUpdateRouteRequirement = commonAction.GenerateRouteRequirementUpdate(UniversityRouteRequirementId, "Initial university value");
+            UpdateRouteRequirement universityUpdateRouteRequirement = CommonAction.GenerateRouteRequirementUpdate(UniversityRouteRequirementId, "Initial university value");
             universityUpdateRouteRequirement.JobProfileId = JobProfileId.ToString();
-            await commonAction.UpdateRouteRequirement(Topic, universityUpdateRouteRequirement, RequirementType.University);
+            await CommonAction.UpdateRouteRequirement(Topic, universityUpdateRouteRequirement, RequirementType.University);
 
-            UpdateRegistration updateRegistration = commonAction.GenerateRegistrationUpdate(RegistrationId, JobProfileId, "<p>Initial registration text</p>");
-            await commonAction.UpdateRegistration(Topic, updateRegistration);
+            UpdateRegistration updateRegistration = CommonAction.GenerateRegistrationUpdate(RegistrationId, JobProfileId, "<p>Initial registration text</p>");
+            await CommonAction.UpdateRegistration(Topic, updateRegistration);
         }
 
         [OneTimeTearDown]
