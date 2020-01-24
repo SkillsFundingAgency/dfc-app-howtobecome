@@ -76,7 +76,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             updateMessage.ContentType = "application/json";
             updateMessage.Body = ConvertObjectToByteArray(updateRegistration);
             updateMessage.CorrelationId = Guid.NewGuid().ToString();
-            updateMessage.Label = "Automated route requirement message";
+            updateMessage.Label = "Automated registration message";
             updateMessage.MessageId = updateRegistration.Id;
             updateMessage.UserProperties.Add("Id", updateRegistration.JobProfileId);
             updateMessage.UserProperties.Add("ActionType", "Published");
@@ -127,7 +127,18 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 
         internal async static Task UpdateJobProfileWithId(Topic topic, Guid messageId, string canonicalName, RouteEntry[] routeEntries)
         {
-            await CreateJobProfile(topic, messageId, canonicalName, routeEntries.ToList());
+            JobProfileCreateMessageBody messageBody = ResourceManager.GetResource<JobProfileCreateMessageBody>("JobProfileCreateMessageBody");
+
+            foreach (RouteEntry routeEntry in routeEntries)
+            {
+                messageBody.HowToBecomeData.RouteEntries.Add(routeEntry);
+            }
+
+            messageBody.JobProfileId = messageId.ToString();
+            messageBody.UrlName = canonicalName;
+            messageBody.CanonicalName = canonicalName;
+            Message message = CreateCreateMessage(messageId, ConvertObjectToByteArray(messageBody));
+            await topic.SendAsync(message);
         }
 
         internal async static Task DeleteJobProfileWithId(Topic topic, Guid jobProfileId)
@@ -138,10 +149,11 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             await topic.SendAsync(deleteMessage);
         }
 
-        internal async static Task CreateJobProfile(Topic topic, Guid messageId, string canonicalName, List<RouteEntry> routeEntries)
+        internal async static Task CreateJobProfile(Topic topic, Guid messageId, Guid registrationId, string canonicalName, List<RouteEntry> routeEntries)
         {
             JobProfileCreateMessageBody messageBody = ResourceManager.GetResource<JobProfileCreateMessageBody>("JobProfileCreateMessageBody");
-            
+            messageBody.HowToBecomeData.Registrations[0].Id = registrationId.ToString();
+
             foreach(RouteEntry routeEntry in routeEntries)
             {
                 messageBody.HowToBecomeData.RouteEntries.Add(routeEntry);

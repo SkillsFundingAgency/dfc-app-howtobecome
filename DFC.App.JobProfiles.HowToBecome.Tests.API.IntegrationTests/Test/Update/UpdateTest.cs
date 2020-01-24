@@ -140,18 +140,14 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.Update
         [Test]
         public async Task Html_Registration_Apprenticeship()
         {
-            string newEntryRequirementText = "new registration text for apprenticeship";
+            string newRegistrationValue = "<p>new registration text for apprenticeship</p>";
             CommonAction commonAction = new CommonAction();
-            UpdateRegistration updateRegistration = commonAction.GenerateRegistrationUpdate(RegistrationId, JobProfileId, newEntryRequirementText);
+            UpdateRegistration updateRegistration = commonAction.GenerateRegistrationUpdate(RegistrationId, JobProfileId, newRegistrationValue);
             await commonAction.UpdateRegistration(Topic, updateRegistration);
             await Task.Delay(5000);
             Response<HtmlDocument> howToBecomeResponse = await CommonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HowToSegment + CanonicalName);
-            
-            //START HERE!
-            
-            Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
-            Assert.AreEqual(1, observedRouteEntries[RequirementType.Apprenticeship].EntryRequirements.Count);
-            Assert.AreEqual(newEntryRequirementText, observedRouteEntries[RequirementType.Apprenticeship].EntryRequirements[0].Info);
+            string observedRegistrationValue = howToBecomeResponse.Data.DocumentNode.SelectSingleNode("//section[@id='moreinfo']/div[@class='job-profile-subsection-content']/ul/li").InnerHtml;
+            Assert.AreEqual(newRegistrationValue, observedRegistrationValue);
         }
     }
 }
