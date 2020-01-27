@@ -7,7 +7,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
     internal partial class CommonAction : IServiceBusSupport
     {
-        public Message CreateServiceBusMessage(Guid messageId, byte[] messageBody, EnumLibrary.ContentType contentType, ActionType actionType, CType ctype)
+        public Message CreateServiceBusMessage(Guid messageId, byte[] messageBody, ContentType contentType, ActionType actionType, CType ctype)
         {
             Message message = new Message();
             message.ContentType = GetDescription(contentType);
@@ -20,6 +20,5 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             message.UserProperties.Add("CType", ctype.ToString());
             return message;
         }
-
     }
 }

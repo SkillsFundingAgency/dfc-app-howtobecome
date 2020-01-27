@@ -30,6 +30,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             CollegeRouteRequirementId = Guid.NewGuid();
             ApprenticeshipsRouteRequirementId = Guid.NewGuid();
             RegistrationId = Guid.NewGuid();
+
             CanonicalName = CommonAction.RandomString(10).ToLower();
             CommonAction.InitialiseAppSettings();
             Topic = new Topic(Settings.ServiceBusConfig.Endpoint);
@@ -38,7 +39,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             CollegeRouteEntry = CommonAction.CreateARouteEntry(RequirementType.College);
             ApprenticeshipRouteEntry = CommonAction.CreateARouteEntry(RequirementType.Apprenticeship);
 
-            await CommonAction.CreateJobProfile(Topic, JobProfileId, RegistrationId, CanonicalName, new List<RouteEntry>() { UniversityRouteEntry, CollegeRouteEntry, ApprenticeshipRouteEntry });
+            await CommonAction.CreateJobProfileWithRouteEntries(Topic, JobProfileId, RegistrationId, CanonicalName, new List<RouteEntry>() { UniversityRouteEntry, CollegeRouteEntry, ApprenticeshipRouteEntry });
             await Task.Delay(5000);
 
             UpdateRouteRequirement collegeUpdateRouteRequirement = CommonAction.GenerateRouteRequirementUpdate(CollegeRouteRequirementId, "Initial college value");

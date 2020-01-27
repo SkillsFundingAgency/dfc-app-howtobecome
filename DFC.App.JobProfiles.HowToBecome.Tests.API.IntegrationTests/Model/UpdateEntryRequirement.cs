@@ -1,6 +1,6 @@
 ﻿namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model
 {
-    public class UpdateEntryRequirement
+    public class EntryRequirementMessageBody
     {
         public string Info { get; set; }
         public string Title { get; set; }

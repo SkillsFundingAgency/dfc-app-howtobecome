@@ -3,19 +3,9 @@ using DFC.Api.JobProfiles.Common.AzureServiceBusSupport;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.Interface;
 using HtmlAgilityPack;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
-using static DFC.Api.JobProfiles.Common.APISupport.GetRequest;
 using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.EnumLibrary;
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
@@ -65,31 +55,6 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             await topic.SendAsync(updateMessage);
         }
 
-        public UpdateRegistration GenerateRegistrationUpdate(Guid id, Guid jobProfileId, string info)
-        {
-            UpdateRegistration updateRegistration = ResourceManager.GetResource<UpdateRegistration>("UpdateRegistration");
-            updateRegistration.Id = id.ToString();
-            updateRegistration.JobProfileId = jobProfileId.ToString();
-            updateRegistration.Info = info;
-            return updateRegistration;
-        }
-
-        public async Task UpdateJobProfileWithId(Topic topic, Guid messageId, string canonicalName, RouteEntry[] routeEntries)
-        {
-            JobProfileCreateMessageBody messageBody = ResourceManager.GetResource<JobProfileCreateMessageBody>("JobProfileCreateMessageBody");
-
-            foreach (RouteEntry routeEntry in routeEntries)
-            {
-                messageBody.HowToBecomeData.RouteEntries.Add(routeEntry);
-            }
-
-            messageBody.JobProfileId = messageId.ToString();
-            messageBody.UrlName = canonicalName;
-            messageBody.CanonicalName = canonicalName;
-            Message message = CreateServiceBusMessage(messageId, ConvertObjectToByteArray(messageBody), EnumLibrary.ContentType.JSON, ActionType.Published, CType.JobProfile);
-            await topic.SendAsync(message);
-        }
-
         public async Task DeleteJobProfileWithId(Topic topic, Guid jobProfileId)
         {
             JobProfileDeleteMessageBody messageBody = ResourceManager.GetResource<JobProfileDeleteMessageBody>("JobProfileDeleteMessageBody");
@@ -98,7 +63,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             await topic.SendAsync(deleteMessage);
         }
 
-        public async Task CreateJobProfile(Topic topic, Guid messageId, Guid registrationId, string canonicalName, List<RouteEntry> routeEntries)
+        public async Task CreateJobProfileWithRouteEntries(Topic topic, Guid messageId, Guid registrationId, string canonicalName, List<RouteEntry> routeEntries)
         {
             JobProfileCreateMessageBody messageBody = ResourceManager.GetResource<JobProfileCreateMessageBody>("JobProfileCreateMessageBody");
             messageBody.HowToBecomeData.Registrations[0].Id = registrationId.ToString();
@@ -115,16 +80,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             await topic.SendAsync(message);
         }
 
-        public UpdateMoreInformationLink GenerateMoreInformationLinkUpdate(string id, Guid jobProfileId, string linkText)
-        {
-            UpdateMoreInformationLink updateMoreInformationLink = ResourceManager.GetResource<UpdateMoreInformationLink>("UpdateMoreInformationLinks");
-            updateMoreInformationLink.Id = id;
-            updateMoreInformationLink.JobProfileId = jobProfileId.ToString();
-            updateMoreInformationLink.Text = linkText;
-            return updateMoreInformationLink;
-        }
-
-        public async Task UpdateMoreInformationLinks(Topic topic, UpdateMoreInformationLink updateMoreInformationLink, RequirementType requirementType)
+        public async Task UpdateMoreInformationLinksForRequirementType(Topic topic, UpdateMoreInformationLink updateMoreInformationLink, RequirementType requirementType)
         {
             Message updateMessage = new Message();
             updateMessage.ContentType = "application/json";
@@ -153,13 +109,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             await topic.SendAsync(updateMessage);
         }
 
-        public void AddEntryRequirementToRouteEntry(string entryRequirementInformation, RouteEntry routeEntry)
-        {
-            EntryRequirement entryRequirement = CreateEntryRequirement(entryRequirementInformation);
-            routeEntry.EntryRequirements.Add(entryRequirement);
-        }
-
-        public async Task UpdateEntryRequirement(Topic topic, UpdateEntryRequirement updateEntryRequirement, RequirementType requirementType)
+        public async Task UpdateEntryRequirementForRequirementType(Topic topic, EntryRequirementMessageBody updateEntryRequirement, RequirementType requirementType)
         {
             Message updateMessage = new Message();
             updateMessage.ContentType = "application/json";
@@ -188,9 +138,9 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             await topic.SendAsync(updateMessage);
         }
 
-        public UpdateEntryRequirement GenerateEntryRequirementUpdate(string id, Guid jobProfileId, string info)
+        public EntryRequirementMessageBody CreateEntryRequirementMessageBody(string id, Guid jobProfileId, string info)
         {
-            UpdateEntryRequirement updateEntryRequirement = ResourceManager.GetResource<UpdateEntryRequirement>("UpdateEntryRequirement");
+            EntryRequirementMessageBody updateEntryRequirement = ResourceManager.GetResource<EntryRequirementMessageBody>("UpdateEntryRequirement");
             updateEntryRequirement.Id = id.ToString();
             updateEntryRequirement.JobProfileId = jobProfileId.ToString();
             updateEntryRequirement.Info = info;
@@ -204,6 +154,30 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             entryRequirement.Title = "New entry requirement";
             entryRequirement.Info = requirementInformation;
             return entryRequirement;
+        }
+
+        public void AddEntryRequirementToRouteEntry(string entryRequirementInformation, RouteEntry routeEntry)
+        {
+            EntryRequirement entryRequirement = CreateEntryRequirement(entryRequirementInformation);
+            routeEntry.EntryRequirements.Add(entryRequirement);
+        }
+
+        public UpdateRegistration GenerateRegistrationUpdate(Guid id, Guid jobProfileId, string info)
+        {
+            UpdateRegistration updateRegistration = ResourceManager.GetResource<UpdateRegistration>("UpdateRegistration");
+            updateRegistration.Id = id.ToString();
+            updateRegistration.JobProfileId = jobProfileId.ToString();
+            updateRegistration.Info = info;
+            return updateRegistration;
+        }
+
+        public UpdateMoreInformationLink GenerateMoreInformationLinkUpdate(string id, Guid jobProfileId, string linkText)
+        {
+            UpdateMoreInformationLink updateMoreInformationLink = ResourceManager.GetResource<UpdateMoreInformationLink>("UpdateMoreInformationLinks");
+            updateMoreInformationLink.Id = id;
+            updateMoreInformationLink.JobProfileId = jobProfileId.ToString();
+            updateMoreInformationLink.Text = linkText;
+            return updateMoreInformationLink;
         }
 
         public void AddMoreInformationLinkToRouteEntry(string linkText, RouteEntry routeEntry)
@@ -312,35 +286,6 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             }
 
             return routeEntries;
-        }
-
-        public RouteEntry UpdateRouteEntryWithPrefix(RouteEntry routeEntry, string prefix)
-        {
-            routeEntry.RouteSubjects = UpdateRouteSubjectsStringWithPrefix(routeEntry.RouteSubjects, prefix);
-            routeEntry.FurtherRouteInformation = UpdateFurtherInformationStringWithPrefix(routeEntry.FurtherRouteInformation, prefix);
-            routeEntry.RouteRequirement = $"{prefix} {routeEntry.RouteRequirement}";
-
-            foreach (EntryRequirement entryRequirement in routeEntry.EntryRequirements)
-            {
-                entryRequirement.Info = $"{prefix} {entryRequirement.Info}";
-            }
-
-            foreach (MoreInformationLink moreInformtionLink in routeEntry.MoreInformationLinks)
-            {
-                moreInformtionLink.Text = $"{prefix} {moreInformtionLink.Text}";
-            }
-
-            return routeEntry;
-        }
-
-        public string UpdateRouteSubjectsStringWithPrefix(string routeSubjects, string prefix)
-        {
-            return $"{routeSubjects.Split("<p>")[0]} <p>{prefix} {routeSubjects.Split("<p>")[1]}";
-        }
-
-        public string UpdateFurtherInformationStringWithPrefix(string routeSubjects, string prefix)
-        {
-            return $"{routeSubjects.Split("'>")[0]}'>{prefix} {routeSubjects.Split("'>")[1]}";
         }
 
         public UpdateRouteRequirement GenerateRouteRequirementUpdate(Guid id, string title)

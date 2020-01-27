@@ -17,7 +17,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.HTML.U
             string newLinkText = "new more information link text for apprenticeships";
             CommonAction commonAction = new CommonAction();
             UpdateMoreInformationLink updateMoreInformationLink = commonAction.GenerateMoreInformationLinkUpdate(ApprenticeshipRouteEntry.MoreInformationLinks[0].Id, JobProfileId, newLinkText);
-            await commonAction.UpdateMoreInformationLinks(Topic, updateMoreInformationLink, RequirementType.Apprenticeship);
+            await commonAction.UpdateMoreInformationLinksForRequirementType(Topic, updateMoreInformationLink, RequirementType.Apprenticeship);
             await Task.Delay(5000);
             Response<HtmlDocument> howToBecomeResponse = await commonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HowToSegment + CanonicalName);
             Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
@@ -31,7 +31,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.HTML.U
             string newLinkText = "new more information link text for college";
             CommonAction commonAction = new CommonAction();
             UpdateMoreInformationLink updateMoreInformationLink = commonAction.GenerateMoreInformationLinkUpdate(CollegeRouteEntry.MoreInformationLinks[0].Id, JobProfileId, newLinkText);
-            await commonAction.UpdateMoreInformationLinks(Topic, updateMoreInformationLink, RequirementType.College);
+            await commonAction.UpdateMoreInformationLinksForRequirementType(Topic, updateMoreInformationLink, RequirementType.College);
             await Task.Delay(5000);
             Response<HtmlDocument> howToBecomeResponse = await commonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HowToSegment + CanonicalName);
             Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
@@ -45,7 +45,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.HTML.U
             string newLinkText = "new more information link text for apprenticeships";
             CommonAction commonAction = new CommonAction();
             UpdateMoreInformationLink updateMoreInformationLink = commonAction.GenerateMoreInformationLinkUpdate(UniversityRouteEntry.MoreInformationLinks[0].Id, JobProfileId, newLinkText);
-            await commonAction.UpdateMoreInformationLinks(Topic, updateMoreInformationLink, RequirementType.University);
+            await commonAction.UpdateMoreInformationLinksForRequirementType(Topic, updateMoreInformationLink, RequirementType.University);
             await Task.Delay(5000);
             Response<HtmlDocument> howToBecomeResponse = await commonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HowToSegment + CanonicalName);
             Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);

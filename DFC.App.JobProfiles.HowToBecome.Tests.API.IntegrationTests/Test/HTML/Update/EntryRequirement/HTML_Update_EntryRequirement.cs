@@ -15,12 +15,11 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.HTML.U
         public async Task HTML_Update_EntryRequirement_University()
         {
             string newEntryRequirementText = "new entry requirement text for university";
-            CommonAction commonAction = new CommonAction();
-            UpdateEntryRequirement updateEntryRequirement = commonAction.GenerateEntryRequirementUpdate(UniversityRouteEntry.EntryRequirements[0].Id, JobProfileId, newEntryRequirementText);
-            await commonAction.UpdateEntryRequirement(Topic, updateEntryRequirement, RequirementType.University);
+            EntryRequirementMessageBody EntryRequirementMessageBody = CommonAction.CreateEntryRequirementMessageBody(UniversityRouteEntry.EntryRequirements[0].Id, JobProfileId, newEntryRequirementText);
+            await CommonAction.UpdateEntryRequirementForRequirementType(Topic, EntryRequirementMessageBody, RequirementType.University);
             await Task.Delay(5000);
-            Response<HtmlDocument> howToBecomeResponse = await commonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HowToSegment + CanonicalName);
-            Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
+            Response<HtmlDocument> howToBecomeResponse = await CommonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HowToSegment + CanonicalName);
+            Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = CommonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
             Assert.AreEqual(1, observedRouteEntries[RequirementType.University].EntryRequirements.Count);
             Assert.AreEqual(newEntryRequirementText, observedRouteEntries[RequirementType.University].EntryRequirements[0].Info);
         }
@@ -30,8 +29,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.HTML.U
         {
             string newEntryRequirementText = "new entry requirement text for college";
             CommonAction commonAction = new CommonAction();
-            UpdateEntryRequirement updateEntryRequirement = commonAction.GenerateEntryRequirementUpdate(CollegeRouteEntry.EntryRequirements[0].Id, JobProfileId, newEntryRequirementText);
-            await commonAction.UpdateEntryRequirement(Topic, updateEntryRequirement, RequirementType.College);
+            EntryRequirementMessageBody updateEntryRequirement = commonAction.CreateEntryRequirementMessageBody(CollegeRouteEntry.EntryRequirements[0].Id, JobProfileId, newEntryRequirementText);
+            await commonAction.UpdateEntryRequirementForRequirementType(Topic, updateEntryRequirement, RequirementType.College);
             await Task.Delay(5000);
             Response<HtmlDocument> howToBecomeResponse = await commonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HowToSegment + CanonicalName);
             Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
@@ -44,8 +43,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.HTML.U
         {
             string newEntryRequirementText = "new entry requirement text for apprenticeship";
             CommonAction commonAction = new CommonAction();
-            UpdateEntryRequirement updateEntryRequirement = commonAction.GenerateEntryRequirementUpdate(ApprenticeshipRouteEntry.EntryRequirements[0].Id, JobProfileId, newEntryRequirementText);
-            await commonAction.UpdateEntryRequirement(Topic, updateEntryRequirement, RequirementType.Apprenticeship);
+            EntryRequirementMessageBody updateEntryRequirement = commonAction.CreateEntryRequirementMessageBody(ApprenticeshipRouteEntry.EntryRequirements[0].Id, JobProfileId, newEntryRequirementText);
+            await commonAction.UpdateEntryRequirementForRequirementType(Topic, updateEntryRequirement, RequirementType.Apprenticeship);
             await Task.Delay(5000);
             Response<HtmlDocument> howToBecomeResponse = await commonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HowToSegment + CanonicalName);
             Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
