@@ -17,7 +17,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.HTML.U
             UpdateRegistration updateRegistration = commonAction.GenerateRegistrationUpdate(RegistrationId, JobProfileId, newRegistrationValue);
             await commonAction.UpdateRegistration(Topic, updateRegistration);
             await Task.Delay(5000);
-            Response<HtmlDocument> howToBecomeResponse = await commonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HowToSegment + CanonicalName);
+            Response<HtmlDocument> howToBecomeResponse = await commonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HTMLContent.Replace("{canonicalName}", CanonicalName));
             string observedRegistrationValue = howToBecomeResponse.Data.DocumentNode.SelectSingleNode("//section[@id='moreinfo']/div[@class='job-profile-subsection-content']/ul/li").InnerHtml;
             Assert.AreEqual(newRegistrationValue, observedRegistrationValue);
         }

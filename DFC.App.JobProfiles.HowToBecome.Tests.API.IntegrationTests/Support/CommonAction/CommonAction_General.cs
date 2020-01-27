@@ -27,8 +27,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             Settings.ServiceBusConfig.Endpoint = Configuration.GetSection("ServiceBusConfig").GetSection("Endpoint").Value;
             Settings.APIConfig.Version = Configuration.GetSection("APIConfig").GetSection("Version").Value;
             Settings.APIConfig.ApimSubscriptionKey = Configuration.GetSection("APIConfig").GetSection("ApimSubscriptionKey").Value;
-            Settings.APIConfig.EndpointBaseUrl.ProfileDetail = Configuration.GetSection("APIConfig").GetSection("EndpointBaseUrl").GetSection("ProfileDetail").Value;
-            Settings.APIConfig.EndpointBaseUrl.HowToSegment = Configuration.GetSection("APIConfig").GetSection("EndpointBaseUrl").GetSection("HowToSegment").Value;
+            Settings.APIConfig.EndpointBaseUrl.HTMLContent = Configuration.GetSection("APIConfig").GetSection("EndpointBaseUrl").GetSection("HTMLContent").Value;
+            Settings.APIConfig.EndpointBaseUrl.JSONContent = Configuration.GetSection("APIConfig").GetSection("EndpointBaseUrl").GetSection("JSONContent").Value;
             if (!int.TryParse(Configuration.GetSection("GracePeriodInSeconds").Value, out int gracePeriodInSeconds)) { throw new InvalidCastException("Unable to retrieve an integer value for the grace period setting"); }
             Settings.GracePeriod = TimeSpan.FromSeconds(gracePeriodInSeconds);
             Settings.UpdatedRecordPrefix = Configuration.GetSection("UpdatedRecordPrefix").Value;

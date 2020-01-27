@@ -21,8 +21,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 
         public class EndpointBaseUrl
         {
-            public string ProfileDetail { get; set; }
-            public string HowToSegment { get; set; }
+            public string HTMLContent { get; set; }
+            public string JSONContent { get; set; }
         }
     }
 }
