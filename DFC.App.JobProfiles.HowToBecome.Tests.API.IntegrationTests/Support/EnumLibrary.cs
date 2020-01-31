@@ -4,7 +4,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
     internal class EnumLibrary
     {
-        public enum RequirementType
+        public enum RouteEntryType
         {
             University = 2,
             College = 1,

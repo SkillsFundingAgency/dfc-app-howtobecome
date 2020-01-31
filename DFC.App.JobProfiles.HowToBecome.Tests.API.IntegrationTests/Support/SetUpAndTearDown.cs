@@ -1,8 +1,6 @@
 ﻿using DFC.Api.JobProfiles.Common.AzureServiceBusSupport;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.EnumLibrary;
 
@@ -10,49 +8,44 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
     public class SetUpAndTearDown
     {
+        internal JobProfileCreateMessageBody JobProfile { get; set; }
         internal CommonAction CommonAction { get; } = new CommonAction();
-        public Topic Topic { get; set; }
-        public Guid JobProfileId { get; set; }
-        public Guid UniversityRouteRequirementId { get; set; }
-        public Guid CollegeRouteRequirementId { get; set; }
-        public Guid ApprenticeshipsRouteRequirementId { get; set; }
-        public Guid RegistrationId { get; set; }
-        public string CanonicalName { get; set; }
-        public RouteEntry UniversityRouteEntry { get; set; }
-        public RouteEntry CollegeRouteEntry { get; set; }
-        public RouteEntry ApprenticeshipRouteEntry { get; set; }
+        internal Topic Topic { get; set; }
 
         [OneTimeSetUp]
         public async Task OneTimeSetUp()
         {
-            JobProfileId = Guid.NewGuid();
-            UniversityRouteRequirementId = Guid.NewGuid();
-            CollegeRouteRequirementId = Guid.NewGuid();
-            ApprenticeshipsRouteRequirementId = Guid.NewGuid();
-            RegistrationId = Guid.NewGuid();
-
-            CanonicalName = CommonAction.RandomString(10).ToLower();
             CommonAction.InitialiseAppSettings();
             Topic = new Topic(Settings.ServiceBusConfig.Endpoint);
 
-            UniversityRouteEntry = CommonAction.CreateARouteEntry(RequirementType.University);
-            CollegeRouteEntry = CommonAction.CreateARouteEntry(RequirementType.College);
-            ApprenticeshipRouteEntry = CommonAction.CreateARouteEntry(RequirementType.Apprenticeship);
+            JobProfile = CommonAction.GenerateJobProfileContentType();
 
-            await CommonAction.CreateJobProfileWithRouteEntries(Topic, JobProfileId, RegistrationId, CanonicalName, new List<RouteEntry>() { UniversityRouteEntry, CollegeRouteEntry, ApprenticeshipRouteEntry });
-            await Task.Delay(5000);
+            RouteEntry universityRouteEntry = CommonAction.GenerateRouteEntryForRouteEntryType(RouteEntryType.University);
+            EntryRequirement universityEntryRequirementSection = CommonAction.GenerateEntryRequirementSection(RouteEntryType.University);
+            universityRouteEntry.EntryRequirements.Add(universityEntryRequirementSection);
+            MoreInformationLink universityMoreInformationLinkSection = CommonAction.GenerateMoreInformationLinkSection(RouteEntryType.University);
+            universityRouteEntry.MoreInformationLinks.Add(universityMoreInformationLinkSection);
+            JobProfile.HowToBecomeData.RouteEntries.Add(universityRouteEntry);
 
-            UpdateRouteRequirement collegeUpdateRouteRequirement = CommonAction.GenerateRouteRequirementUpdate(CollegeRouteRequirementId, "Initial college value");
-            collegeUpdateRouteRequirement.JobProfileId = JobProfileId.ToString();
-            await CommonAction.UpdateRouteRequirement(Topic, collegeUpdateRouteRequirement, RequirementType.College);
+            RouteEntry collegeRouteEntry = CommonAction.GenerateRouteEntryForRouteEntryType(RouteEntryType.College);
+            EntryRequirement collegeEntryRequirementSection = CommonAction.GenerateEntryRequirementSection(RouteEntryType.College);
+            collegeRouteEntry.EntryRequirements.Add(collegeEntryRequirementSection);
+            MoreInformationLink collegeMoreInformationLinkSection = CommonAction.GenerateMoreInformationLinkSection(RouteEntryType.College);
+            collegeRouteEntry.MoreInformationLinks.Add(collegeMoreInformationLinkSection);
+            JobProfile.HowToBecomeData.RouteEntries.Add(collegeRouteEntry);
 
-            UpdateRouteRequirement apprenticeshipsUpdateRouteRequirement = CommonAction.GenerateRouteRequirementUpdate(ApprenticeshipsRouteRequirementId, "Initial apprenticeship value");
-            apprenticeshipsUpdateRouteRequirement.JobProfileId = JobProfileId.ToString();
-            await CommonAction.UpdateRouteRequirement(Topic, apprenticeshipsUpdateRouteRequirement, RequirementType.Apprenticeship);
+            RouteEntry apprenticeshipRouteEntry = CommonAction.GenerateRouteEntryForRouteEntryType(RouteEntryType.College);
+            EntryRequirement apprenticeshipEntryRequirementSection = CommonAction.GenerateEntryRequirementSection(RouteEntryType.College);
+            apprenticeshipRouteEntry.EntryRequirements.Add(apprenticeshipEntryRequirementSection);
+            MoreInformationLink apprenticeshipMoreInformationLinkSection = CommonAction.GenerateMoreInformationLinkSection(RouteEntryType.College);
+            apprenticeshipRouteEntry.MoreInformationLinks.Add(apprenticeshipMoreInformationLinkSection);
+            JobProfile.HowToBecomeData.RouteEntries.Add(apprenticeshipRouteEntry);
 
-            UpdateRouteRequirement universityUpdateRouteRequirement = CommonAction.GenerateRouteRequirementUpdate(UniversityRouteRequirementId, "Initial university value");
-            universityUpdateRouteRequirement.JobProfileId = JobProfileId.ToString();
-            await CommonAction.UpdateRouteRequirement(Topic, universityUpdateRouteRequirement, RequirementType.University);
+            byte[] messageBody = CommonAction.ConvertObjectToByteArray(JobProfile);
+            Message message = CommonAction.CreateServiceBusMessage(JobProfile.JobProfileId, messageBody, ContentType.JSON, ActionType.Published, CType.JobProfile);
+            await Topic.SendAsync(message);
+
+            //START HERE!!!!
 
             UpdateRegistration updateRegistration = CommonAction.GenerateRegistrationUpdate(RegistrationId, JobProfileId, "<p>Initial registration text</p>");
             await CommonAction.UpdateRegistration(Topic, updateRegistration);

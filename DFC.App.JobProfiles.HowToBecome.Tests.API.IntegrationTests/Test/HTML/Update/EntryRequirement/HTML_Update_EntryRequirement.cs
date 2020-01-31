@@ -16,12 +16,12 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.HTML.U
         {
             string newEntryRequirementText = "new entry requirement text for university";
             EntryRequirementMessageBody EntryRequirementMessageBody = CommonAction.CreateEntryRequirementMessageBody(UniversityRouteEntry.EntryRequirements[0].Id, JobProfileId, newEntryRequirementText);
-            await CommonAction.UpdateEntryRequirementForRequirementType(Topic, EntryRequirementMessageBody, RequirementType.University);
+            await CommonAction.UpdateEntryRequirementForRequirementType(Topic, EntryRequirementMessageBody, RouteEntryType.University);
             await Task.Delay(5000);
             Response<HtmlDocument> howToBecomeResponse = await CommonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HTMLContent.Replace("{canonicalName}", CanonicalName));
-            Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = CommonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
-            Assert.AreEqual(1, observedRouteEntries[RequirementType.University].EntryRequirements.Count);
-            Assert.AreEqual(newEntryRequirementText, observedRouteEntries[RequirementType.University].EntryRequirements[0].Info);
+            Dictionary<RouteEntryType, HowToBecomeRouteEntry> observedRouteEntries = CommonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
+            Assert.AreEqual(1, observedRouteEntries[RouteEntryType.University].EntryRequirements.Count);
+            Assert.AreEqual(newEntryRequirementText, observedRouteEntries[RouteEntryType.University].EntryRequirements[0].Info);
         }
 
         [Test]
@@ -30,12 +30,12 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.HTML.U
             string newEntryRequirementText = "new entry requirement text for college";
             CommonAction commonAction = new CommonAction();
             EntryRequirementMessageBody updateEntryRequirement = commonAction.CreateEntryRequirementMessageBody(CollegeRouteEntry.EntryRequirements[0].Id, JobProfileId, newEntryRequirementText);
-            await commonAction.UpdateEntryRequirementForRequirementType(Topic, updateEntryRequirement, RequirementType.College);
+            await commonAction.UpdateEntryRequirementForRequirementType(Topic, updateEntryRequirement, RouteEntryType.College);
             await Task.Delay(5000);
             Response<HtmlDocument> howToBecomeResponse = await commonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HTMLContent.Replace("{canonicalName}", CanonicalName));
-            Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
-            Assert.AreEqual(1, observedRouteEntries[RequirementType.College].EntryRequirements.Count);
-            Assert.AreEqual(newEntryRequirementText, observedRouteEntries[RequirementType.College].EntryRequirements[0].Info);
+            Dictionary<RouteEntryType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
+            Assert.AreEqual(1, observedRouteEntries[RouteEntryType.College].EntryRequirements.Count);
+            Assert.AreEqual(newEntryRequirementText, observedRouteEntries[RouteEntryType.College].EntryRequirements[0].Info);
         }
 
         [Test]
@@ -44,12 +44,12 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.HTML.U
             string newEntryRequirementText = "new entry requirement text for apprenticeship";
             CommonAction commonAction = new CommonAction();
             EntryRequirementMessageBody updateEntryRequirement = commonAction.CreateEntryRequirementMessageBody(ApprenticeshipRouteEntry.EntryRequirements[0].Id, JobProfileId, newEntryRequirementText);
-            await commonAction.UpdateEntryRequirementForRequirementType(Topic, updateEntryRequirement, RequirementType.Apprenticeship);
+            await commonAction.UpdateEntryRequirementForRequirementType(Topic, updateEntryRequirement, RouteEntryType.Apprenticeship);
             await Task.Delay(5000);
             Response<HtmlDocument> howToBecomeResponse = await commonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HTMLContent.Replace("{canonicalName}", CanonicalName));
-            Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
-            Assert.AreEqual(1, observedRouteEntries[RequirementType.Apprenticeship].EntryRequirements.Count);
-            Assert.AreEqual(newEntryRequirementText, observedRouteEntries[RequirementType.Apprenticeship].EntryRequirements[0].Info);
+            Dictionary<RouteEntryType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
+            Assert.AreEqual(1, observedRouteEntries[RouteEntryType.Apprenticeship].EntryRequirements.Count);
+            Assert.AreEqual(newEntryRequirementText, observedRouteEntries[RouteEntryType.Apprenticeship].EntryRequirements[0].Info);
         }
     }
 }

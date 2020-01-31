@@ -9,6 +9,11 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
     {
         public Message CreateServiceBusMessage(Guid messageId, byte[] messageBody, ContentType contentType, ActionType actionType, CType ctype)
         {
+            return CreateServiceBusMessage(messageId.ToString(), messageBody, contentType, actionType, ctype);
+        }
+
+        public Message CreateServiceBusMessage(string messageId, byte[] messageBody, ContentType contentType, ActionType actionType, CType ctype)
+        {
             Message message = new Message();
             message.ContentType = GetDescription(contentType);
             message.Body = messageBody;

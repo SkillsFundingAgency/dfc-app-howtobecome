@@ -12,7 +12,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
     internal partial class CommonAction : IHowToBecomeSupport
     {
-        public async Task UpdateRouteRequirement(Topic topic, UpdateRouteRequirement updateRouteRequirement, RequirementType requirementType)
+        public async Task UpdateRouteRequirement(Topic topic, UpdateRouteRequirement updateRouteRequirement, RouteEntryType requirementType)
         {
             Message updateMessage = new Message();
             updateMessage.ContentType = "application/json";
@@ -25,15 +25,15 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 
             switch (requirementType)
             {
-                case RequirementType.University:
+                case RouteEntryType.University:
                     updateMessage.UserProperties.Add("CType", "UniversityEntryRequirements");
                     break;
 
-                case RequirementType.College:
+                case RouteEntryType.College:
                     updateMessage.UserProperties.Add("CType", "CollegeEntryRequirements");
                     break;
 
-                case RequirementType.Apprenticeship:
+                case RouteEntryType.Apprenticeship:
                     updateMessage.UserProperties.Add("CType", "ApprenticeshipEntryRequirements");
                     break;
             }
@@ -63,24 +63,27 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             await topic.SendAsync(deleteMessage);
         }
 
-        public async Task CreateJobProfileWithRouteEntries(Topic topic, Guid messageId, Guid registrationId, string canonicalName, List<RouteEntry> routeEntries)
+        public async Task<JobProfileCreateMessageBody> CreateJobProfile(Topic topic)
         {
+            Guid messageId = Guid.NewGuid();
+            string canonicalName = RandomString(10);
             JobProfileCreateMessageBody messageBody = ResourceManager.GetResource<JobProfileCreateMessageBody>("JobProfileCreateMessageBody");
-            messageBody.HowToBecomeData.Registrations[0].Id = registrationId.ToString();
-
-            foreach (RouteEntry routeEntry in routeEntries)
-            {
-                messageBody.HowToBecomeData.RouteEntries.Add(routeEntry);
-            }
-
+            RouteEntry UniversityRouteEntry = CreateARouteEntry(RouteEntryType.University);
+            RouteEntry CollegeRouteEntry = CreateARouteEntry(RouteEntryType.College);
+            RouteEntry ApprenticeshipRouteEntry = CreateARouteEntry(RouteEntryType.Apprenticeship);
+            messageBody.HowToBecomeData.RouteEntries.Add(UniversityRouteEntry);
+            messageBody.HowToBecomeData.RouteEntries.Add(CollegeRouteEntry);
+            messageBody.HowToBecomeData.RouteEntries.Add(ApprenticeshipRouteEntry);
+            messageBody.HowToBecomeData.Registrations[0].Id = Guid.NewGuid().ToString();
             messageBody.JobProfileId = messageId.ToString();
             messageBody.UrlName = canonicalName;
             messageBody.CanonicalName = canonicalName;
             Message message = CreateServiceBusMessage(messageId, ConvertObjectToByteArray(messageBody), EnumLibrary.ContentType.JSON, ActionType.Published, CType.JobProfile);
             await topic.SendAsync(message);
+            return messageBody;
         }
 
-        public async Task UpdateMoreInformationLinksForRequirementType(Topic topic, UpdateMoreInformationLink updateMoreInformationLink, RequirementType requirementType)
+        public async Task UpdateMoreInformationLinksForRequirementType(Topic topic, UpdateMoreInformationLink updateMoreInformationLink, RouteEntryType requirementType)
         {
             Message updateMessage = new Message();
             updateMessage.ContentType = "application/json";
@@ -93,15 +96,15 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 
             switch (requirementType)
             {
-                case RequirementType.University:
+                case RouteEntryType.University:
                     updateMessage.UserProperties.Add("CType", "UniversityLink");
                     break;
 
-                case RequirementType.College:
+                case RouteEntryType.College:
                     updateMessage.UserProperties.Add("CType", "CollegeLink");
                     break;
 
-                case RequirementType.Apprenticeship:
+                case RouteEntryType.Apprenticeship:
                     updateMessage.UserProperties.Add("CType", "ApprenticeshipLink");
                     break;
             }
@@ -109,7 +112,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             await topic.SendAsync(updateMessage);
         }
 
-        public async Task UpdateEntryRequirementForRequirementType(Topic topic, EntryRequirementMessageBody updateEntryRequirement, RequirementType requirementType)
+        public async Task UpdateEntryRequirementForRequirementType(Topic topic, EntryRequirementMessageBody updateEntryRequirement, RouteEntryType requirementType)
         {
             Message updateMessage = new Message();
             updateMessage.ContentType = "application/json";
@@ -122,15 +125,15 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 
             switch (requirementType)
             {
-                case RequirementType.University:
+                case RouteEntryType.University:
                     updateMessage.UserProperties.Add("CType", "UniversityRequirement");
                     break;
 
-                case RequirementType.College:
+                case RouteEntryType.College:
                     updateMessage.UserProperties.Add("CType", "CollegeRequirement");
                     break;
 
-                case RequirementType.Apprenticeship:
+                case RouteEntryType.Apprenticeship:
                     updateMessage.UserProperties.Add("CType", "ApprenticeshipRequirement");
                     break;
             }
@@ -196,20 +199,20 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             return moreInformationLink;
         }
 
-        public RouteEntry CreateARouteEntry(RequirementType requirementType)
+        public RouteEntry CreateARouteEntry(RouteEntryType requirementType)
         {
             string htmlId;
             switch (requirementType)
             {
-                case RequirementType.University:
+                case RouteEntryType.University:
                     htmlId = "universityRouteSubjects";
                     break;
 
-                case RequirementType.College:
+                case RouteEntryType.College:
                     htmlId = "collegeRouteSubjects";
                     break;
 
-                case RequirementType.Apprenticeship:
+                case RouteEntryType.Apprenticeship:
                     htmlId = "apprenticeshipsRouteSubjects";
                     break;
 
@@ -227,47 +230,47 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             return routeEntry;
         }
 
-        public Dictionary<RequirementType, HowToBecomeRouteEntry> GetRouteEntriesFromHtmlResponse(Response<HtmlDocument> response)
+        public Dictionary<RouteEntryType, HowToBecomeRouteEntry> GetRouteEntriesFromHtmlResponse(Response<HtmlDocument> response)
         {
-            Dictionary<RequirementType, HowToBecomeRouteEntry> routeEntries = new Dictionary<RequirementType, HowToBecomeRouteEntry>();
-            List<RequirementType> presentRequirementTypes = new List<RequirementType>();
+            Dictionary<RouteEntryType, HowToBecomeRouteEntry> routeEntries = new Dictionary<RouteEntryType, HowToBecomeRouteEntry>();
+            List<RouteEntryType> presentRequirementTypes = new List<RouteEntryType>();
             HtmlNode universitySection = response.Data.GetElementbyId("University");
             HtmlNode collegeSection = response.Data.GetElementbyId("College");
             HtmlNode apprenticeshipSection = response.Data.GetElementbyId("Apprenticeship");
 
             if (universitySection != null)
             {
-                presentRequirementTypes.Add(RequirementType.University);
+                presentRequirementTypes.Add(RouteEntryType.University);
             }
 
             if (collegeSection != null)
             {
-                presentRequirementTypes.Add(RequirementType.College);
+                presentRequirementTypes.Add(RouteEntryType.College);
             }
 
             if (apprenticeshipSection != null)
             {
-                presentRequirementTypes.Add(RequirementType.Apprenticeship);
+                presentRequirementTypes.Add(RouteEntryType.Apprenticeship);
             }
 
-            foreach (RequirementType requirementType in presentRequirementTypes)
+            foreach (RouteEntryType requirementType in presentRequirementTypes)
             {
                 string id = null;
                 string xpathPrefix = null;
 
                 switch (requirementType)
                 {
-                    case RequirementType.University:
+                    case RouteEntryType.University:
                         id = "universityRouteSubjects";
                         xpathPrefix = "//section[@id='University']";
                         break;
 
-                    case RequirementType.College:
+                    case RouteEntryType.College:
                         id = "collegeRouteSubjects";
                         xpathPrefix = "//section[@id='College']";
                         break;
 
-                    case RequirementType.Apprenticeship:
+                    case RouteEntryType.Apprenticeship:
                         id = "apprenticeshipsRouteSubjects";
                         xpathPrefix = "//section[@id='Apprenticeship']";
                         break;
@@ -288,7 +291,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             return routeEntries;
         }
 
-        public UpdateRouteRequirement GenerateRouteRequirementUpdate(Guid id, string title)
+        public UpdateRouteRequirement GenerateRouteRequirementContentTypeForJobProfile(Guid id, string title)
         {
             UpdateRouteRequirement updateRouteRequirement = ResourceManager.GetResource<UpdateRouteRequirement>("UpdateRouteRequirement");
             updateRouteRequirement.Id = id.ToString();

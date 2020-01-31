@@ -26,7 +26,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model
         public List<MoreInformationLink> MoreInformationLinks { get; set; }
         public string RouteSubjects { get; set; }
         public string FurtherRouteInformation { get; set; }
-        public object RouteRequirement { get; set; }
+        public string RouteRequirement { get; set; }
     }
 
     public class EntryRequirement

@@ -17,12 +17,12 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.HTML.U
             string newLinkText = "new more information link text for apprenticeships";
             CommonAction commonAction = new CommonAction();
             UpdateMoreInformationLink updateMoreInformationLink = commonAction.GenerateMoreInformationLinkUpdate(ApprenticeshipRouteEntry.MoreInformationLinks[0].Id, JobProfileId, newLinkText);
-            await commonAction.UpdateMoreInformationLinksForRequirementType(Topic, updateMoreInformationLink, RequirementType.Apprenticeship);
+            await commonAction.UpdateMoreInformationLinksForRequirementType(Topic, updateMoreInformationLink, RouteEntryType.Apprenticeship);
             await Task.Delay(5000);
             Response<HtmlDocument> howToBecomeResponse = await commonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HTMLContent.Replace("{canonicalName}", CanonicalName));
-            Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
-            Assert.AreEqual(1, observedRouteEntries[RequirementType.Apprenticeship].MoreInformationLinks.Count);
-            Assert.AreEqual(newLinkText, observedRouteEntries[RequirementType.Apprenticeship].MoreInformationLinks[0].Text);
+            Dictionary<RouteEntryType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
+            Assert.AreEqual(1, observedRouteEntries[RouteEntryType.Apprenticeship].MoreInformationLinks.Count);
+            Assert.AreEqual(newLinkText, observedRouteEntries[RouteEntryType.Apprenticeship].MoreInformationLinks[0].Text);
         }
 
         [Test]
@@ -31,12 +31,12 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.HTML.U
             string newLinkText = "new more information link text for college";
             CommonAction commonAction = new CommonAction();
             UpdateMoreInformationLink updateMoreInformationLink = commonAction.GenerateMoreInformationLinkUpdate(CollegeRouteEntry.MoreInformationLinks[0].Id, JobProfileId, newLinkText);
-            await commonAction.UpdateMoreInformationLinksForRequirementType(Topic, updateMoreInformationLink, RequirementType.College);
+            await commonAction.UpdateMoreInformationLinksForRequirementType(Topic, updateMoreInformationLink, RouteEntryType.College);
             await Task.Delay(5000);
             Response<HtmlDocument> howToBecomeResponse = await commonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HTMLContent.Replace("{canonicalName}", CanonicalName));
-            Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
-            Assert.AreEqual(1, observedRouteEntries[RequirementType.College].MoreInformationLinks.Count);
-            Assert.AreEqual(newLinkText, observedRouteEntries[RequirementType.College].MoreInformationLinks[0].Text);
+            Dictionary<RouteEntryType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
+            Assert.AreEqual(1, observedRouteEntries[RouteEntryType.College].MoreInformationLinks.Count);
+            Assert.AreEqual(newLinkText, observedRouteEntries[RouteEntryType.College].MoreInformationLinks[0].Text);
         }
 
         [Test]
@@ -45,12 +45,12 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.HTML.U
             string newLinkText = "new more information link text for apprenticeships";
             CommonAction commonAction = new CommonAction();
             UpdateMoreInformationLink updateMoreInformationLink = commonAction.GenerateMoreInformationLinkUpdate(UniversityRouteEntry.MoreInformationLinks[0].Id, JobProfileId, newLinkText);
-            await commonAction.UpdateMoreInformationLinksForRequirementType(Topic, updateMoreInformationLink, RequirementType.University);
+            await commonAction.UpdateMoreInformationLinksForRequirementType(Topic, updateMoreInformationLink, RouteEntryType.University);
             await Task.Delay(5000);
             Response<HtmlDocument> howToBecomeResponse = await commonAction.ExecuteGetRequestWithHtmlResponse(Settings.APIConfig.EndpointBaseUrl.HTMLContent.Replace("{canonicalName}", CanonicalName));
-            Dictionary<RequirementType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
-            Assert.AreEqual(1, observedRouteEntries[RequirementType.University].MoreInformationLinks.Count);
-            Assert.AreEqual(newLinkText, observedRouteEntries[RequirementType.University].MoreInformationLinks[0].Text);
+            Dictionary<RouteEntryType, HowToBecomeRouteEntry> observedRouteEntries = commonAction.GetRouteEntriesFromHtmlResponse(howToBecomeResponse);
+            Assert.AreEqual(1, observedRouteEntries[RouteEntryType.University].MoreInformationLinks.Count);
+            Assert.AreEqual(newLinkText, observedRouteEntries[RouteEntryType.University].MoreInformationLinks[0].Text);
         }
     }
 }
