@@ -2,6 +2,7 @@
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.EnumLibrary;
 
@@ -134,7 +135,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             return messageBody;
         }
 
-        public async Task UpdateMoreInformationLinksForRequirementType(Topic topic, UpdateMoreInformationLink updateMoreInformationLink, RouteEntryType requirementType)
+        public async Task UpdateMoreInformationLinksForRequirementType(Topic topic, LinksContentType updateMoreInformationLink, RouteEntryType requirementType)
         {
             Message updateMessage = new Message();
             updateMessage.ContentType = "application/json";
@@ -225,9 +226,9 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             return updateRegistration;
         }
 
-        public UpdateMoreInformationLink GenerateMoreInformationLinkUpdate(string id, Guid jobProfileId, string linkText)
+        public LinksContentType GenerateMoreInformationLinkUpdate(string id, Guid jobProfileId, string linkText)
         {
-            UpdateMoreInformationLink updateMoreInformationLink = ResourceManager.GetResource<UpdateMoreInformationLink>("UpdateMoreInformationLinks");
+            LinksContentType updateMoreInformationLink = ResourceManager.GetResource<LinksContentType>("UpdateMoreInformationLinks");
             updateMoreInformationLink.Id = id;
             updateMoreInformationLink.JobProfileId = jobProfileId.ToString();
             updateMoreInformationLink.Text = linkText;
@@ -357,6 +358,38 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
                 Id = jobProfile.HowToBecomeData.RouteEntries[(int)routeEntryType].EntryRequirements[0].Id,
                 Description = $"This is an updated description for the entry requirement for the {routeEntryType.ToString()} route entry",
                 Title = $"This is an updated title for the entry requirement for the {routeEntryType.ToString()} route entry",
+                Url = $"https://{RandomString(10)}.com/",
+                JobProfileId = jobProfile.JobProfileId,
+                JobProfileTitle = jobProfile.Title
+            };
+        }
+
+        public RegistrationsContentType GenerateRegistrationsContentTypeForJobProfile(JobProfileContentType jobProfile)
+        {
+            return new RegistrationsContentType()
+            {
+                Id = jobProfile.HowToBecomeData.Registrations[0].Id,
+                Info = "This is the upated info for the registrations record",
+                JobProfileId = jobProfile.JobProfileId,
+                JobProfileTitle = jobProfile.Title,
+                Title = "This is the upated title for the registrations record"
+            };
+        }
+
+        public LinksContentType GenerateLinksContentTypeForJobProfile(RouteEntryType routeEntryType, JobProfileContentType jobProfile)
+        {
+            RouteEntry routeEntry = jobProfile.HowToBecomeData.RouteEntries.Where(re => re.RouteName.Equals((int)routeEntryType)).FirstOrDefault();
+
+            if(routeEntry == null)
+            {
+                throw new Exception($"Unable to find the route entry with route name {(int)routeEntryType}");
+            }
+
+            return new LinksContentType()
+            {
+                Id = routeEntry.MoreInformationLinks[0].Id,
+                Text = "This is updated link text",
+                Title = "This is an updated link title",
                 Url = $"https://{RandomString(10)}.com/",
                 JobProfileId = jobProfile.JobProfileId,
                 JobProfileTitle = jobProfile.Title

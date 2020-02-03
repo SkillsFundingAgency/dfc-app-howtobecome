@@ -6,9 +6,9 @@ using NUnit.Framework;
 using System.Threading.Tasks;
 using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.EnumLibrary;
 
-namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test.HTML.Update.RouteRequirement
+namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
 {
-    public class HTML_Update_RouteRequirement : SetUpAndTearDown
+    public class EntryRequirements : SetUpAndTearDown
     {
         [Test]
         public async Task JobProfile_HowToBecome_UniversityEntryRequirements()

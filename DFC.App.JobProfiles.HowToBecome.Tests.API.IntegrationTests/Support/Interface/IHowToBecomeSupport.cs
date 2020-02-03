@@ -21,8 +21,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.Int
         RegistrationsContentType GenerateRegistrationUpdate(Guid id, Guid jobProfileId, string info);
         Task DeleteJobProfile(Topic topic, Guid jobProfileId);
         Task<JobProfileContentType> CreateJobProfile(Topic topic);
-        UpdateMoreInformationLink GenerateMoreInformationLinkUpdate(string id, Guid jobProfileId, string linkText);
-        Task UpdateMoreInformationLinksForRequirementType(Topic topic, UpdateMoreInformationLink updateMoreInformationLink, RouteEntryType requirementType);
+        LinksContentType GenerateMoreInformationLinkUpdate(string id, Guid jobProfileId, string linkText);
+        Task UpdateMoreInformationLinksForRequirementType(Topic topic, LinksContentType updateMoreInformationLink, RouteEntryType requirementType);
         Task UpdateEntryRequirementForRequirementType(Topic topic, EntryRequirementMessageBody updateEntryRequirement, RouteEntryType requirementType);
         EntryRequirementMessageBody CreateEntryRequirementMessageBody(string entryRequirementId, Guid jobProfileId, string entryRequirementInfo);
         EntryRequirement CreateEntryRequirement(string requirementInformation);

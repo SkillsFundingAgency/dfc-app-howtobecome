@@ -1,6 +1,6 @@
 ﻿namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model
 {
-    public class UpdateMoreInformationLink
+    public class LinksContentType
     {
         public string Url { get; set; }
         public string Title { get; set; }
