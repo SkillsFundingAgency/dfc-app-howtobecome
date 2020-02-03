@@ -1,8 +1,5 @@
-﻿using DFC.Api.JobProfiles.Common.APISupport;
-using DFC.Api.JobProfiles.Common.AzureServiceBusSupport;
+﻿using DFC.Api.JobProfiles.Common.AzureServiceBusSupport;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.Interface;
-using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -41,6 +38,60 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
         //    await topic.SendAsync(updateMessage);
         //}
 
+        public RouteEntry GenerateRouteEntryForRouteEntryType(EnumLibrary.RouteEntryType routeEntryType)
+        {
+            return new RouteEntry()
+            {
+                RouteName = (int)routeEntryType,
+                EntryRequirements = new List<EntryRequirement>(),
+                MoreInformationLinks = new List<MoreInformationLink>(),
+                FurtherRouteInformation = $"Default further information for the {routeEntryType} route entry type",
+                RouteRequirement = $"Default route requirement for the {routeEntryType} route entry type",
+                RouteSubjects = $"Default route subjects for the {routeEntryType} route entry type"
+            };
+        }
+
+        public MoreInformationLink GenerateMoreInformationLinkSection(EnumLibrary.RouteEntryType routeEntryType)
+        {
+            return new MoreInformationLink()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Text = $"Default more information link for the {routeEntryType} route entry type",
+                Title = $"Default more information title for the {routeEntryType} route entry type",
+                Url = $"https://{RandomString(10)}.com"
+            };
+        }
+
+        public Registration GenerateRegistrationsSection()
+        {
+            return new Registration()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Title = "Default registrations title",
+                Info = "Default registrations info"
+            };
+        }
+
+        public EntryRequirement GenerateEntryRequirementSection(EnumLibrary.RouteEntryType entryRequirementType)
+        {
+            return new EntryRequirement()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Info = $"Default {entryRequirementType} entry requirement",
+                Title = $"Default {entryRequirementType} entry requirement title"
+            };
+        }
+
+        public JobProfileContentType GenerateJobProfileContentType()
+        {
+            string canonicalName = RandomString(10);
+            JobProfileContentType jobProfile = ResourceManager.GetResource<JobProfileContentType>("JobProfileContentType");
+            jobProfile.JobProfileId = Guid.NewGuid().ToString();
+            jobProfile.UrlName = canonicalName;
+            jobProfile.CanonicalName = canonicalName;
+            return jobProfile;
+        }
+
         public async Task UpdateRegistration(Topic topic, RegistrationsContentType updateRegistration)
         {
             Message updateMessage = new Message();
@@ -67,7 +118,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
         {
             Guid messageId = Guid.NewGuid();
             string canonicalName = RandomString(10);
-            JobProfileContentType messageBody = ResourceManager.GetResource<JobProfileContentType>("JobProfileCreateMessageBody");
+            JobProfileContentType messageBody = ResourceManager.GetResource<JobProfileContentType>("JobProfileContentType");
             RouteEntry UniversityRouteEntry = CreateARouteEntry(RouteEntryType.University);
             RouteEntry CollegeRouteEntry = CreateARouteEntry(RouteEntryType.College);
             RouteEntry ApprenticeshipRouteEntry = CreateARouteEntry(RouteEntryType.Apprenticeship);
@@ -301,25 +352,9 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 
         public EntryRequirementsClassification GenerateEntryRequirementsClassificationForJobProfile(RouteEntryType routeEntryType, JobProfileContentType jobProfile)
         {
-            int? entryRequirementIndex = null;
-            switch(routeEntryType)
-            {
-                case RouteEntryType.University:
-                    entryRequirementIndex = 0;
-                    break;
-
-                case RouteEntryType.College:
-                    entryRequirementIndex = 1;
-                    break;
-
-                case RouteEntryType.Apprenticeship:
-                    entryRequirementIndex = 2;
-                    break;
-            }
-
             return new EntryRequirementsClassification()
             {
-                Id = jobProfile.HowToBecomeData.RouteEntries[(int)entryRequirementIndex].EntryRequirements[0].Id,
+                Id = jobProfile.HowToBecomeData.RouteEntries[(int)routeEntryType].EntryRequirements[0].Id,
                 Description = $"This is an updated description for the entry requirement for the {routeEntryType.ToString()} route entry",
                 Title = $"This is an updated title for the entry requirement for the {routeEntryType.ToString()} route entry",
                 Url = $"https://{RandomString(10)}.com/",

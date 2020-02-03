@@ -34,10 +34,10 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             collegeRouteEntry.MoreInformationLinks.Add(collegeMoreInformationLinkSection);
             JobProfile.HowToBecomeData.RouteEntries.Add(collegeRouteEntry);
 
-            RouteEntry apprenticeshipRouteEntry = CommonAction.GenerateRouteEntryForRouteEntryType(RouteEntryType.College);
-            EntryRequirement apprenticeshipEntryRequirementSection = CommonAction.GenerateEntryRequirementSection(RouteEntryType.College);
+            RouteEntry apprenticeshipRouteEntry = CommonAction.GenerateRouteEntryForRouteEntryType(RouteEntryType.Apprenticeship);
+            EntryRequirement apprenticeshipEntryRequirementSection = CommonAction.GenerateEntryRequirementSection(RouteEntryType.Apprenticeship);
             apprenticeshipRouteEntry.EntryRequirements.Add(apprenticeshipEntryRequirementSection);
-            MoreInformationLink apprenticeshipMoreInformationLinkSection = CommonAction.GenerateMoreInformationLinkSection(RouteEntryType.College);
+            MoreInformationLink apprenticeshipMoreInformationLinkSection = CommonAction.GenerateMoreInformationLinkSection(RouteEntryType.Apprenticeship);
             apprenticeshipRouteEntry.MoreInformationLinks.Add(apprenticeshipMoreInformationLinkSection);
             JobProfile.HowToBecomeData.RouteEntries.Add(apprenticeshipRouteEntry);
 
@@ -47,6 +47,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             byte[] messageBody = CommonAction.ConvertObjectToByteArray(JobProfile);
             Message message = CommonAction.CreateServiceBusMessage(JobProfile.JobProfileId, messageBody, ContentType.JSON, ActionType.Published, CType.JobProfile);
             await Topic.SendAsync(message);
+            await Task.Delay(5000);
         }
 
         [OneTimeTearDown]

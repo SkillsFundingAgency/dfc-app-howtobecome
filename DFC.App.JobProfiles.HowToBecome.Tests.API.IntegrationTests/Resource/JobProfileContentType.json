@@ -48,14 +48,8 @@
       "DirectApplication": "",
       "OtherRoutes": ""
     },
-    "IntroText": "This is an automated introductory paragraph",
-    "Registrations": [
-      {
-        "Id": "",
-        "Title": "doesnt-matter",
-        "Info": "<p>Initial text</p>"
-      }
-    ]
+    "IntroText": "",
+    "Registrations": []
   },
   "WhatYouWillDoData": {
     "DailyTasks": "",
