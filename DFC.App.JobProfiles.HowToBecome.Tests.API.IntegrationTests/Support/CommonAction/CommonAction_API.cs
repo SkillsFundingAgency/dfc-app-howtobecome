@@ -36,10 +36,10 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             return response;
         }
 
-        public JobProfileCreateMessageBody GenerateJobProfileContentType()
+        public JobProfileContentType GenerateJobProfileContentType()
         {
             string canonicalName = RandomString(10);
-            JobProfileCreateMessageBody jobProfile = ResourceManager.GetResource<JobProfileCreateMessageBody>("JobProfileCreateMessageBody");
+            JobProfileContentType jobProfile = ResourceManager.GetResource<JobProfileContentType>("JobProfileCreateMessageBody");
             jobProfile.JobProfileId = Guid.NewGuid().ToString();
             jobProfile.UrlName = canonicalName;
             jobProfile.CanonicalName = canonicalName;
@@ -83,6 +83,16 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
                 Text = $"Default more information link for the {routeEntryType} route entry type",
                 Title = $"Default more information title for the {routeEntryType} route entry type",
                 Url = $"https://{RandomString(10)}.com"
+            };
+        }
+
+        public Registration GenerateRegistrationsSection()
+        {
+            return new Registration()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Title = "Default registrations title",
+                Info = "Default registrations info"
             };
         }
 

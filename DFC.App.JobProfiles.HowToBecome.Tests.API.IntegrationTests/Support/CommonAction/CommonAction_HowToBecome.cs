@@ -10,38 +10,38 @@ using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
-    internal partial class CommonAction : IHowToBecomeSupport
+    internal partial class CommonAction
     {
-        public async Task UpdateRouteRequirement(Topic topic, UpdateRouteRequirement updateRouteRequirement, RouteEntryType requirementType)
-        {
-            Message updateMessage = new Message();
-            updateMessage.ContentType = "application/json";
-            updateMessage.Body = ConvertObjectToByteArray(updateRouteRequirement);
-            updateMessage.CorrelationId = Guid.NewGuid().ToString();
-            updateMessage.Label = "Automated route requirement message";
-            updateMessage.MessageId = updateRouteRequirement.Id;
-            updateMessage.UserProperties.Add("Id", updateRouteRequirement.JobProfileId);
-            updateMessage.UserProperties.Add("ActionType", "Published");
+        //public async Task UpdateRouteRequirement(Topic topic, UpdateRouteRequirement updateRouteRequirement, RouteEntryType requirementType)
+        //{
+        //    Message updateMessage = new Message();
+        //    updateMessage.ContentType = "application/json";
+        //    updateMessage.Body = ConvertObjectToByteArray(updateRouteRequirement);
+        //    updateMessage.CorrelationId = Guid.NewGuid().ToString();
+        //    updateMessage.Label = "Automated route requirement message";
+        //    updateMessage.MessageId = updateRouteRequirement.Id;
+        //    updateMessage.UserProperties.Add("Id", updateRouteRequirement.JobProfileId);
+        //    updateMessage.UserProperties.Add("ActionType", "Published");
 
-            switch (requirementType)
-            {
-                case RouteEntryType.University:
-                    updateMessage.UserProperties.Add("CType", "UniversityEntryRequirements");
-                    break;
+        //    switch (requirementType)
+        //    {
+        //        case RouteEntryType.University:
+        //            updateMessage.UserProperties.Add("CType", "UniversityEntryRequirements");
+        //            break;
 
-                case RouteEntryType.College:
-                    updateMessage.UserProperties.Add("CType", "CollegeEntryRequirements");
-                    break;
+        //        case RouteEntryType.College:
+        //            updateMessage.UserProperties.Add("CType", "CollegeEntryRequirements");
+        //            break;
 
-                case RouteEntryType.Apprenticeship:
-                    updateMessage.UserProperties.Add("CType", "ApprenticeshipEntryRequirements");
-                    break;
-            }
+        //        case RouteEntryType.Apprenticeship:
+        //            updateMessage.UserProperties.Add("CType", "ApprenticeshipEntryRequirements");
+        //            break;
+        //    }
 
-            await topic.SendAsync(updateMessage);
-        }
+        //    await topic.SendAsync(updateMessage);
+        //}
 
-        public async Task UpdateRegistration(Topic topic, UpdateRegistration updateRegistration)
+        public async Task UpdateRegistration(Topic topic, RegistrationsContentType updateRegistration)
         {
             Message updateMessage = new Message();
             updateMessage.ContentType = "application/json";
@@ -55,19 +55,19 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             await topic.SendAsync(updateMessage);
         }
 
-        public async Task DeleteJobProfileWithId(Topic topic, Guid jobProfileId)
+        public async Task DeleteJobProfile(Topic topic, JobProfileContentType jobProfile)
         {
             JobProfileDeleteMessageBody messageBody = ResourceManager.GetResource<JobProfileDeleteMessageBody>("JobProfileDeleteMessageBody");
-            messageBody.JobProfileId = jobProfileId.ToString();
-            Message deleteMessage = CreateServiceBusMessage(jobProfileId, ConvertObjectToByteArray(messageBody), EnumLibrary.ContentType.JSON, ActionType.Deleted, CType.JobProfile);
+            messageBody.JobProfileId = jobProfile.JobProfileId;
+            Message deleteMessage = CreateServiceBusMessage(jobProfile.JobProfileId, ConvertObjectToByteArray(messageBody), EnumLibrary.ContentType.JSON, ActionType.Deleted, CType.JobProfile);
             await topic.SendAsync(deleteMessage);
         }
 
-        public async Task<JobProfileCreateMessageBody> CreateJobProfile(Topic topic)
+        public async Task<JobProfileContentType> CreateJobProfile(Topic topic)
         {
             Guid messageId = Guid.NewGuid();
             string canonicalName = RandomString(10);
-            JobProfileCreateMessageBody messageBody = ResourceManager.GetResource<JobProfileCreateMessageBody>("JobProfileCreateMessageBody");
+            JobProfileContentType messageBody = ResourceManager.GetResource<JobProfileContentType>("JobProfileCreateMessageBody");
             RouteEntry UniversityRouteEntry = CreateARouteEntry(RouteEntryType.University);
             RouteEntry CollegeRouteEntry = CreateARouteEntry(RouteEntryType.College);
             RouteEntry ApprenticeshipRouteEntry = CreateARouteEntry(RouteEntryType.Apprenticeship);
@@ -165,9 +165,9 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             routeEntry.EntryRequirements.Add(entryRequirement);
         }
 
-        public UpdateRegistration GenerateRegistrationUpdate(Guid id, Guid jobProfileId, string info)
+        public RegistrationsContentType GenerateRegistrationUpdate(Guid id, Guid jobProfileId, string info)
         {
-            UpdateRegistration updateRegistration = ResourceManager.GetResource<UpdateRegistration>("UpdateRegistration");
+            RegistrationsContentType updateRegistration = ResourceManager.GetResource<RegistrationsContentType>("UpdateRegistration");
             updateRegistration.Id = id.ToString();
             updateRegistration.JobProfileId = jobProfileId.ToString();
             updateRegistration.Info = info;
@@ -230,73 +230,102 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             return routeEntry;
         }
 
-        public Dictionary<RouteEntryType, HowToBecomeRouteEntry> GetRouteEntriesFromHtmlResponse(Response<HtmlDocument> response)
+        //public Dictionary<RouteEntryType, HowToBecomeRouteEntry> GetRouteEntriesFromHtmlResponse(Response<HtmlDocument> response)
+        //{
+        //    Dictionary<RouteEntryType, HowToBecomeRouteEntry> routeEntries = new Dictionary<RouteEntryType, HowToBecomeRouteEntry>();
+        //    List<RouteEntryType> presentRequirementTypes = new List<RouteEntryType>();
+        //    HtmlNode universitySection = response.Data.GetElementbyId("University");
+        //    HtmlNode collegeSection = response.Data.GetElementbyId("College");
+        //    HtmlNode apprenticeshipSection = response.Data.GetElementbyId("Apprenticeship");
+
+        //    if (universitySection != null)
+        //    {
+        //        presentRequirementTypes.Add(RouteEntryType.University);
+        //    }
+
+        //    if (collegeSection != null)
+        //    {
+        //        presentRequirementTypes.Add(RouteEntryType.College);
+        //    }
+
+        //    if (apprenticeshipSection != null)
+        //    {
+        //        presentRequirementTypes.Add(RouteEntryType.Apprenticeship);
+        //    }
+
+        //    foreach (RouteEntryType requirementType in presentRequirementTypes)
+        //    {
+        //        string id = null;
+        //        string xpathPrefix = null;
+
+        //        switch (requirementType)
+        //        {
+        //            case RouteEntryType.University:
+        //                id = "universityRouteSubjects";
+        //                xpathPrefix = "//section[@id='University']";
+        //                break;
+
+        //            case RouteEntryType.College:
+        //                id = "collegeRouteSubjects";
+        //                xpathPrefix = "//section[@id='College']";
+        //                break;
+
+        //            case RouteEntryType.Apprenticeship:
+        //                id = "apprenticeshipsRouteSubjects";
+        //                xpathPrefix = "//section[@id='Apprenticeship']";
+        //                break;
+        //        }
+
+        //        routeEntries.Add(requirementType, new HowToBecomeRouteEntry());
+        //        routeEntries[requirementType].RouteSubjects = response.Data.DocumentNode.SelectSingleNode($"{xpathPrefix}//div[@id='{id}']").OuterHtml;
+        //        routeEntries[requirementType].FurtherRouteInformation = response.Data.DocumentNode.SelectSingleNode($"{xpathPrefix}//p[@id='furtherRouteInformation']").OuterHtml;
+        //        routeEntries[requirementType].RouteRequirement = response.Data.DocumentNode.SelectSingleNode($"{xpathPrefix}//p[2]").InnerText;
+        //        HtmlNodeCollection entryRequirementsList = response.Data.DocumentNode.SelectNodes($"{xpathPrefix}//ul[@class='list-reqs']//li");
+        //        routeEntries[requirementType].EntryRequirements = new List<EntryRequirement>();
+        //        routeEntries[requirementType].EntryRequirements.Add(new EntryRequirement() { Info = entryRequirementsList[0].InnerText });
+        //        HtmlNodeCollection moreInformationLinkList = response.Data.DocumentNode.SelectNodes($"{xpathPrefix}//ul[@class='list-link']//li");
+        //        routeEntries[requirementType].MoreInformationLinks = new List<MoreInformationLink>();
+        //        routeEntries[requirementType].MoreInformationLinks.Add(new MoreInformationLink() { Text = moreInformationLinkList[0].InnerText });
+        //    }
+
+        //    return routeEntries;
+        //}
+
+        //public UpdateRouteRequirement GenerateRouteRequirementContentTypeForJobProfile(Guid id, string title)
+        //{
+        //    UpdateRouteRequirement updateRouteRequirement = ResourceManager.GetResource<UpdateRouteRequirement>("UpdateRouteRequirement");
+        //    updateRouteRequirement.Id = id.ToString();
+        //    updateRouteRequirement.Title = title;
+        //    return updateRouteRequirement;
+        //}
+
+        public EntryRequirementsClassification GenerateEntryRequirementsClassificationForJobProfile(RouteEntryType routeEntryType, JobProfileContentType jobProfile)
         {
-            Dictionary<RouteEntryType, HowToBecomeRouteEntry> routeEntries = new Dictionary<RouteEntryType, HowToBecomeRouteEntry>();
-            List<RouteEntryType> presentRequirementTypes = new List<RouteEntryType>();
-            HtmlNode universitySection = response.Data.GetElementbyId("University");
-            HtmlNode collegeSection = response.Data.GetElementbyId("College");
-            HtmlNode apprenticeshipSection = response.Data.GetElementbyId("Apprenticeship");
-
-            if (universitySection != null)
+            int? entryRequirementIndex = null;
+            switch(routeEntryType)
             {
-                presentRequirementTypes.Add(RouteEntryType.University);
+                case RouteEntryType.University:
+                    entryRequirementIndex = 0;
+                    break;
+
+                case RouteEntryType.College:
+                    entryRequirementIndex = 1;
+                    break;
+
+                case RouteEntryType.Apprenticeship:
+                    entryRequirementIndex = 2;
+                    break;
             }
 
-            if (collegeSection != null)
+            return new EntryRequirementsClassification()
             {
-                presentRequirementTypes.Add(RouteEntryType.College);
-            }
-
-            if (apprenticeshipSection != null)
-            {
-                presentRequirementTypes.Add(RouteEntryType.Apprenticeship);
-            }
-
-            foreach (RouteEntryType requirementType in presentRequirementTypes)
-            {
-                string id = null;
-                string xpathPrefix = null;
-
-                switch (requirementType)
-                {
-                    case RouteEntryType.University:
-                        id = "universityRouteSubjects";
-                        xpathPrefix = "//section[@id='University']";
-                        break;
-
-                    case RouteEntryType.College:
-                        id = "collegeRouteSubjects";
-                        xpathPrefix = "//section[@id='College']";
-                        break;
-
-                    case RouteEntryType.Apprenticeship:
-                        id = "apprenticeshipsRouteSubjects";
-                        xpathPrefix = "//section[@id='Apprenticeship']";
-                        break;
-                }
-
-                routeEntries.Add(requirementType, new HowToBecomeRouteEntry());
-                routeEntries[requirementType].RouteSubjects = response.Data.DocumentNode.SelectSingleNode($"{xpathPrefix}//div[@id='{id}']").OuterHtml;
-                routeEntries[requirementType].FurtherRouteInformation = response.Data.DocumentNode.SelectSingleNode($"{xpathPrefix}//p[@id='furtherRouteInformation']").OuterHtml;
-                routeEntries[requirementType].RouteRequirement = response.Data.DocumentNode.SelectSingleNode($"{xpathPrefix}//p[2]").InnerText;
-                HtmlNodeCollection entryRequirementsList = response.Data.DocumentNode.SelectNodes($"{xpathPrefix}//ul[@class='list-reqs']//li");
-                routeEntries[requirementType].EntryRequirements = new List<EntryRequirement>();
-                routeEntries[requirementType].EntryRequirements.Add(new EntryRequirement() { Info = entryRequirementsList[0].InnerText });
-                HtmlNodeCollection moreInformationLinkList = response.Data.DocumentNode.SelectNodes($"{xpathPrefix}//ul[@class='list-link']//li");
-                routeEntries[requirementType].MoreInformationLinks = new List<MoreInformationLink>();
-                routeEntries[requirementType].MoreInformationLinks.Add(new MoreInformationLink() { Text = moreInformationLinkList[0].InnerText });
-            }
-
-            return routeEntries;
-        }
-
-        public UpdateRouteRequirement GenerateRouteRequirementContentTypeForJobProfile(Guid id, string title)
-        {
-            UpdateRouteRequirement updateRouteRequirement = ResourceManager.GetResource<UpdateRouteRequirement>("UpdateRouteRequirement");
-            updateRouteRequirement.Id = id.ToString();
-            updateRouteRequirement.Title = title;
-            return updateRouteRequirement;
+                Id = jobProfile.HowToBecomeData.RouteEntries[(int)entryRequirementIndex].EntryRequirements[0].Id,
+                Description = $"This is an updated description for the entry requirement for the {routeEntryType.ToString()} route entry",
+                Title = $"This is an updated title for the entry requirement for the {routeEntryType.ToString()} route entry",
+                Url = $"https://{RandomString(10)}.com/",
+                JobProfileId = jobProfile.JobProfileId,
+                JobProfileTitle = jobProfile.Title
+            };
         }
     }
 }

@@ -118,7 +118,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model
         public string Title { get; set; }
     }
 
-    public class JobProfileCreateMessageBody
+    public class JobProfileContentType
     {
         public string JobProfileId { get; set; }
         public string Title { get; set; }

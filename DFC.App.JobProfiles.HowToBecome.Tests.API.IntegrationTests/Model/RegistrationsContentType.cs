@@ -1,6 +1,6 @@
 ﻿namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model
 {
-    public class UpdateRegistration
+    public class RegistrationsContentType
     {
         public string Info { get; set; }
         public string Id { get; set; }

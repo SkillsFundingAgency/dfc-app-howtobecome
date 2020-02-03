@@ -8,7 +8,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
     public class SetUpAndTearDown
     {
-        internal JobProfileCreateMessageBody JobProfile { get; set; }
+        internal JobProfileContentType JobProfile { get; set; }
         internal CommonAction CommonAction { get; } = new CommonAction();
         internal Topic Topic { get; set; }
 
@@ -41,20 +41,18 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             apprenticeshipRouteEntry.MoreInformationLinks.Add(apprenticeshipMoreInformationLinkSection);
             JobProfile.HowToBecomeData.RouteEntries.Add(apprenticeshipRouteEntry);
 
+            Registration registrationsSection = CommonAction.GenerateRegistrationsSection();
+            JobProfile.HowToBecomeData.Registrations.Add(registrationsSection);
+
             byte[] messageBody = CommonAction.ConvertObjectToByteArray(JobProfile);
             Message message = CommonAction.CreateServiceBusMessage(JobProfile.JobProfileId, messageBody, ContentType.JSON, ActionType.Published, CType.JobProfile);
             await Topic.SendAsync(message);
-
-            //START HERE!!!!
-
-            UpdateRegistration updateRegistration = CommonAction.GenerateRegistrationUpdate(RegistrationId, JobProfileId, "<p>Initial registration text</p>");
-            await CommonAction.UpdateRegistration(Topic, updateRegistration);
         }
 
         [OneTimeTearDown]
         public async Task OneTimeTearDown()
         {
-            await CommonAction.DeleteJobProfileWithId(Topic, JobProfileId);
+            await CommonAction.DeleteJobProfile(Topic, JobProfile);
         }
     }
 }
