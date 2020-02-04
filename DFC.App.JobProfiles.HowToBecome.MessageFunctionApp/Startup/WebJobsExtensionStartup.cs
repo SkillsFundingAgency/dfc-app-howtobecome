@@ -2,6 +2,9 @@
 using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Models;
 using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services;
 using DFC.Functions.DI.Standard;
+using DFC.Logger.AppInsights.Contracts;
+using DFC.Logger.AppInsights.CorrelationIdProviders;
+using DFC.Logger.AppInsights.Extensions;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,13 +33,14 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Startup
 
             builder.AddDependencyInjection();
             builder?.Services.AddAutoMapper(typeof(WebJobsExtensionStartup).Assembly);
-            builder?.Services.AddSingleton<SegmentClientOptions>(segmentClientOptions);
-            builder?.Services.AddSingleton<HttpClient>(new HttpClient());
-            builder?.Services.AddSingleton<IHttpClientService, HttpClientService>();
-            builder?.Services.AddSingleton<IMessageProcessor, MessageProcessor>();
-            builder?.Services.AddSingleton<ILogger, Logger<WebJobsExtensionStartup>>();
-            builder?.Services.AddSingleton<IMappingService, MappingService>();
-            builder?.Services.AddSingleton<IMessagePropertiesService, MessagePropertiesService>();
+            builder?.Services.AddSingleton(segmentClientOptions);
+            builder?.Services.AddScoped(sp => new HttpClient());
+            builder?.Services.AddScoped<IHttpClientService, HttpClientService>();
+            builder?.Services.AddScoped<IMessageProcessor, MessageProcessor>();
+            builder?.Services.AddScoped<IMappingService, MappingService>();
+            builder?.Services.AddScoped<IMessagePropertiesService, MessagePropertiesService>();
+            builder?.Services.AddDFCLogging(configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
+            builder?.Services.AddScoped<ICorrelationIdProvider, InMemoryCorrelationIdProvider>();
         }
     }
 }

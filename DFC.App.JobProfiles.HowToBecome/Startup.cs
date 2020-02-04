@@ -3,6 +3,7 @@ using DFC.App.JobProfiles.HowToBecome.Data.Models;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels;
 using DFC.App.JobProfiles.HowToBecome.Repository.CosmosDb;
 using DFC.App.JobProfiles.HowToBecome.SegmentService;
+using DFC.Logger.AppInsights.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -54,6 +55,7 @@ namespace DFC.App.JobProfiles.HowToBecome
             services.AddScoped<IHowToBecomeSegmentService, HowToBecomeSegmentService>();
             services.AddAutoMapper(typeof(Startup).Assembly);
             services.AddScoped<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>, JobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
+            services.AddDFCLogging(configuration["ApplicationInsights:InstrumentationKey"]);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -76,7 +78,11 @@ namespace DFC.App.JobProfiles.HowToBecome
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            app.UseMvcWithDefaultRoute();
+
+            app.UseMvc(routes =>
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Health}/{action=Ping}"));
 
             mapper?.ConfigurationProvider.AssertConfigurationIsValid();
         }

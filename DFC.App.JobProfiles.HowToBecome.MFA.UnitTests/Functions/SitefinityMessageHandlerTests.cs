@@ -3,9 +3,9 @@ using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels.Enums;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels.PatchContentTypeModels;
 using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Functions;
 using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services;
+using DFC.Logger.AppInsights.Contracts;
 using FakeItEasy;
 using Microsoft.Azure.ServiceBus;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -19,15 +19,20 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Functions
     [Trait("Messaging Function", "Function Tests")]
     public class SitefinityMessageHandlerTests
     {
-        private readonly ILogger logger;
+        private readonly ILogService logService;
         private readonly IMessageProcessor messageProcessor;
         private readonly IMessagePropertiesService messagePropertiesService;
+        private readonly ICorrelationIdProvider correlationIdProvider;
+        private readonly SitefinityMessageHandler sitefinityMessageHandler;
 
         public SitefinityMessageHandlerTests()
         {
-            logger = A.Fake<ILogger>();
+            logService = A.Fake<ILogService>();
+            correlationIdProvider = A.Fake<ICorrelationIdProvider>();
             messageProcessor = A.Fake<IMessageProcessor>();
             messagePropertiesService = A.Fake<IMessagePropertiesService>();
+
+            sitefinityMessageHandler = new SitefinityMessageHandler(messageProcessor, messagePropertiesService, logService, correlationIdProvider);
         }
 
         public static IEnumerable<object[]> SuccessResultHttpStatusCodes => new List<object[]>
@@ -58,7 +63,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Functions
             A.CallTo(() => messageProcessor.ProcessAsync(message, sequenceNumber, messageContentType, messageAction)).Returns(expectedResult);
 
             // act
-            await SitefinityMessageHandler.Run(serviceBusMessage, messageProcessor, messagePropertiesService, logger).ConfigureAwait(false);
+            await sitefinityMessageHandler.Run(serviceBusMessage).ConfigureAwait(false);
 
             // assert
             A.CallTo(() => messagePropertiesService.GetSequenceNumber(serviceBusMessage)).MustHaveHappenedOnceExactly();
@@ -69,7 +74,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Functions
         public async Task SitefinityMessageHandlerReturnsExceptionWhenNullServiceBusMessageSupplied()
         {
             // act
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await SitefinityMessageHandler.Run(null, messageProcessor, messagePropertiesService, logger).ConfigureAwait(false)).ConfigureAwait(false);
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await sitefinityMessageHandler.Run(null).ConfigureAwait(false)).ConfigureAwait(false);
         }
 
         [Fact]
@@ -85,7 +90,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Functions
             serviceBusMessage.UserProperties.Add("Id", Guid.NewGuid());
 
             // act
-            await Assert.ThrowsAsync<ArgumentException>(async () => await SitefinityMessageHandler.Run(serviceBusMessage, messageProcessor, messagePropertiesService, logger).ConfigureAwait(false)).ConfigureAwait(false);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await sitefinityMessageHandler.Run(serviceBusMessage).ConfigureAwait(false)).ConfigureAwait(false);
         }
 
         [Fact]
@@ -103,7 +108,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Functions
             serviceBusMessage.UserProperties.Add("Id", Guid.NewGuid());
 
             // act
-            await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await SitefinityMessageHandler.Run(serviceBusMessage, messageProcessor, messagePropertiesService, logger).ConfigureAwait(false)).ConfigureAwait(false);
+            await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await sitefinityMessageHandler.Run(serviceBusMessage).ConfigureAwait(false)).ConfigureAwait(false);
         }
 
         [Fact]
@@ -121,7 +126,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Functions
             serviceBusMessage.UserProperties.Add("Id", Guid.NewGuid());
 
             // act
-            await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await SitefinityMessageHandler.Run(serviceBusMessage, messageProcessor, messagePropertiesService, logger).ConfigureAwait(false)).ConfigureAwait(false);
+            await Assert.ThrowsAsync<ArgumentOutOfRangeException>(async () => await sitefinityMessageHandler.Run(serviceBusMessage).ConfigureAwait(false)).ConfigureAwait(false);
         }
     }
 }
