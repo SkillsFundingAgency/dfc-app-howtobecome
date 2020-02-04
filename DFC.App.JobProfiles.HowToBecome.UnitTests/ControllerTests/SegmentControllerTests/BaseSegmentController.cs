@@ -1,9 +1,10 @@
 ﻿using DFC.App.JobProfiles.HowToBecome.Controllers;
+using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels;
 using DFC.App.JobProfiles.HowToBecome.SegmentService;
+using DFC.Logger.AppInsights.Contracts;
 using FakeItEasy;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using System.Collections.Generic;
 using System.Net.Mime;
@@ -14,9 +15,10 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
     {
         public BaseSegmentController()
         {
-            FakeLogger = A.Fake<ILogger<SegmentController>>();
+            FakeLogger = A.Fake<ILogService>();
             FakeHowToBecomeSegmentService = A.Fake<IHowToBecomeSegmentService>();
             FakeMapper = A.Fake<AutoMapper.IMapper>();
+            FakeJobProfileSegmentRefreshService = A.Fake<IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel>>();
         }
 
         public static IEnumerable<object[]> HtmlMediaTypes => new List<object[]>
@@ -35,9 +37,11 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
             new object[] { MediaTypeNames.Application.Json },
         };
 
-        protected ILogger<SegmentController> FakeLogger { get; }
+        protected ILogService FakeLogger { get; }
 
         protected IHowToBecomeSegmentService FakeHowToBecomeSegmentService { get; }
+
+        protected IJobProfileSegmentRefreshService<RefreshJobProfileSegmentServiceBusModel> FakeJobProfileSegmentRefreshService { get; }
 
         protected AutoMapper.IMapper FakeMapper { get; }
 
@@ -47,7 +51,7 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
 
             httpContext.Request.Headers[HeaderNames.Accept] = mediaTypeName;
 
-            var controller = new SegmentController(FakeLogger, FakeHowToBecomeSegmentService, FakeMapper)
+            var controller = new SegmentController(FakeLogger, FakeHowToBecomeSegmentService, FakeMapper, FakeJobProfileSegmentRefreshService)
             {
                 ControllerContext = new ControllerContext()
                 {
