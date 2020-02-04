@@ -18,7 +18,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
             Message message = CommonAction.CreateServiceBusMessage(JobProfile.JobProfileId, messageBody, ContentType.JSON, ActionType.Published, CType.UniversityLink);
             await Topic.SendAsync(message);
             await Task.Delay(5000);
-            Response<HowToBecomeAPIResponse> howToBecomeResponse = await CommonAction.ExecuteGetRequest<HowToBecomeAPIResponse>(Settings.APIConfig.EndpointBaseUrl.JSONContent.Replace("{id}", JobProfile.JobProfileId));
+            Response<HowToBecomeAPIResponse> howToBecomeResponse = await CommonAction.ExecuteGetRequest<HowToBecomeAPIResponse>(Settings.APIConfig.EndpointBaseUrl.Replace("{id}", JobProfile.JobProfileId));
             Assert.AreEqual($"[{linksContentType.Text} | {linksContentType.Url.ToLower()}]", howToBecomeResponse.Data.entryRoutes.university.additionalInformation[0]);
         }
 
@@ -30,7 +30,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
             Message message = CommonAction.CreateServiceBusMessage(JobProfile.JobProfileId, messageBody, ContentType.JSON, ActionType.Published, CType.CollegeLink);
             await Topic.SendAsync(message);
             await Task.Delay(5000);
-            Response<HowToBecomeAPIResponse> howToBecomeResponse = await CommonAction.ExecuteGetRequest<HowToBecomeAPIResponse>(Settings.APIConfig.EndpointBaseUrl.JSONContent.Replace("{id}", JobProfile.JobProfileId));
+            Response<HowToBecomeAPIResponse> howToBecomeResponse = await CommonAction.ExecuteGetRequest<HowToBecomeAPIResponse>(Settings.APIConfig.EndpointBaseUrl.Replace("{id}", JobProfile.JobProfileId));
             Assert.AreEqual($"[{linksContentType.Text} | {linksContentType.Url.ToLower()}]", howToBecomeResponse.Data.entryRoutes.college.additionalInformation[0]);
         }
 
@@ -42,7 +42,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
             Message message = CommonAction.CreateServiceBusMessage(JobProfile.JobProfileId, messageBody, ContentType.JSON, ActionType.Published, CType.ApprenticeshipLink);
             await Topic.SendAsync(message);
             await Task.Delay(5000);
-            Response<HowToBecomeAPIResponse> howToBecomeResponse = await CommonAction.ExecuteGetRequest<HowToBecomeAPIResponse>(Settings.APIConfig.EndpointBaseUrl.JSONContent.Replace("{id}", JobProfile.JobProfileId));
+            Response<HowToBecomeAPIResponse> howToBecomeResponse = await CommonAction.ExecuteGetRequest<HowToBecomeAPIResponse>(Settings.APIConfig.EndpointBaseUrl.Replace("{id}", JobProfile.JobProfileId));
             Assert.AreEqual($"[{linksContentType.Text} | {linksContentType.Url.ToLower()}]", howToBecomeResponse.Data.entryRoutes.apprenticeship.additionalInformation[0]);
         }
     }
