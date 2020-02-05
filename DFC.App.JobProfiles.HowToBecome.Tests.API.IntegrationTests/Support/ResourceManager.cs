@@ -8,7 +8,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
     {
         private static string GetResourceContent(string resourceName)
         {
-            DirectoryInfo resourcesDirectory = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.GetDirectories("Resource")[0];
+            DirectoryInfo resourcesDirectory = Directory.CreateDirectory(Environment.CurrentDirectory).GetDirectories("Resource")[0];
             FileInfo[] files = resourcesDirectory.GetFiles();
             FileInfo selectedResource = null;
 
