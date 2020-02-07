@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model
 {
