@@ -2,20 +2,22 @@
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
-    public class Settings
+    internal class Settings
     {
-        public static TimeSpan GracePeriod { get; set; }
+        internal static TimeSpan GracePeriod { get; set; }
 
-        public class ServiceBusConfig
+        internal class ServiceBusConfig
         {
-            public static string Endpoint { get; set; }
+            internal static string Endpoint { get; set; }
         }
 
-        public class APIConfig
+        internal class APIConfig
         {
-            public static string Version { get; set; }
-            public static string ApimSubscriptionKey { get; set; }
-            public static string EndpointBaseUrl { get; set; }
+            internal static string Version { get; set; }
+
+            internal static string ApimSubscriptionKey { get; set; }
+
+            internal static string EndpointBaseUrl { get; set; }
         }
     }
 }

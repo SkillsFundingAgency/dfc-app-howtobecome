@@ -1,4 +1,5 @@
 ﻿using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
+using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.JobProfile;
 using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.EnumLibrary;
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.Interface

@@ -8,7 +8,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
         {
             University = 2,
             College = 1,
-            Apprenticeship = 0
+            Apprenticeship = 0,
         }
 
         public enum CType
@@ -23,13 +23,13 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             UniversityEntryRequirements,
             CollegeEntryRequirements,
             ApprenticeshipEntryRequirements,
-            Registration
+            Registration,
         }
 
         public enum ActionType
         {
             Published,
-            Deleted
+            Deleted,
         }
 
         public enum ContentType
@@ -37,7 +37,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             [Description("application/json")]
             JSON,
             [Description("text/html")]
-            HTML
+            HTML,
         }
     }
 }

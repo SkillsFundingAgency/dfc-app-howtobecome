@@ -6,22 +6,28 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
     internal class ResourceManager
     {
+        internal static T GetResource<T>(string resourceName)
+        {
+            string content = GetResourceContent(resourceName);
+            return JsonConvert.DeserializeObject<T>(content);
+        }
+
         private static string GetResourceContent(string resourceName)
         {
             DirectoryInfo resourcesDirectory = Directory.CreateDirectory(Environment.CurrentDirectory).GetDirectories("Resource")[0];
             FileInfo[] files = resourcesDirectory.GetFiles();
             FileInfo selectedResource = null;
 
-            for(int fileIndex = 0; fileIndex < files.Length; fileIndex++)
+            for (int fileIndex = 0; fileIndex < files.Length; fileIndex++)
             {
-                if(files[fileIndex].Name.ToLower().StartsWith(resourceName.ToLower()))
+                if (files[fileIndex].Name.StartsWith(resourceName, StringComparison.InvariantCultureIgnoreCase))
                 {
                     selectedResource = files[fileIndex];
                     break;
                 }
             }
 
-            if(selectedResource.FullName == null)
+            if (selectedResource.FullName == null)
             {
                 throw new Exception($"No resource with the name {resourceName} was found");
             }
@@ -30,12 +36,6 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             {
                 return streamReader.ReadToEnd();
             }
-        }
-
-        internal static T GetResource<T>(string resourceName)
-        {
-            string content = GetResourceContent(resourceName);
-            return JsonConvert.DeserializeObject<T>(content);
         }
     }
 }

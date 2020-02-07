@@ -11,14 +11,14 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
     public class Registration : SetUpAndTearDown
     {
         [Test]
-        public async Task JobProfile_HowToBecome_Registration()
+        public async Task JobProfileHowToBecomeRegistration()
         {
-            RegistrationsContentType registrationsContentType = CommonAction.GenerateRegistrationsContentTypeForJobProfile(JobProfile);
-            byte[] messageBody = CommonAction.ConvertObjectToByteArray(registrationsContentType);
-            Message message = CommonAction.CreateServiceBusMessage(JobProfile.JobProfileId, messageBody, ContentType.JSON, ActionType.Published, CType.Registration);
-            await Topic.SendAsync(message);
-            await Task.Delay(5000);
-            Response<HowToBecomeAPIResponse> howToBecomeResponse = await CommonAction.ExecuteGetRequest<HowToBecomeAPIResponse>(Settings.APIConfig.EndpointBaseUrl.Replace("{id}", JobProfile.JobProfileId));
+            RegistrationsContentType registrationsContentType = this.CommonAction.GenerateRegistrationsContentTypeForJobProfile(JobProfile);
+            byte[] messageBody = this.CommonAction.ConvertObjectToByteArray(registrationsContentType);
+            Message message = this.CommonAction.CreateServiceBusMessage(this.JobProfile.JobProfileId, messageBody, ContentType.JSON, ActionType.Published, CType.Registration);
+            await this.Topic.SendAsync(message).ConfigureAwait(true);
+            await Task.Delay(5000).ConfigureAwait(true);
+            Response<HowToBecomeAPIResponse> howToBecomeResponse = await this.CommonAction.ExecuteGetRequest<HowToBecomeAPIResponse>(Settings.APIConfig.EndpointBaseUrl.Replace("{id}", this.JobProfile.JobProfileId, System.StringComparison.InvariantCultureIgnoreCase)).ConfigureAwait(true);
             Assert.AreEqual(registrationsContentType.Info, howToBecomeResponse.Data.moreInformation.registrations[0]);
         }
     }

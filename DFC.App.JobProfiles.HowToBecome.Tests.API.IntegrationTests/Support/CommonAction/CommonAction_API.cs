@@ -3,6 +3,7 @@ using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.Interface;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -22,14 +23,14 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             }
             else
             {
-                getRequest.AddApimKeyHeader(RandomString(20).ToLower());
+                getRequest.AddApimKeyHeader(this.RandomString(20).ToLower(CultureInfo.CurrentCulture));
             }
 
             Response<T> response = getRequest.Execute<T>();
             DateTime startTime = DateTime.Now;
             while (response.HttpStatusCode.Equals(HttpStatusCode.NoContent) && DateTime.Now - startTime < Settings.GracePeriod)
             {
-                await Task.Delay(500);
+                await Task.Delay(500).ConfigureAwait(true);
                 response = getRequest.Execute<T>();
             }
 

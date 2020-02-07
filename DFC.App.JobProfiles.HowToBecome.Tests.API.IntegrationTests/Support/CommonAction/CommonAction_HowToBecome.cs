@@ -1,5 +1,6 @@
 ﻿using DFC.Api.JobProfiles.Common.AzureServiceBusSupport;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
+using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.JobProfile;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.Interface;
 using System;
 using System.Collections.Generic;
@@ -115,7 +116,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
                 Info = "This is updated requirement info",
                 Title = "This is an updated requirement title",
                 JobProfileId = jobProfile.JobProfileId,
-                JobProfileTitle = jobProfile.Title
+                JobProfileTitle = jobProfile.Title,
             };
         }
     }
