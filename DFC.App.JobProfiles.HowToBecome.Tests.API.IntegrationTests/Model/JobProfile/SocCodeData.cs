@@ -1,9 +1,7 @@
-﻿using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.JobProfile;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.JobProfile
 {
-
     public class SocCodeData
     {
         public string Id { get; set; }

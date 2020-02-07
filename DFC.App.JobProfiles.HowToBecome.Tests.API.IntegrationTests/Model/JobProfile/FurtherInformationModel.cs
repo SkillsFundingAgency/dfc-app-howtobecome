@@ -1,6 +1,5 @@
 ﻿namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.JobProfile
 {
-
     public class FurtherInformationModel
     {
         public string CareerTips { get; set; }

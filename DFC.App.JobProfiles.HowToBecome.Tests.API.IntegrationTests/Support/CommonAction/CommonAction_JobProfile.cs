@@ -11,7 +11,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
     {
         public JobProfileContentType GenerateJobProfileContentType()
         {
-            string canonicalName = RandomString(10);
+            string canonicalName = this.RandomString(10);
             JobProfileContentType jobProfile = ResourceManager.GetResource<JobProfileContentType>("JobProfileContentType");
             jobProfile.JobProfileId = Guid.NewGuid().ToString();
             jobProfile.UrlName = canonicalName;
@@ -23,8 +23,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
         {
             JobProfileDeleteMessageBody messageBody = ResourceManager.GetResource<JobProfileDeleteMessageBody>("JobProfileDeleteMessageBody");
             messageBody.JobProfileId = jobProfile.JobProfileId;
-            Message deleteMessage = CreateServiceBusMessage(jobProfile.JobProfileId, ConvertObjectToByteArray(messageBody), EnumLibrary.ContentType.JSON, ActionType.Deleted, CType.JobProfile);
-            await topic.SendAsync(deleteMessage);
+            Message deleteMessage = this.CreateServiceBusMessage(jobProfile.JobProfileId, this.ConvertObjectToByteArray(messageBody), EnumLibrary.ContentType.JSON, ActionType.Deleted, CType.JobProfile);
+            await topic.SendAsync(deleteMessage).ConfigureAwait(true);
         }
     }
 }

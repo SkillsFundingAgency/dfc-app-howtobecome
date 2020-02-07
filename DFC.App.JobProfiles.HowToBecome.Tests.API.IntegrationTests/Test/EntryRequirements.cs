@@ -1,6 +1,7 @@
 using DFC.Api.JobProfiles.Common.APISupport;
 using DFC.Api.JobProfiles.Common.AzureServiceBusSupport;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
+using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.APIResponse;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support;
 using NUnit.Framework;
 using System;
@@ -20,7 +21,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
             await this.Topic.SendAsync(message).ConfigureAwait(false);
             await Task.Delay(5000).ConfigureAwait(true);
             Response<HowToBecomeAPIResponse> howToBecomeResponse = await this.CommonAction.ExecuteGetRequest<HowToBecomeAPIResponse>(Settings.APIConfig.EndpointBaseUrl.Replace("{id}", this.JobProfile.JobProfileId, StringComparison.InvariantCultureIgnoreCase)).ConfigureAwait(true);
-            Assert.AreEqual(entryRequirementsClassification.Title, howToBecomeResponse.Data.entryRoutes.university.entryRequirementPreface);
+            Assert.AreEqual(entryRequirementsClassification.Title, howToBecomeResponse.Data.EntryRoutes.University.EntryRequirementPreface);
         }
 
         [Test]
@@ -32,7 +33,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
             await this.Topic.SendAsync(message).ConfigureAwait(true);
             await Task.Delay(5000).ConfigureAwait(true);
             Response<HowToBecomeAPIResponse> howToBecomeResponse = await this.CommonAction.ExecuteGetRequest<HowToBecomeAPIResponse>(Settings.APIConfig.EndpointBaseUrl.Replace("{id}", this.JobProfile.JobProfileId, StringComparison.InvariantCultureIgnoreCase)).ConfigureAwait(true);
-            Assert.AreEqual(entryRequirementsClassification.Title, howToBecomeResponse.Data.entryRoutes.college.entryRequirementPreface);
+            Assert.AreEqual(entryRequirementsClassification.Title, howToBecomeResponse.Data.EntryRoutes.College.EntryRequirementPreface);
         }
 
         [Test]
@@ -44,7 +45,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
             await this.Topic.SendAsync(message).ConfigureAwait(true);
             await Task.Delay(5000).ConfigureAwait(true);
             Response<HowToBecomeAPIResponse> howToBecomeResponse = await this.CommonAction.ExecuteGetRequest<HowToBecomeAPIResponse>(Settings.APIConfig.EndpointBaseUrl.Replace("{id}", this.JobProfile.JobProfileId, StringComparison.InvariantCultureIgnoreCase)).ConfigureAwait(true);
-            Assert.AreEqual(entryRequirementsClassification.Title, howToBecomeResponse.Data.entryRoutes.apprenticeship.entryRequirementPreface);
+            Assert.AreEqual(entryRequirementsClassification.Title, howToBecomeResponse.Data.EntryRoutes.Apprenticeship.EntryRequirementPreface);
         }
     }
 }

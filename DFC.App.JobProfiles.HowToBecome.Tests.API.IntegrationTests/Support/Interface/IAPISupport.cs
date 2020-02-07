@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.Interface
 {
-    interface IAPISupport
+    internal interface IAPISupport
     {
-        Task<Response<T>> ExecuteGetRequest<T>(string endpoint, bool AuthoriseRequest = true);
+        Task<Response<T>> ExecuteGetRequest<T>(string endpoint, bool authoriseRequest = true);
     }
 }

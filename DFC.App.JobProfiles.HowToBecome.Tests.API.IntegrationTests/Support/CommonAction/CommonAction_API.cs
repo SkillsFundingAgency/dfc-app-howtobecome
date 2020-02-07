@@ -11,13 +11,13 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
     internal partial class CommonAction : IAPISupport
     {
-        public async Task<Response<T>> ExecuteGetRequest<T>(string endpoint, bool AuthoriseRequest = true)
+        public async Task<Response<T>> ExecuteGetRequest<T>(string endpoint, bool authoriseRequest = true)
         {
             GetRequest getRequest = new GetRequest(endpoint);
             getRequest.AddAcceptHeader(GetRequest.AcceptType.Json);
             getRequest.AddVersionHeader(Settings.APIConfig.Version);
 
-            if (AuthoriseRequest)
+            if (authoriseRequest)
             {
                 getRequest.AddApimKeyHeader(Settings.APIConfig.ApimSubscriptionKey);
             }

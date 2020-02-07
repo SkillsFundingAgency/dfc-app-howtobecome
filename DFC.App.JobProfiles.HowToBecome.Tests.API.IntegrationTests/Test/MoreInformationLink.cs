@@ -1,6 +1,7 @@
 using DFC.Api.JobProfiles.Common.APISupport;
 using DFC.Api.JobProfiles.Common.AzureServiceBusSupport;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
+using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.APIResponse;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.JobProfile;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support;
 using NUnit.Framework;
@@ -22,7 +23,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
             await this.Topic.SendAsync(message).ConfigureAwait(true);
             await Task.Delay(5000).ConfigureAwait(true);
             Response<HowToBecomeAPIResponse> howToBecomeResponse = await this.CommonAction.ExecuteGetRequest<HowToBecomeAPIResponse>(Settings.APIConfig.EndpointBaseUrl.Replace("{id}", this.JobProfile.JobProfileId, StringComparison.InvariantCultureIgnoreCase)).ConfigureAwait(true);
-            Assert.AreEqual($"[{linksContentType.Text} | {linksContentType.Url.ToLower(CultureInfo.CurrentCulture)}]", howToBecomeResponse.Data.entryRoutes.university.additionalInformation[0]);
+            Assert.AreEqual($"[{linksContentType.Text} | {linksContentType.Url.ToLower(CultureInfo.CurrentCulture)}]", howToBecomeResponse.Data.EntryRoutes.University.AdditionalInformation[0]);
         }
 
         [Test]
@@ -34,7 +35,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
             await this.Topic.SendAsync(message).ConfigureAwait(true);
             await Task.Delay(5000).ConfigureAwait(true);
             Response<HowToBecomeAPIResponse> howToBecomeResponse = await this.CommonAction.ExecuteGetRequest<HowToBecomeAPIResponse>(Settings.APIConfig.EndpointBaseUrl.Replace("{id}", this.JobProfile.JobProfileId, StringComparison.InvariantCultureIgnoreCase)).ConfigureAwait(true);
-            Assert.AreEqual($"[{linksContentType.Text} | {linksContentType.Url.ToLower(CultureInfo.CurrentCulture)}]", howToBecomeResponse.Data.entryRoutes.college.additionalInformation[0]);
+            Assert.AreEqual($"[{linksContentType.Text} | {linksContentType.Url.ToLower(CultureInfo.CurrentCulture)}]", howToBecomeResponse.Data.EntryRoutes.College.AdditionalInformation[0]);
         }
 
         [Test]
@@ -46,7 +47,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
             await this.Topic.SendAsync(message).ConfigureAwait(true);
             await Task.Delay(5000).ConfigureAwait(true);
             Response<HowToBecomeAPIResponse> howToBecomeResponse = await this.CommonAction.ExecuteGetRequest<HowToBecomeAPIResponse>(Settings.APIConfig.EndpointBaseUrl.Replace("{id}", this.JobProfile.JobProfileId, StringComparison.InvariantCultureIgnoreCase)).ConfigureAwait(true);
-            Assert.AreEqual($"[{linksContentType.Text} | {linksContentType.Url.ToLower(CultureInfo.CurrentCulture)}]", howToBecomeResponse.Data.entryRoutes.apprenticeship.additionalInformation[0]);
+            Assert.AreEqual($"[{linksContentType.Text} | {linksContentType.Url.ToLower(CultureInfo.CurrentCulture)}]", howToBecomeResponse.Data.EntryRoutes.Apprenticeship.AdditionalInformation[0]);
         }
     }
 }

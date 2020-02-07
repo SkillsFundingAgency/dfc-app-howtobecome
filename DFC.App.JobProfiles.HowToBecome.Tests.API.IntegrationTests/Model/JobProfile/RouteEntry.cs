@@ -1,9 +1,7 @@
-﻿using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.JobProfile;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.JobProfile
 {
-
     public class RouteEntry
     {
         public int RouteName { get; set; }
