@@ -10,25 +10,30 @@ resources:
   - repository: dfc-devops
     type: github
     name: SkillsFundingAgency/dfc-devops
-    ref: refs/tags/v1.6.12
+    ref: refs/tags/v1.8.6
     endpoint: 'GitHub (ESFA)'
+
+pool:
+  name: NCS - CI and CD
+  demands:
+  - msbuild
+  - visualstudio
 
 jobs:
 
 #Build and test resources
-- template: AzureDevOpsTemplates/Build/dfc-arm-build.yml@dfc-devops
-  parameters:
-    ArmTemplateRoot: $(ArmTemplateRoot)
+- job: BuildArmTemplates
+  steps:
+  - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-arm-build.yml@dfc-devops
+    parameters:
+      ArmTemplateRoot: $(ArmTemplateRoot)
 
 #Build and test application
 - job: BuildDotNetCore
   displayName: Build-DotNetCore
-  pool:
-    vmImage: 'vs2017-win2016'
-
   steps:
   # Build DFC.App.JobProfiles.HowToBecome
-  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build-sonar.yml@dfc-devops
+  - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-dotnetcore-build-sonar.yml@dfc-devops
     parameters:
       SolutionBaseName: $(SolutionBaseName)
       BuildPlatform: $(BuildPlatform)
@@ -38,7 +43,7 @@ jobs:
       TestSuffix: UnitTests
 
     # Build DFC.App.JobProfiles.HowToBecome.MessageFunctionApp
-  - template: AzureDevOpsTemplates/Build/dfc-dotnetcore-build-notests.yml@dfc-devops
+  - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-dotnetcore-build-notests.yml@dfc-devops
     parameters:
       SolutionBaseName: $(SolutionBaseName).MessageFunctionApp
       BuildPlatform: $(BuildPlatform)
