@@ -40,7 +40,6 @@ jobs:
       BuildConfiguration: $(BuildConfiguration)
       DotNetCoreVersion: 2.2.402
       PublishWebApp: true
-      TestSuffix: UnitTests
 
     # Build DFC.App.JobProfiles.HowToBecome.MessageFunctionApp
   - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-dotnetcore-build-notests.yml@dfc-devops
