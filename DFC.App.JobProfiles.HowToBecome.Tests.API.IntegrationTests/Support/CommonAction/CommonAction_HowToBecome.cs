@@ -8,9 +8,9 @@ using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
-    internal partial class CommonAction : IHowToBecomeSupport
+    public partial class CommonAction : IHowToBecomeSupport
     {
-        public RouteEntry GenerateRouteEntryForRouteEntryType(EnumLibrary.RouteEntryType routeEntryType)
+        public RouteEntry GenerateRouteEntryForRouteEntryType(RouteEntryType routeEntryType)
         {
             return new RouteEntry()
             {
@@ -30,7 +30,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
                 Id = Guid.NewGuid().ToString(),
                 Text = $"Default more information link for the {routeEntryType} route entry type",
                 Title = $"Default more information title for the {routeEntryType} route entry type",
-                Url = $"https://{this.RandomString(10)}.com",
+                Url = $"https://{this.GenerateUpperCaseRandomAlphaString(10)}.com",
             };
         }
 
@@ -61,7 +61,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
                 Id = jobProfile.HowToBecomeData.RouteEntries[(int)routeEntryType].EntryRequirements[0].Id,
                 Description = $"This is an updated description for the entry requirement for the {routeEntryType.ToString()} route entry",
                 Title = $"This is an updated title for the entry requirement for the {routeEntryType.ToString()} route entry",
-                Url = $"https://{this.RandomString(10)}.com/",
+                Url = $"https://{this.GenerateUpperCaseRandomAlphaString(10)}.com/",
                 JobProfileId = jobProfile.JobProfileId,
                 JobProfileTitle = jobProfile.Title,
             };
@@ -93,7 +93,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
                 Id = routeEntry.MoreInformationLinks[0].Id,
                 Text = "This is updated link text",
                 Title = "This is an updated link title",
-                Url = $"https://{this.RandomString(10)}.com/",
+                Url = $"https://{this.GenerateUpperCaseRandomAlphaString(10)}.com/",
                 JobProfileId = jobProfile.JobProfileId,
                 JobProfileTitle = jobProfile.Title,
             };

@@ -4,15 +4,15 @@ using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.Interface
 {
-    internal interface IHowToBecomeSupport
+    public interface IHowToBecomeSupport
     {
-        RouteEntry GenerateRouteEntryForRouteEntryType(EnumLibrary.RouteEntryType routeEntryType);
+        RouteEntry GenerateRouteEntryForRouteEntryType(RouteEntryType routeEntryType);
 
-        MoreInformationLink GenerateMoreInformationLinkSection(EnumLibrary.RouteEntryType routeEntryType);
+        MoreInformationLink GenerateMoreInformationLinkSection(RouteEntryType routeEntryType);
 
         Registration GenerateRegistrationsSection();
 
-        EntryRequirement GenerateEntryRequirementSection(EnumLibrary.RouteEntryType entryRequirementType);
+        EntryRequirement GenerateEntryRequirementSection(RouteEntryType entryRequirementType);
 
         EntryRequirementsClassification GenerateEntryRequirementsClassificationForJobProfile(RouteEntryType routeEntryType, JobProfileContentType jobProfile);
 

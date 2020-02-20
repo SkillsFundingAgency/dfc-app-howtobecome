@@ -5,7 +5,7 @@ using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
-    internal partial class CommonAction : IServiceBusSupport
+    public partial class CommonAction : IServiceBusSupport
     {
         public Message CreateServiceBusMessage(Guid messageId, byte[] messageBody, ContentType contentType, ActionType actionType, CType ctype)
         {

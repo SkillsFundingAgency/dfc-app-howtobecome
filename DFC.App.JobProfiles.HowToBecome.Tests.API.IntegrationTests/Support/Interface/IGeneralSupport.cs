@@ -2,9 +2,9 @@
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.Interface
 {
-    internal interface IGeneralSupport
+    public interface IGeneralSupport
     {
-        string RandomString(int length);
+        string GenerateUpperCaseRandomAlphaString(int length);
 
         void InitialiseAppSettings();
 

@@ -1,11 +1,10 @@
 ﻿using DFC.Api.JobProfiles.Common.AzureServiceBusSupport;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
+using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.JobProfile;
 using System.Threading.Tasks;
-using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.EnumLibrary;
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.Interface
 {
-    internal interface IJobProfileSupport
+    public interface IJobProfileSupport
     {
         JobProfileContentType GenerateJobProfileContentType();
 

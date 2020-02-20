@@ -10,14 +10,14 @@ using System.Text;
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
-    internal partial class CommonAction : IGeneralSupport
+    public partial class CommonAction : IGeneralSupport
     {
         private static Random random = new Random();
 
-        public string RandomString(int length)
+        public string GenerateUpperCaseRandomAlphaString(int stringLength)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            return new string(Enumerable.Repeat(chars, length)
+            return new string(Enumerable.Repeat(chars, stringLength)
               .Select(s => s[random.Next(s.Length)]).ToArray());
         }
 

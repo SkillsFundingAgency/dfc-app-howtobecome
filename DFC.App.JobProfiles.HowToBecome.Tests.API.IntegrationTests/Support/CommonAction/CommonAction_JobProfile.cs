@@ -1,5 +1,6 @@
 ﻿using DFC.Api.JobProfiles.Common.AzureServiceBusSupport;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
+using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.JobProfile;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.Interface;
 using System;
 using System.Threading.Tasks;
@@ -7,11 +8,11 @@ using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
-    internal partial class CommonAction : IJobProfileSupport
+    public partial class CommonAction : IJobProfileSupport
     {
         public JobProfileContentType GenerateJobProfileContentType()
         {
-            string canonicalName = this.RandomString(10);
+            string canonicalName = this.GenerateUpperCaseRandomAlphaString(10);
             JobProfileContentType jobProfile = ResourceManager.GetResource<JobProfileContentType>("JobProfileContentType");
             jobProfile.JobProfileId = Guid.NewGuid().ToString();
             jobProfile.UrlName = canonicalName;

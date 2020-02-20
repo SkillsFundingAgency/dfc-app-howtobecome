@@ -4,7 +4,7 @@ using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.Interface
 {
-    internal interface IServiceBusSupport
+    public interface IServiceBusSupport
     {
         Message CreateServiceBusMessage(Guid messageId, byte[] messageBody, ContentType contentType, ActionType actionType, CType ctype);
 
