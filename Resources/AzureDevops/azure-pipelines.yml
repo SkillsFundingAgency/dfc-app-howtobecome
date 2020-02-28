@@ -52,7 +52,7 @@ jobs:
       PublishWebApp: true
 
 #Build integration tests
-- job: BuildDotNetCore
+- job: BuildIntegrationTests
   displayName: Build-DotNetCore
   steps:
   # Build DFC.Api.JobProfiles.HowToBecome.Tests.API.IntegrationTests (no test project)
