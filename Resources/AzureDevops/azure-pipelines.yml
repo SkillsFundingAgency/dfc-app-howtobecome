@@ -51,14 +51,10 @@ jobs:
       DotNetCoreVersion: 2.2.402
       PublishWebApp: true
 
-  # Build DFC.Api.JobProfiles.HowToBecome.IntegrationTests (no test project)
-  - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-build-notests.yml@dfc-devops
-    parameters:
-      SolutionBaseName: $(SolutionBaseName).IntegrationTests
-      BuildPlatform: $(BuildPlatform)
-      BuildConfiguration: $(BuildConfiguration)
-      DotNetCoreVersion: 2.2.402
-
+#Build integration tests
+- job: BuildDotNetCore
+  displayName: Build-DotNetCore
+  steps:
   # Build DFC.Api.JobProfiles.HowToBecome.Tests.API.IntegrationTests (no test project)
   - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-build-notests.yml@dfc-devops
     parameters:
