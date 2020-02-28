@@ -34,10 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="appsettings.template.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="appsettings.json">
+    <None Update="appsettings-template.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Resource\JobProfileContentType.json">
