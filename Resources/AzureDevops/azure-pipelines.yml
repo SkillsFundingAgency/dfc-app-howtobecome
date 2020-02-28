@@ -42,7 +42,7 @@ jobs:
       PublishWebApp: true
       TestSuffix: UnitTests
 
-    # Build DFC.App.JobProfiles.HowToBecome.MessageFunctionApp
+  # Build DFC.App.JobProfiles.HowToBecome.MessageFunctionApp
   - template: AzureDevOpsTemplates/Build/StepTemplates/dfc-dotnetcore-build-notests.yml@dfc-devops
     parameters:
       SolutionBaseName: $(SolutionBaseName).MessageFunctionApp
@@ -50,3 +50,15 @@ jobs:
       BuildConfiguration: $(BuildConfiguration)
       DotNetCoreVersion: 2.2.402
       PublishWebApp: true
+
+#Build integration tests
+- job: BuildIntegrationTests
+  displayName: Build integration tests
+  steps:
+  # Build DFC.Api.JobProfiles.HowToBecome.Tests.API.IntegrationTests
+  - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-build-notests.yml@dfc-devops
+    parameters:
+      SolutionBaseName: $(SolutionBaseName).Tests.API.IntegrationTests
+      BuildPlatform: $(BuildPlatform)
+      BuildConfiguration: $(BuildConfiguration)
+      DotNetCoreVersion: 2.2.402
