@@ -38,6 +38,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.UnitTests.Tests
             {
                 DocumentId = Guid.NewGuid(),
                 CanonicalName = "web-developer",
+                SequenceNumber = 1,
                 Data = GetDefaultHowToBecomeSegmentDataModel(),
             };
 

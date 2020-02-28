@@ -5,6 +5,7 @@ using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentControllerTests
@@ -16,7 +17,7 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
 
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void SegmentControllerGetBodyHtmlReturnsSuccess(string mediaTypeName)
+        public async Task SegmentControllerGetBodyHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var expectedResult = A.Fake<HowToBecomeSegmentModel>();
@@ -40,7 +41,7 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
 
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void SegmentControllerGetBodyHtmlReturnsNoContentWhenNoData(string mediaTypeName)
+        public async Task SegmentControllerGetBodyHtmlReturnsNoContentWhenNoData(string mediaTypeName)
         {
             // Arrange
             var controller = BuildSegmentController(mediaTypeName);
@@ -59,7 +60,7 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
 
         [Theory]
         [MemberData(nameof(JsonMediaTypes))]
-        public async void SegmentControllerGetBodyJsonReturnsSuccess(string mediaTypeName)
+        public async Task SegmentControllerGetBodyJsonReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var howToBecomeSegmentModel = new HowToBecomeSegmentModel { CanonicalName = "SomeCanonicalName" };
@@ -78,14 +79,14 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
             A.CallTo(() => FakeMapper.Map<HowToBecomeApiModel>(A<HowToBecomeSegmentDataModel>.Ignored)).MustHaveHappenedOnceExactly();
 
             var jsonResult = Assert.IsType<OkObjectResult>(result);
-            var model = Assert.IsAssignableFrom<HowToBecomeApiModel>(jsonResult.Value);
+            Assert.IsAssignableFrom<HowToBecomeApiModel>(jsonResult.Value);
 
             controller.Dispose();
         }
 
         [Theory]
         [MemberData(nameof(InvalidMediaTypes))]
-        public async void SegmentControllerGetBodyPlainMediaTypeReturnsNotAcceptable(string mediaTypeName)
+        public async Task SegmentControllerGetBodyPlainMediaTypeReturnsNotAcceptable(string mediaTypeName)
         {
             // Arrange
             var expectedResult = A.Fake<HowToBecomeSegmentModel>();

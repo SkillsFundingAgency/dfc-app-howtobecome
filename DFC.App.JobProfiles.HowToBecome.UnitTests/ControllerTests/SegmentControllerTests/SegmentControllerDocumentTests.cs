@@ -3,6 +3,7 @@ using DFC.App.JobProfiles.HowToBecome.ViewModels;
 using FakeItEasy;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentControllerTests
@@ -14,7 +15,7 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
 
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void SegmentControllerDocumentHtmlReturnsSuccess(string mediaTypeName)
+        public async Task SegmentControllerDocumentHtmlReturnsSuccess(string mediaTypeName)
         {
             // Arrange
             var expectedResult = A.Fake<HowToBecomeSegmentModel>();
@@ -38,7 +39,7 @@ namespace DFC.App.JobProfiles.HowToBecome.UnitTests.ControllerTests.SegmentContr
 
         [Theory]
         [MemberData(nameof(HtmlMediaTypes))]
-        public async void SegmentControllerDocumentHtmlReturnsNoContentWhenNoData(string mediaTypeName)
+        public async Task SegmentControllerDocumentHtmlReturnsNoContentWhenNoData(string mediaTypeName)
         {
             // Arrange
             var controller = BuildSegmentController(mediaTypeName);

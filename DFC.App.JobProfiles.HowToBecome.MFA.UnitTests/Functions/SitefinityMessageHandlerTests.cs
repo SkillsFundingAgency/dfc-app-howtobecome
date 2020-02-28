@@ -97,7 +97,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Functions
         public async Task SitefinityMessageHandlerReturnsExceptionWhenMessageActionIsInvalid()
         {
             // arrange
-            const int messageAction =-1;
+            const int messageAction = -1;
             const MessageContentType messageContentType = MessageContentType.ApprenticeshipLink;
             var model = A.Fake<PatchLinksServiceBusModel>();
             var message = JsonConvert.SerializeObject(model);
