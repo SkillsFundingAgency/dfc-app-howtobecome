@@ -1,62 +1,60 @@
-﻿using DFC.Api.JobProfiles.Common.AzureServiceBusSupport;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.JobProfile;
+﻿using DFC.App.JobProfileOverview.Tests.IntegrationTests.API.Model.ContentType.JobProfile;
+using DFC.App.JobProfileOverview.Tests.IntegrationTests.API.Model.Support;
+using DFC.App.JobProfileOverview.Tests.IntegrationTests.API.Support.API;
+using DFC.App.JobProfileOverview.Tests.IntegrationTests.API.Support.API.RestFactory;
+using DFC.App.JobProfileOverview.Tests.IntegrationTests.API.Support.AzureServiceBus;
+using DFC.App.JobProfileOverview.Tests.IntegrationTests.API.Support.AzureServiceBus.ServiceBusFactory;
+using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
-using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.EnumLibrary;
 
-namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
+namespace DFC.App.JobProfileOverview.Tests.IntegrationTests.API.Support
 {
     public class SetUpAndTearDown
     {
+        internal CommonAction CommonAction { get; set; }
+
+        internal AppSettings AppSettings { get; set; }
+
         internal JobProfileContentType JobProfile { get; set; }
 
-        internal CommonAction CommonAction { get; } = new CommonAction();
+        internal ServiceBusSupport ServiceBus { get; set; }
 
-        internal Topic Topic { get; set; }
+        internal JobProfileOverviewAPI API { get; set; }
 
         [OneTimeSetUp]
         public async Task OneTimeSetUp()
         {
-            this.CommonAction.InitialiseAppSettings();
-            this.Topic = new Topic(Settings.ServiceBusConfig.Endpoint);
-
-            this.JobProfile = this.CommonAction.GenerateJobProfileContentType();
-
-            RouteEntry universityRouteEntry = this.CommonAction.GenerateRouteEntryForRouteEntryType(RouteEntryType.University);
-            EntryRequirement universityEntryRequirementSection = this.CommonAction.GenerateEntryRequirementSection(RouteEntryType.University);
-            universityRouteEntry.EntryRequirements.Add(universityEntryRequirementSection);
-            MoreInformationLink universityMoreInformationLinkSection = this.CommonAction.GenerateMoreInformationLinkSection(RouteEntryType.University);
-            universityRouteEntry.MoreInformationLinks.Add(universityMoreInformationLinkSection);
-            this.JobProfile.HowToBecomeData.RouteEntries.Add(universityRouteEntry);
-
-            RouteEntry collegeRouteEntry = this.CommonAction.GenerateRouteEntryForRouteEntryType(RouteEntryType.College);
-            EntryRequirement collegeEntryRequirementSection = this.CommonAction.GenerateEntryRequirementSection(RouteEntryType.College);
-            collegeRouteEntry.EntryRequirements.Add(collegeEntryRequirementSection);
-            MoreInformationLink collegeMoreInformationLinkSection = this.CommonAction.GenerateMoreInformationLinkSection(RouteEntryType.College);
-            collegeRouteEntry.MoreInformationLinks.Add(collegeMoreInformationLinkSection);
-            this.JobProfile.HowToBecomeData.RouteEntries.Add(collegeRouteEntry);
-
-            RouteEntry apprenticeshipRouteEntry = this.CommonAction.GenerateRouteEntryForRouteEntryType(RouteEntryType.Apprenticeship);
-            EntryRequirement apprenticeshipEntryRequirementSection = this.CommonAction.GenerateEntryRequirementSection(RouteEntryType.Apprenticeship);
-            apprenticeshipRouteEntry.EntryRequirements.Add(apprenticeshipEntryRequirementSection);
-            MoreInformationLink apprenticeshipMoreInformationLinkSection = this.CommonAction.GenerateMoreInformationLinkSection(RouteEntryType.Apprenticeship);
-            apprenticeshipRouteEntry.MoreInformationLinks.Add(apprenticeshipMoreInformationLinkSection);
-            this.JobProfile.HowToBecomeData.RouteEntries.Add(apprenticeshipRouteEntry);
-
-            Registration registrationsSection = this.CommonAction.GenerateRegistrationsSection();
-            this.JobProfile.HowToBecomeData.Registrations.Add(registrationsSection);
-
-            byte[] messageBody = this.CommonAction.ConvertObjectToByteArray(this.JobProfile);
-            Message message = this.CommonAction.CreateServiceBusMessage(this.JobProfile.JobProfileId, messageBody, ContentType.JSON, ActionType.Published, CType.JobProfile);
-            await this.Topic.SendAsync(message).ConfigureAwait(true);
-            await Task.Delay(5000).ConfigureAwait(true);
+            IConfigurationRoot configuration = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).Build();
+            this.AppSettings = configuration.Get<AppSettings>();
+            this.CommonAction = new CommonAction();
+            this.API = new JobProfileOverviewAPI(new RestClientFactory(), new RestRequestFactory(), this.AppSettings);
+            string canonicalName = this.CommonAction.RandomString(10).ToUpperInvariant();
+            this.JobProfile = this.CommonAction.GetResource<JobProfileContentType>("JobProfileContentType");
+            this.JobProfile.JobProfileId = Guid.NewGuid().ToString();
+            this.JobProfile.UrlName = canonicalName;
+            this.JobProfile.CanonicalName = canonicalName;
+            this.JobProfile.SocCodeData = this.CommonAction.GenerateSOCCodeJobProfileSection();
+            this.JobProfile.WorkingHoursDetails = new List<WorkingHoursDetail>() { this.CommonAction.GenerateWorkingHoursDetailSection() };
+            this.JobProfile.WorkingPattern = new List<WorkingPattern>() { this.CommonAction.GenerateWorkingPatternSection() };
+            this.JobProfile.WorkingPatternDetails = new List<WorkingPatternDetail>() { this.CommonAction.GenerateWorkingPatternDetailsSection() };
+            var jobProfileMessageBody = this.CommonAction.ConvertObjectToByteArray(this.JobProfile);
+            this.ServiceBus = new ServiceBusSupport(new TopicClientFactory(), this.AppSettings);
+            var message = new MessageFactory().Create(this.JobProfile.JobProfileId, jobProfileMessageBody, "Published", "JobProfile");
+            await this.ServiceBus.SendMessage(message).ConfigureAwait(false);
+            await Task.Delay(10000).ConfigureAwait(false);
         }
 
         [OneTimeTearDown]
         public async Task OneTimeTearDown()
         {
-            await this.CommonAction.DeleteJobProfile(this.Topic, this.JobProfile).ConfigureAwait(true);
+            var jobProfileDelete = this.CommonAction.GetResource<JobProfileContentType>("JobProfileDelete");
+            var messageBody = this.CommonAction.ConvertObjectToByteArray(jobProfileDelete);
+            var message = new MessageFactory().Create(this.JobProfile.JobProfileId, messageBody, "Deleted", "JobProfile");
+            await this.ServiceBus.SendMessage(message).ConfigureAwait(false);
         }
     }
 }
