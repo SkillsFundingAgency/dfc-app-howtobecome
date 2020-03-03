@@ -1,4 +1,4 @@
-﻿namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.JobProfile
+﻿namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.ContentType.JobProfile
 {
     public class FurtherInformationModel
     {

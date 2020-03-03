@@ -1,6 +1,6 @@
 ﻿namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.ContentType.JobProfile
 {
-    public class Registration
+    public class Restriction
     {
         public string Id { get; set; }
 

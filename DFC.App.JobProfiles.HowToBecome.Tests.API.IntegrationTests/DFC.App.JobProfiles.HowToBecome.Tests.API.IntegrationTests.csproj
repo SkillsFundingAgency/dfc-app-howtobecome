@@ -48,4 +48,9 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\ContentType\" />
+    <Folder Include="Model\Support\" />
+  </ItemGroup>
+
 </Project>

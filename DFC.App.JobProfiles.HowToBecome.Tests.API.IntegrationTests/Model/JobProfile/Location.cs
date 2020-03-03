@@ -2,14 +2,16 @@
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.ContentType.JobProfile
 {
-    public class ApprenticeshipFramework
+    public class Location
     {
         public string Id { get; set; }
 
         public string Title { get; set; }
 
+        public string Description { get; set; }
+
         public Uri Url { get; set; }
 
-        public string Description { get; set; }
+        public bool IsNegative { get; set; }
     }
 }

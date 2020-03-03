@@ -1,15 +1,15 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.APIResponse
+namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.API
 {
-    public class Apprenticeship
+    public class University
     {
         [JsonProperty("relevantSubjects")]
         public List<string> RelevantSubjects { get; set; }
 
         [JsonProperty("furtherInformation")]
-        public List<object> FurtherInformation { get; set; }
+        public List<string> FurtherInformation { get; set; }
 
         [JsonProperty("entryRequirementPreface")]
         public string EntryRequirementPreface { get; set; }

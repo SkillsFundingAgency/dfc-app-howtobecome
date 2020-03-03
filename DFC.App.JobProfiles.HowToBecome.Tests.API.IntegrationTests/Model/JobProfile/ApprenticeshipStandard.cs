@@ -1,4 +1,6 @@
-﻿namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.JobProfile
+﻿using System;
+
+namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.ContentType.JobProfile
 {
     public class ApprenticeshipStandard
     {
@@ -6,7 +8,7 @@
 
         public string Title { get; set; }
 
-        public string Url { get; set; }
+        public Uri Url { get; set; }
 
         public string Description { get; set; }
     }

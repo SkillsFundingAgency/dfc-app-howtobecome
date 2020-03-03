@@ -2,7 +2,7 @@
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.ContentType.JobProfile
 {
-    public class ApprenticeshipFramework
+    public class WorkingPatternDetail
     {
         public string Id { get; set; }
 
