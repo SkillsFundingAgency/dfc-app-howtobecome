@@ -22,7 +22,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Views.UnitTests.ViewRenderer
                 BaseTemplateType = typeof(HtmlSupportTemplateBase<>),
             };
 
-            var razorEngine = RazorEngineService.Create(razorConfig);
+            using var razorEngine = RazorEngineService.Create(razorConfig);
 
             var dynamicViewBag = new DynamicViewBag(viewBag);
             return razorEngine.RunCompile(viewName, model?.GetType(), model, dynamicViewBag);

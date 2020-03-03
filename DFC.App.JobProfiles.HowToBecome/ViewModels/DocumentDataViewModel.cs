@@ -10,6 +10,7 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
 {
     public class DocumentDataViewModel
     {
+        [Display(Name = "Last Updated")]
         public DateTime LastReviewed { get; set; }
 
         public string Title { get; set; }

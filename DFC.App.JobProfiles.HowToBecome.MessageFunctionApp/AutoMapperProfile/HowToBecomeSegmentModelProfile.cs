@@ -8,6 +8,7 @@ using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels.PatchContentTypeMode
 using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile.ValueConverters;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
 {
@@ -54,7 +55,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
                 .ForMember(d => d.Description, s => s.MapFrom(a => a.Info));
 
             CreateMap<SitefinityRouteEntries, CommonRoutes>()
-                .ForMember(d => d.RouteName, s => s.MapFrom(a => Enum.Parse<RouteName>(a.RouteName.ToString()))) // parse this properly
+                .ForMember(d => d.RouteName, s => s.MapFrom(a => Enum.Parse<RouteName>(a.RouteName.ToString(new NumberFormatInfo())))) // parse this properly
                 .ForMember(d => d.Subject, s => s.MapFrom(a => a.RouteSubjects))
                 .ForMember(d => d.FurtherInformation, s => s.MapFrom(a => a.FurtherRouteInformation))
                 .ForMember(d => d.EntryRequirementPreface, s => s.MapFrom(a => a.RouteRequirement))
