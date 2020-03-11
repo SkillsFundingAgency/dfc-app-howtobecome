@@ -36,28 +36,29 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
 
         public string GetDynamicTitle()
         {
+            var lowercaseTitle = Title.ToLowerInvariant();
+
             switch (TitlePrefix)
             {
-                case TitlePrefix.AsDefined:
                 case TitlePrefix.NoPrefix:
-                    return $"{Title}";
+                    return $"{lowercaseTitle}";
 
                 case TitlePrefix.NoTitle:
                     return string.Empty;
 
                 case TitlePrefix.PrefixWithA:
-                    return $"a {Title}";
+                    return $"a {lowercaseTitle}";
 
                 case TitlePrefix.PrefixWithAn:
-                    return $"an {Title}";
+                    return $"an {lowercaseTitle}";
 
                 default:
-                    return GetDefaultDynamicTitle(Title);
+                    return GetDefaultDynamicTitle(lowercaseTitle);
             }
         }
 
         private static string GetDefaultDynamicTitle(string title) => IsStartsWithVowel(title) ? $"an {title}" : $"a {title}";
 
-        private static bool IsStartsWithVowel(string title) => new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(title.ToLowerInvariant().First());
+        private static bool IsStartsWithVowel(string title) => new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(title.First());
     }
 }
