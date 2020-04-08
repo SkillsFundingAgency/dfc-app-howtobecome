@@ -1,6 +1,6 @@
 {
-  "JobProfileId": "",
-  "Title": "Api Test Profile",
+  "JobProfileId": "[AUTOMATICALLY GENERATED]",
+  "Title": "Automatically generated record",
   "DynamicTitlePrefix": "As Defined",
   "AlternativeTitle": "Testing",
   "Overview": "Test profile for API's",
@@ -105,5 +105,5 @@
   "LastModified": "2020-01-10T08:48:43.37Z",
   "CanonicalName": "",
   "WidgetContentTitle": "",
-  "IncludeInSitemap": true
+  "IncludeInSitemap": false
 }
