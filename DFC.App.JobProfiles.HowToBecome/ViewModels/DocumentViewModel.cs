@@ -11,6 +11,9 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
         [Display(Name = "Canonical Name")]
         public string CanonicalName { get; set; }
 
+        [Display(Name = "Sequence Number")]
+        public long SequenceNumber { get; set; }
+
         public DocumentDataViewModel Data { get; set; }
     }
 }

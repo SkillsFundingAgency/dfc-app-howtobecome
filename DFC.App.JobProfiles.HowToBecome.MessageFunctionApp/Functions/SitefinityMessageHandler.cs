@@ -13,7 +13,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Functions
 {
     public class SitefinityMessageHandler
     {
-        private readonly string ClassFullName = typeof(SitefinityMessageHandler).FullName;
+        private readonly string classFullName = typeof(SitefinityMessageHandler).FullName;
         private readonly IMessageProcessor messageProcessor;
         private readonly IMessagePropertiesService messagePropertiesService;
         private readonly ILogService logService;
@@ -23,8 +23,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Functions
             IMessageProcessor messageProcessor,
             IMessagePropertiesService messagePropertiesService,
             ILogService logService,
-            ICorrelationIdProvider 
-            correlationIdProvider)
+            ICorrelationIdProvider correlationIdProvider)
         {
             this.messageProcessor = messageProcessor;
             this.messagePropertiesService = messagePropertiesService;
@@ -75,19 +74,19 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Functions
             switch (result)
             {
                 case HttpStatusCode.OK:
-                    logService.LogInformation($"{ClassFullName}: JobProfile Id: {messageContentId}: Updated segment");
+                    logService.LogInformation($"{classFullName}: JobProfile Id: {messageContentId}: Updated segment");
                     break;
 
                 case HttpStatusCode.Created:
-                    logService.LogInformation($"{ClassFullName}: JobProfile Id: {messageContentId}: Created segment");
+                    logService.LogInformation($"{classFullName}: JobProfile Id: {messageContentId}: Created segment");
                     break;
 
                 case HttpStatusCode.AlreadyReported:
-                    logService.LogInformation($"{ClassFullName}: JobProfile Id: {messageContentId}: Segment previously updated");
+                    logService.LogInformation($"{classFullName}: JobProfile Id: {messageContentId}: Segment previously updated");
                     break;
 
                 default:
-                    logService.LogWarning($"{ClassFullName}: JobProfile Id: {messageContentId}: Segment not Posted: Status: {result}");
+                    logService.LogWarning($"{classFullName}: JobProfile Id: {messageContentId}: Segment not Posted: Status: {result}");
                     break;
             }
         }

@@ -132,14 +132,13 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
             };
 
             var client = factory.CreateClient();
-
             client.DefaultRequestHeaders.Accept.Clear();
 
             // Act
             var response = await client.PostAsync(SegmentUrl, howToBecomeSegmentModel, new JsonMediaTypeFormatter()).ConfigureAwait(false);
 
             // Assert
-            response.EnsureSuccessStatusCode();
+            Assert.True(response.IsSuccessStatusCode);
         }
 
         [Fact]
