@@ -6,7 +6,7 @@
             @if (Model.HasRegistrations)
             {
 
-                <h4>Registrations</h4>
+                <h4>Registration</h4>
                 <ul>
                     @foreach (var registration in Model.Registrations)
                     {
@@ -17,14 +17,17 @@
 
             @if (Model.HasCareerTips)
             {
+                <h4>Career tips</h4>
                 @Html.Raw(Model.MoreInformation.CareerTips)
             }
             @if (Model.HasProfessionalAndIndustryBodies)
             {
+                <h4>Professional and industry bodies</h4>
                 @Html.Raw(Model.MoreInformation.ProfessionalAndIndustryBodies)
             }
             @if (Model.HasFurtherInformation)
             {
+                <h4>Further information</h4>
                 @Html.Raw(Model.MoreInformation.FurtherInformation)
             }
         </div>
