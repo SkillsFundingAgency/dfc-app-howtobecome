@@ -15,9 +15,6 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models
 
         public string Title { get; set; }
 
-        [JsonConverter(typeof(StringEnumConverter))]
-        public TitlePrefix TitlePrefix { get; set; }
-
         public string EntryRouteSummary { get; set; }
 
         public EntryRoutes EntryRoutes { get; set; }

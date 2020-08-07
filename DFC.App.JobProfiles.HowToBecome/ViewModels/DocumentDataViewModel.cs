@@ -15,8 +15,6 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
 
         public string Title { get; set; }
 
-        public TitlePrefix TitlePrefix { get; set; }
-
         public HtmlString EntryRouteSummary { get; set; }
 
         public EntryRoutes EntryRoutes { get; set; }
@@ -33,32 +31,5 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
         public bool HasCareerTips => !string.IsNullOrWhiteSpace(MoreInformation?.CareerTips?.Value);
 
         public bool HasFurtherInformation => !string.IsNullOrWhiteSpace(MoreInformation?.FurtherInformation?.Value);
-
-        public string GetDynamicTitle()
-        {
-            var lowercaseTitle = Title.ToLowerInvariant();
-
-            switch (TitlePrefix)
-            {
-                case TitlePrefix.NoPrefix:
-                    return $"{lowercaseTitle}";
-
-                case TitlePrefix.NoTitle:
-                    return string.Empty;
-
-                case TitlePrefix.PrefixWithA:
-                    return $"a {lowercaseTitle}";
-
-                case TitlePrefix.PrefixWithAn:
-                    return $"an {lowercaseTitle}";
-
-                default:
-                    return GetDefaultDynamicTitle(lowercaseTitle);
-            }
-        }
-
-        private static string GetDefaultDynamicTitle(string title) => IsStartsWithVowel(title) ? $"an {title}" : $"a {title}";
-
-        private static bool IsStartsWithVowel(string title) => new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(title.First());
     }
 }

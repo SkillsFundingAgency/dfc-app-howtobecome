@@ -83,6 +83,43 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Services
             expectedResponse.Should().BeEquivalentTo(actualMappedModel);
         }
 
+        [Theory]
+        [InlineData ("Title", "", "title")]
+        [InlineData("Title", "Override Title", "Override Title")]
+        public void HtbTitleIsOverridenCorrectly(string title, string widgetContentTitle, string expectedTitle)
+        {
+            //Arrange
+            var jobProfileMessage = new JobProfileMessage() { DynamicTitlePrefix = "No Prefix", Title = title, WidgetContentTitle = widgetContentTitle };
+            var message = JsonConvert.SerializeObject(jobProfileMessage);
+
+            //Act
+            var actualMappedModel = mappingService.MapToSegmentModel(message, SequenceNumber);
+
+            //Asserts
+            actualMappedModel.Data.Title.Should().Be(expectedTitle);
+        }
+
+        [Theory]
+        [InlineData("Title", "No Prefix", "title")]
+        [InlineData("Title", "Prefix with a", "a title")]
+        [InlineData("Title", "Prefix with an", "an title")]
+        [InlineData("Title", "No Title", "")]
+        [InlineData("noVowel", "No Defined", "a novowel")]
+        [InlineData("aVowel", "No Defined", "an avowel")]
+        public void HtbTitleIsPreFixedCorrectly(string title, string prefix, string expectedTitle)
+        {
+            //Arrange
+            var jobProfileMessage = new JobProfileMessage() { DynamicTitlePrefix = prefix, Title = title };
+            var message = JsonConvert.SerializeObject(jobProfileMessage);
+
+            //Act
+            var actualMappedModel = mappingService.MapToSegmentModel(message, SequenceNumber);
+
+            //Asserts
+            actualMappedModel.Data.Title.Should().Be(expectedTitle);
+        }
+
+
         private static JobProfileMessage BuildJobProfileMessage()
         {
             return new JobProfileMessage
@@ -91,8 +128,8 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Services
                 JobProfileId = JobProfileId,
                 LastModified = LastModified,
                 CanonicalName = TestJobName,
-                DynamicTitlePrefix = TitlePrefix.PrefixWithAn.ToString(),
                 SocLevelTwo = SocCodeId,
+                DynamicTitlePrefix = "No Prefix",
                 HowToBecomeData = new SitefinityHowToBecomeMessage
                 {
                     IntroText = IntroText,
@@ -179,10 +216,9 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Services
                 Etag = null,
                 Data = new HowToBecomeSegmentDataModel
                 {
-                    Title = Title,
+                    Title = Title.ToLowerInvariant(),
                     LastReviewed = LastModified,
                     EntryRouteSummary = IntroText,
-                    TitlePrefix = TitlePrefix.PrefixWithAn,
                     EntryRoutes = new EntryRoutes
                     {
                         CommonRoutes = new List<CommonRoutes>

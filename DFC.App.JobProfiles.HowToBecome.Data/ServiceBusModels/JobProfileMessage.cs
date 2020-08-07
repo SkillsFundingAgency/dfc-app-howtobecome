@@ -14,6 +14,8 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels
 
         public string DynamicTitlePrefix { get; set; }
 
+        public string WidgetContentTitle { get; set; }
+
         [Required]
         public string CanonicalName { get; set; }
 
