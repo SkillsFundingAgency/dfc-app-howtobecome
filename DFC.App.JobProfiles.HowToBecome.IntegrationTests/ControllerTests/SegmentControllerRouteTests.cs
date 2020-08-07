@@ -221,7 +221,6 @@ namespace DFC.App.JobProfiles.HowToBecome.IntegrationTests.ControllerTests
             {
                 LastReviewed = DateTime.UtcNow,
                 Title = $"{title} created title",
-                TitlePrefix = TitlePrefix.AsDefined,
                 EntryRouteSummary = "<p>You can get into this job through:</p><ul><li>a university course </li><li> a college course </li><li> an apprenticeship </li><li> working towards this role </li></ul>",
                 EntryRoutes = new EntryRoutes
                 {
