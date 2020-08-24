@@ -1,8 +1,8 @@
-﻿using DFC.Api.JobProfiles.Common.AzureServiceBusSupport;
-using DFC.Api.JobProfiles.IntegrationTests.Model.Support;
+﻿using DFC.Api.JobProfiles.IntegrationTests.Model.Support;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.ContentType;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.AzureServiceBus;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.AzureServiceBus.ServiceBusFactory;
+using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.CommonActions;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using System;

@@ -1,46 +1,27 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.CommonActions.Interface;
 using Newtonsoft.Json;
 using System;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 
-namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
+namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.CommonActions
 {
-    public partial class CommonAction
+    public class CommonAction : IGeneralSupport
     {
-        private static Random random = new Random();
+        private static readonly Random Random = new Random();
 
         public string RandomString(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             return new string(Enumerable.Repeat(chars, length)
-              .Select(s => s[random.Next(s.Length)]).ToArray());
+              .Select(s => s[Random.Next(s.Length)]).ToArray());
         }
 
         public byte[] ConvertObjectToByteArray(object obj)
         {
             string serialisedContent = JsonConvert.SerializeObject(obj);
             return Encoding.ASCII.GetBytes(serialisedContent);
-        }
-
-        public string GetDescription(Enum enumerator)
-        {
-            Type type = enumerator.GetType();
-            MemberInfo[] memInfo = type.GetMember(enumerator.ToString());
-
-            if (memInfo != null && memInfo.Length > 0)
-            {
-                object[] attrs = (object[])memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-                if (attrs != null && attrs.Length > 0)
-                {
-                    return ((DescriptionAttribute)attrs[0]).Description;
-                }
-            }
-
-            return enumerator.ToString();
         }
 
         public T GetResource<T>(string resourceName)
