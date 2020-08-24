@@ -1,6 +1,5 @@
-﻿using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.JobProfile;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.Interface;
+﻿using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.Classification;
+using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.ContentType;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,52 +7,8 @@ using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
-    internal partial class CommonAction : IHowToBecomeSupport
+    public partial class CommonAction
     {
-        public RouteEntry GenerateRouteEntryForRouteEntryType(EnumLibrary.RouteEntryType routeEntryType)
-        {
-            return new RouteEntry()
-            {
-                RouteName = (int)routeEntryType,
-                EntryRequirements = new List<EntryRequirement>(),
-                MoreInformationLinks = new List<MoreInformationLink>(),
-                FurtherRouteInformation = $"Default further information for the {routeEntryType} route entry type",
-                RouteRequirement = $"Default route requirement for the {routeEntryType} route entry type",
-                RouteSubjects = $"Default route subjects for the {routeEntryType} route entry type",
-            };
-        }
-
-        public MoreInformationLink GenerateMoreInformationLinkSection(EnumLibrary.RouteEntryType routeEntryType)
-        {
-            return new MoreInformationLink()
-            {
-                Id = Guid.NewGuid().ToString(),
-                Text = $"Default more information link for the {routeEntryType} route entry type",
-                Title = $"Default more information title for the {routeEntryType} route entry type",
-                Url = $"https://{this.RandomString(10)}.com",
-            };
-        }
-
-        public Registration GenerateRegistrationsSection()
-        {
-            return new Registration()
-            {
-                Id = Guid.NewGuid().ToString(),
-                Title = "Default registrations title",
-                Info = "Default registrations info",
-            };
-        }
-
-        public EntryRequirement GenerateEntryRequirementSection(EnumLibrary.RouteEntryType entryRequirementType)
-        {
-            return new EntryRequirement()
-            {
-                Id = Guid.NewGuid().ToString(),
-                Info = $"Default {entryRequirementType} entry requirement",
-                Title = $"Default {entryRequirementType} entry requirement title",
-            };
-        }
-
         public EntryRequirementsClassification GenerateEntryRequirementsClassificationForJobProfile(RouteEntryType routeEntryType, JobProfileContentType jobProfile)
         {
             return new EntryRequirementsClassification()
@@ -93,7 +48,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
                 Id = routeEntry.MoreInformationLinks[0].Id,
                 Text = "This is updated link text",
                 Title = "This is an updated link title",
-                Url = $"https://{this.RandomString(10)}.com/",
+                Url = new Uri($"https://{this.RandomString(10)}.com/"),
                 JobProfileId = jobProfile.JobProfileId,
                 JobProfileTitle = jobProfile.Title,
             };

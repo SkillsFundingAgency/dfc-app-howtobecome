@@ -2,7 +2,7 @@
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
 {
-    internal class EnumLibrary
+    public class EnumLibrary
     {
         public enum RouteEntryType
         {
