@@ -1,26 +1,45 @@
-using DFC.Api.JobProfiles.Common.APISupport;
-using DFC.Api.JobProfiles.Common.AzureServiceBusSupport;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model;
+using DFC.Api.JobProfiles.IntegrationTests.Support.API;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.APIResponse;
+using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.ContentType;
 using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support;
+using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.API;
+using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.API.RestFactory;
+using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.AzureServiceBus.ServiceBusFactory;
 using NUnit.Framework;
+using System;
 using System.Threading.Tasks;
-using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.EnumLibrary;
 
 namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
 {
     public class Registration : SetUpAndTearDown
     {
-        //[Test]
-        //public async Task JobProfileHowToBecomeRegistration()
-        //{
-        //    RegistrationsContentType registrationsContentType = this.CommonAction.GenerateRegistrationsContentTypeForJobProfile(this.JobProfile);
-        //    byte[] messageBody = this.CommonAction.ConvertObjectToByteArray(registrationsContentType);
-        //    Message message = this.CommonAction.CreateServiceBusMessage(this.JobProfile.JobProfileId, messageBody, ContentType.JSON, ActionType.Published, CType.Registration);
-        //    await this.Topic.SendAsync(message).ConfigureAwait(true);
-        //    await Task.Delay(5000).ConfigureAwait(true);
-        //    Response<HowToBecomeAPIResponse> howToBecomeResponse = await this.CommonAction.ExecuteGetRequest<HowToBecomeAPIResponse>(Settings.APIConfig.EndpointBaseUrl.Replace("{id}", this.JobProfile.JobProfileId, System.StringComparison.InvariantCultureIgnoreCase)).ConfigureAwait(true);
-        //    Assert.AreEqual(registrationsContentType.Info, howToBecomeResponse.Data.MoreInformation.Registrations[0]);
-        //}
+        private JobProfileApi howToBecomeAPI;
+
+        [SetUp]
+        public void SetUp()
+        {
+            var apiSettings = new APISettings { Endpoint = new Uri(this.AppSettings.APIConfig.EndpointBaseUrl) };
+            this.howToBecomeAPI = new JobProfileApi(new RestClientFactory(), new RestRequestFactory(), this.AppSettings, apiSettings);
+        }
+
+        [Test]
+        public async Task JobProfileHowToBecomeRegistration()
+        {
+            RegistrationsContentType registrationsContentType = new RegistrationsContentType()
+            {
+                Id = this.JobProfile.HowToBecomeData.Registrations[0].Id,
+                Info = "This is the upated info for the registrations record",
+                JobProfileId = this.JobProfile.JobProfileId,
+                JobProfileTitle = this.JobProfile.Title,
+                Title = "This is the upated title for the registrations record",
+            };
+
+            var messageBody = this.CommonAction.ConvertObjectToByteArray(registrationsContentType);
+            var message = new MessageFactory().Create(this.JobProfile.JobProfileId, messageBody, "Published", "Registration");
+            await this.ServiceBus.SendMessage(message).ConfigureAwait(false);
+            await Task.Delay(5000).ConfigureAwait(true);
+            var response = await this.howToBecomeAPI.GetById<HowToBecomeAPIResponse>(this.JobProfile.JobProfileId).ConfigureAwait(true); 
+            Assert.AreEqual(registrationsContentType.Info, response.Data.MoreInformation.Registrations[0]);
+        }
     }
 }

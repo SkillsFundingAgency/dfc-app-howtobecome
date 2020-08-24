@@ -34,26 +34,6 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
             };
         }
 
-        public LinksContentType GenerateLinksContentTypeForJobProfile(RouteEntryType routeEntryType, JobProfileContentType jobProfile)
-        {
-            RouteEntry routeEntry = jobProfile.HowToBecomeData.RouteEntries.Where(re => re.RouteName.Equals((int)routeEntryType)).FirstOrDefault();
-
-            if (routeEntry == null)
-            {
-                throw new Exception($"Unable to find the route entry with route name {(int)routeEntryType}");
-            }
-
-            return new LinksContentType()
-            {
-                Id = routeEntry.MoreInformationLinks[0].Id,
-                Text = "This is updated link text",
-                Title = "This is an updated link title",
-                Url = new Uri($"https://{this.RandomString(10)}.com/"),
-                JobProfileId = jobProfile.JobProfileId,
-                JobProfileTitle = jobProfile.Title,
-            };
-        }
-
         public RequirementContentType GenerateRequirementClassificationForJobProfile(RouteEntryType routeEntryType, JobProfileContentType jobProfile)
         {
             RouteEntry routeEntry = jobProfile.HowToBecomeData.RouteEntries.Where(re => re.RouteName.Equals((int)routeEntryType)).FirstOrDefault();
