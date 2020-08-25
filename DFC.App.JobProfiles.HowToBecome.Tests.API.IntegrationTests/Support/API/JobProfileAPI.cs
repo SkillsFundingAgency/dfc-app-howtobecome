@@ -32,7 +32,7 @@ namespace DFC.Api.JobProfiles.IntegrationTests.Support.API
             }
 
             var restClient = this.restClientFactory.Create(this.apiSettings.Endpoint);
-            var restRequest = this.restRequestFactory.Create($"/{id}/contents");
+            var restRequest = this.restRequestFactory.Create($"/segment/{id}/contents");
 
             foreach (KeyValuePair<string, string> queryParameter in this.apiSettings.QueryParameters)
             {
