@@ -59,13 +59,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{5C2AB7AE-ECCE-47B0-8E0B-92753636B0E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests", "DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests\DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.csproj", "{174E9B3D-FC8C-4750-9774-88362CCB3779}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests", "DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests\DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.csproj", "{174E9B3D-FC8C-4750-9774-88362CCB3779}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{9110D719-D66F-42EF-846B-23804155CD4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.JobProfiles.HowToBecome.Tests.Common.APISupport", "DFC.App.JobProfiles.HowToBecome.Tests.Common.APISupport\DFC.App.JobProfiles.HowToBecome.Tests.Common.APISupport.csproj", "{21EF1C43-753D-4619-AFA2-3BA593FE3E86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome.Tests.Common.APISupport", "DFC.App.JobProfiles.HowToBecome.Tests.Common.APISupport\DFC.App.JobProfiles.HowToBecome.Tests.Common.APISupport.csproj", "{21EF1C43-753D-4619-AFA2-3BA593FE3E86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DFC.App.JobProfiles.HowToBecome.Tests.Common.AzureServiceBusSupport", "DFC.App.JobProfiles.HowToBecome.Tests.Common.AzureServiceBusSupport\DFC.App.JobProfiles.HowToBecome.Tests.Common.AzureServiceBusSupport.csproj", "{ED662E53-1A9E-483C-A006-571F78636072}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome.Tests.Common.AzureServiceBusSupport", "DFC.App.JobProfiles.HowToBecome.Tests.Common.AzureServiceBusSupport\DFC.App.JobProfiles.HowToBecome.Tests.Common.AzureServiceBusSupport.csproj", "{ED662E53-1A9E-483C-A006-571F78636072}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestFrameworks", "TestFrameworks", "{281E66FD-EF2B-4939-963A-FAAB91C185E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -151,6 +153,7 @@ Global
 		{9110D719-D66F-42EF-846B-23804155CD4D} = {C1FB0E35-9A76-4AD5-82E2-706A040A3575}
 		{21EF1C43-753D-4619-AFA2-3BA593FE3E86} = {9110D719-D66F-42EF-846B-23804155CD4D}
 		{ED662E53-1A9E-483C-A006-571F78636072} = {9110D719-D66F-42EF-846B-23804155CD4D}
+		{281E66FD-EF2B-4939-963A-FAAB91C185E3} = {91D6C924-05D6-4F74-AEAC-1F3695B81ADD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {696A5DAA-2A35-46E3-BBCD-C9B55866F0A7}
