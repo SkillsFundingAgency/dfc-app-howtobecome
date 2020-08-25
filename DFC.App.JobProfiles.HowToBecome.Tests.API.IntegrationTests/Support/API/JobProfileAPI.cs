@@ -31,9 +31,8 @@ namespace DFC.Api.JobProfiles.IntegrationTests.Support.API
                 return null;
             }
 
-            var endpoint = this.apiSettings.Endpoint.ToString().Replace("{id}", id, System.StringComparison.InvariantCulture);
-            var restClient = this.restClientFactory.Create(new Uri(endpoint));
-            var restRequest = this.restRequestFactory.Create();
+            var restClient = this.restClientFactory.Create(this.apiSettings.Endpoint);
+            var restRequest = this.restRequestFactory.Create($"/{id}/contents");
 
             foreach (KeyValuePair<string, string> queryParameter in this.apiSettings.QueryParameters)
             {
