@@ -14,7 +14,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Tests.APITest.UnitTests
         public async Task SendMessageSendsMessageOnTopicClient()
         {
             // Arrange
-            var message = A.Fake<Api.JobProfiles.Common.AzureServiceBusSupport.Message>();
+            var message = A.Fake<Message>();
             var fakeTopicClient = A.Fake<ITopicClient>();
             var fakeTopicClientFactory = A.Fake<ITopicClientFactory>();
             A.CallTo(() => fakeTopicClientFactory.Create(A<string>.Ignored)).Returns(fakeTopicClient);
