@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.API
+namespace DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.API
 {
     public class APISettings
     {

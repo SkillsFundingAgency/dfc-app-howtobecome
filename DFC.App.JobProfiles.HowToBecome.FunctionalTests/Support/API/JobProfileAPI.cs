@@ -1,6 +1,6 @@
 ﻿using DFC.Api.JobProfiles.IntegrationTests.Model.Support;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.API;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.API.RestFactory.Interfaces;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.API;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.API.RestFactory.Interfaces;
 using RestSharp;
 using System;
 using System.Collections.Generic;

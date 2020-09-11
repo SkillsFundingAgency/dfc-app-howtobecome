@@ -1,11 +1,11 @@
-﻿using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.CommonActions.Interface;
+﻿using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.CommonActions.Interface;
 using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.CommonActions
+namespace DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.CommonActions
 {
     public class CommonAction : IGeneralSupport
     {

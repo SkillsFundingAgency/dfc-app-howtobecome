@@ -1,7 +1,7 @@
 ﻿using Microsoft.Azure.ServiceBus;
 using System.Threading.Tasks;
 
-namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.AzureServiceBus
+namespace DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.AzureServiceBus
 {
     public interface IServiceBusSupport
     {

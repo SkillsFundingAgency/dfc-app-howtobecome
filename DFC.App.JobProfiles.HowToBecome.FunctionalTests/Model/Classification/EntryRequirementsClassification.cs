@@ -1,4 +1,4 @@
-﻿namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.Classification
+﻿namespace DFC.App.JobProfiles.HowToBecome.FunctionalTests.Model.Classification
 {
     public class EntryRequirementsClassification
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.ContentType
+namespace DFC.App.JobProfiles.HowToBecome.FunctionalTests.Model.ContentType
 {
     public class SocCodeData
     {

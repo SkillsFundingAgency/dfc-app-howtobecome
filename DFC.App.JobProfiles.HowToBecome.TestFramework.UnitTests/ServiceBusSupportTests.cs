@@ -1,6 +1,6 @@
 ﻿using DFC.Api.JobProfiles.IntegrationTests.Model.Support;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.AzureServiceBus;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.AzureServiceBus.ServiceBusFactory.Interfaces;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.AzureServiceBus;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.AzureServiceBus.ServiceBusFactory.Interfaces;
 using FakeItEasy;
 using Microsoft.Azure.ServiceBus;
 using System.Threading.Tasks;

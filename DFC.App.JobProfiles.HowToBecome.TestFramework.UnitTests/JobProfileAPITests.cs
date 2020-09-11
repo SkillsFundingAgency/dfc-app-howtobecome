@@ -1,8 +1,8 @@
 ﻿using DFC.Api.JobProfiles.IntegrationTests.Model.Support;
 using DFC.Api.JobProfiles.IntegrationTests.Support.API;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.APIResponse;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.API;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.API.RestFactory.Interfaces;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Model.APIResponse;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.API;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.API.RestFactory.Interfaces;
 using FakeItEasy;
 using RestSharp;
 using System;

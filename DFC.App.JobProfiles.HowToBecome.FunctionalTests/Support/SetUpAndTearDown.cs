@@ -1,17 +1,17 @@
 ﻿using DFC.Api.JobProfiles.IntegrationTests.Model.Support;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.ContentType;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.AzureServiceBus;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.AzureServiceBus.ServiceBusFactory;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.CommonActions;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Model.ContentType;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.AzureServiceBus;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.AzureServiceBus.ServiceBusFactory;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.CommonActions;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.EnumLibrary;
+using static DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.EnumLibrary;
 
-namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support
+namespace DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support
 {
     public class SetUpAndTearDown
     {

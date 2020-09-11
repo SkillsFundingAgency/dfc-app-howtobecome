@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.APIResponse
+namespace DFC.App.JobProfiles.HowToBecome.FunctionalTests.Model.APIResponse
 {
     public class MoreInformation
     {

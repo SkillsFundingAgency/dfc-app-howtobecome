@@ -1,4 +1,4 @@
-﻿namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.CommonActions.Interface
+﻿namespace DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.CommonActions.Interface
 {
     public interface IGeneralSupport
     {

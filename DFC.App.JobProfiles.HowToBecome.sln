@@ -59,10 +59,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{9110D719-D66F-42EF-846B-23804155CD4D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome.Tests.Common.APISupport", "DFC.App.JobProfiles.HowToBecome.Tests.Common.APISupport\DFC.App.JobProfiles.HowToBecome.Tests.Common.APISupport.csproj", "{21EF1C43-753D-4619-AFA2-3BA593FE3E86}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DFC.App.JobProfiles.HowToBecome.Tests.Common.AzureServiceBusSupport", "DFC.App.JobProfiles.HowToBecome.Tests.Common.AzureServiceBusSupport\DFC.App.JobProfiles.HowToBecome.Tests.Common.AzureServiceBusSupport.csproj", "{ED662E53-1A9E-483C-A006-571F78636072}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestFrameworks", "TestFrameworks", "{281E66FD-EF2B-4939-963A-FAAB91C185E3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FunctionalTests", "FunctionalTests", "{36282EB6-05A1-46D9-93B5-4A38B16FADC9}"

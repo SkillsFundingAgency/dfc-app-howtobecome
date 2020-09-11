@@ -1,17 +1,17 @@
 using DFC.Api.JobProfiles.IntegrationTests.Support.API;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.APIResponse;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Model.ContentType;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.API;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.API.RestFactory;
-using DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.AzureServiceBus.ServiceBusFactory;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Model.APIResponse;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Model.ContentType;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.API;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.API.RestFactory;
+using DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.AzureServiceBus.ServiceBusFactory;
 using NUnit.Framework;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using static DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Support.EnumLibrary;
+using static DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.EnumLibrary;
 
-namespace DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.Test
+namespace DFC.App.JobProfiles.HowToBecome.FunctionalTests.Test
 {
     public class Requirement : SetUpAndTearDown
     {

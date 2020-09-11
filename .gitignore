@@ -263,7 +263,7 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
-/DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests/appsettings-sit.json
-/DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests/appsettings-dev.json
+/DFC.App.JobProfiles.HowToBecome.FunctionalTests/appsettings-sit.json
+/DFC.App.JobProfiles.HowToBecome.FunctionalTests/appsettings-dev.json
 /DFC.App.JobProfiles.HowToBecome.FunctionalTests/appsettings-sit.json
 /DFC.App.JobProfiles.HowToBecome.FunctionalTests/appsettings-dev.json
