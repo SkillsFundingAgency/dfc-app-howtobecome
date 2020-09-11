@@ -55,10 +55,22 @@ jobs:
 - job: BuildIntegrationTests
   displayName: Build integration tests
   steps:
-  # Build DFC.Api.JobProfiles.HowToBecome.Tests.API.IntegrationTests
+  # Build all Integration Tests that end with .IntegrationTests
   - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-build-notests.yml@dfc-devops
     parameters:
-      SolutionBaseName: $(SolutionBaseName).Tests.API.IntegrationTests
+      SolutionBaseName: $(SolutionBaseName).IntegrationTests
+      BuildPlatform: $(BuildPlatform)
+      BuildConfiguration: $(BuildConfiguration)
+      DotNetCoreVersion: 3.1.101
+
+ #Build functional Tests
+- job: Buildfunctionaltests
+  displayName: Build functional tests
+  steps:
+  # Build all Functional Tests that ends with .FunctionalTests
+  - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-build-sonar.yml@dfc-devops
+    parameters:
+      SolutionBaseName: $(SolutionBaseName).FunctionalTests
       BuildPlatform: $(BuildPlatform)
       BuildConfiguration: $(BuildConfiguration)
       DotNetCoreVersion: 3.1.101
