@@ -6,7 +6,7 @@ using Microsoft.Azure.ServiceBus;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace DFC.App.JobProfiles.HowToBecome.Tests.APITest.UnitTests
+namespace DFC.App.JobProfiles.HowToBecome.TestFramework.UnitTests
 {
     public class ServiceBusSupportTests
     {
