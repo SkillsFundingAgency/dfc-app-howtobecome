@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <CodeAnalysisRuleSet>../DFC.Digital.CodeAnalysis.ruleset</CodeAnalysisRuleSet>
     <LangVersion>latest</LangVersion>
-    <ProjectGuid>{3A377950-389F-437A-B988-8A6D434B6F49}</ProjectGuid>
+    <ProjectGuid>3A377950-389F-437A-B988-8A6D434B6F49</ProjectGuid>
   </PropertyGroup>
 
   <ItemGroup>
