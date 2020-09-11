@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests\DFC.App.JobProfiles.HowToBecome.Tests.API.IntegrationTests.csproj" />
+    <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.FunctionalTests\DFC.App.JobProfiles.HowToBecome.FunctionalTests.csproj" />
   </ItemGroup>
 
 </Project>
