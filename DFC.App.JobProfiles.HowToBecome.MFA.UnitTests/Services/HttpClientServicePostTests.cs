@@ -34,7 +34,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Services
         public Mock<IHttpClientFactory> CreateClientFactory(HttpClient httpClient)
         {
             mockFactory = new Mock<IHttpClientFactory>();
-            mockFactory.Setup(_ => _.CreateClient()).Returns(httpClient);
+            mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
             return mockFactory;
         }
 
