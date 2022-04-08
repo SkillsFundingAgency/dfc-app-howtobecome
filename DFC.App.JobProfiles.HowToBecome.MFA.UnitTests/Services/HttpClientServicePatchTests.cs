@@ -4,6 +4,7 @@ using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services;
 using DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.FakeHttpHandlers;
 using DFC.Logger.AppInsights.Contracts;
 using FakeItEasy;
+using Moq;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -18,6 +19,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Services
         private readonly ILogService logService;
         private readonly ICorrelationIdProvider correlationIdProvider;
         private readonly SegmentClientOptions segmentClientOptions;
+        private Mock<IHttpClientFactory> mockFactory;
 
         public HttpClientServicePatchTests()
         {
@@ -27,6 +29,12 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Services
             {
                 BaseAddress = new Uri("https://somewhere.com", UriKind.Absolute),
             };
+        }
+        public Mock<IHttpClientFactory> CreateClientFactory(HttpClient httpClient)
+        {
+            mockFactory = new Mock<IHttpClientFactory>();
+            mockFactory.Setup(_ => _.CreateClient(It.IsAny<string>())).Returns(httpClient);
+            return mockFactory;
         }
 
         [Fact]
@@ -38,7 +46,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Services
             var fakeHttpRequestSender = A.Fake<IFakeHttpRequestSender>();
             var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpRequestSender);
             var httpClient = new HttpClient(fakeHttpMessageHandler) { BaseAddress = segmentClientOptions.BaseAddress };
-            var httpClientService = new HttpClientService(segmentClientOptions, httpClient, logService, correlationIdProvider);
+            var httpClientService = new HttpClientService(segmentClientOptions, CreateClientFactory(httpClient).Object, logService, correlationIdProvider);
 
             A.CallTo(() => fakeHttpRequestSender.Send(A<HttpRequestMessage>.Ignored)).Returns(httpResponse);
 
@@ -63,7 +71,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Services
             var fakeHttpRequestSender = A.Fake<IFakeHttpRequestSender>();
             var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpRequestSender);
             var httpClient = new HttpClient(fakeHttpMessageHandler) { BaseAddress = segmentClientOptions.BaseAddress };
-            var httpClientService = new HttpClientService(segmentClientOptions, httpClient, logService, correlationIdProvider);
+            var httpClientService = new HttpClientService(segmentClientOptions, CreateClientFactory(httpClient).Object, logService, correlationIdProvider);
 
             A.CallTo(() => fakeHttpRequestSender.Send(A<HttpRequestMessage>.Ignored)).Returns(httpResponse);
 
@@ -88,7 +96,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Services
             var fakeHttpRequestSender = A.Fake<IFakeHttpRequestSender>();
             var fakeHttpMessageHandler = new FakeHttpMessageHandler(fakeHttpRequestSender);
             var httpClient = new HttpClient(fakeHttpMessageHandler) { BaseAddress = segmentClientOptions.BaseAddress };
-            var httpClientService = new HttpClientService(segmentClientOptions, httpClient, logService, correlationIdProvider);
+            var httpClientService = new HttpClientService(segmentClientOptions, CreateClientFactory(httpClient).Object, logService, correlationIdProvider);
 
             A.CallTo(() => fakeHttpRequestSender.Send(A<HttpRequestMessage>.Ignored)).Returns(httpResponse);
 
