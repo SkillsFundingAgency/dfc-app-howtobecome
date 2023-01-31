@@ -4,6 +4,6 @@ namespace DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.API.RestFactor
 {
     public interface IRestRequestFactory
     {
-        IRestRequest Create(string urlSuffix = null);
+        RestRequest Create(string urlSuffix = null);
     }
 }

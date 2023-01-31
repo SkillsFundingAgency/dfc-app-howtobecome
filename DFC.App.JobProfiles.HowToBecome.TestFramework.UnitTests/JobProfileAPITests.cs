@@ -17,8 +17,8 @@ namespace DFC.App.JobProfiles.HowToBecome.TestFramework.UnitTests
         public async Task JobProfileAPICallsOnRestClientExecute()
         {
             // Arrange
-            var fakeRestClient = A.Fake<IRestClient>();
-            var fakeRestRequest = A.Fake<IRestRequest>();
+            var fakeRestClient = A.Fake<RestClient>();
+            var fakeRestRequest = A.Fake<RestRequest>();
             var fakeRestClientFactory = A.Fake<IRestClientFactory>();
             var fakeRestRequestFactory = A.Fake<IRestRequestFactory>();
             A.CallTo(() => fakeRestClientFactory.Create(A<Uri>.Ignored)).Returns(fakeRestClient);

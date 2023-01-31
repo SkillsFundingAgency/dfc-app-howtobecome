@@ -5,8 +5,8 @@ namespace DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.API.RestFactor
 {
     public interface IRestClientFactory
     {
-        IRestClient Create(Uri baseUrl);
+        RestClient Create(Uri baseUrl);
 
-        IRestClient Create(string baseUrl);
+        RestClient Create(string baseUrl);
     }
 }

@@ -23,7 +23,7 @@ namespace DFC.Api.JobProfiles.IntegrationTests.Support.API
             this.apiSettings = apiSettings;
         }
 
-        public async Task<IRestResponse<T>> GetById<T>(string id)
+        public async Task<RestResponse<T>> GetById<T>(string id)
             where T : class, new()
         {
             if (string.IsNullOrEmpty(id))

@@ -6,12 +6,12 @@ namespace DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.API.RestFactor
 {
     internal class RestClientFactory : IRestClientFactory
     {
-        public IRestClient Create(Uri baseUrl)
+        public RestClient Create(Uri baseUrl)
         {
             return new RestClient(baseUrl);
         }
 
-        public IRestClient Create(string baseUrl)
+        public RestClient Create(string baseUrl)
         {
             return new RestClient(baseUrl);
         }

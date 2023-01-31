@@ -5,7 +5,7 @@ namespace DFC.App.JobProfiles.HowToBecome.FunctionalTests.Support.API.RestFactor
 {
     internal class RestRequestFactory : IRestRequestFactory
     {
-        public IRestRequest Create(string urlSuffix = null)
+        public RestRequest Create(string urlSuffix = null)
         {
             return new RestRequest(urlSuffix);
         }
