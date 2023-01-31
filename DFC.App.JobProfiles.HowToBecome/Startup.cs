@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Documents;
-using Microsoft.Azure.Documents.Client;
+using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -73,15 +73,20 @@ namespace DFC.App.JobProfiles.HowToBecome
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var serviceBusOptions = configuration.GetSection(ServiceBusOptionsAppSettings).Get<ServiceBusOptions>();
-
             var cosmosDbConnection = configuration.GetSection(CosmosDbConfigAppSettings).Get<CosmosDbConnection>();
-            var retryOptions = new RetryOptions { MaxRetryAttemptsOnThrottledRequests = 20, MaxRetryWaitTimeInSeconds = 60 };
-            var documentClient = new DocumentClient(new Uri(cosmosDbConnection.EndpointUrl), cosmosDbConnection.AccessKey, new ConnectionPolicy { RetryOptions = retryOptions });
+            var serviceBusOptions = configuration.GetSection(ServiceBusOptionsAppSettings).Get<ServiceBusOptions>();
             var topicClient = new TopicClient(serviceBusOptions.ServiceBusConnectionString, serviceBusOptions.TopicName);
 
+            CosmosClientBuilder cosmosClientBuilder = new CosmosClientBuilder(
+                accountEndpoint: cosmosDbConnection.EndpointUrl,
+                authKeyOrResourceToken: cosmosDbConnection.AccessKey)
+                .WithThrottlingRetryOptions(
+                maxRetryWaitTimeOnThrottledRequests: new TimeSpan(0, 0, 60),
+                maxRetryAttemptsOnThrottledRequests: 20);
+            CosmosClient cosmosClient = cosmosClientBuilder.Build();
+
             services.AddSingleton(cosmosDbConnection);
-            services.AddSingleton<IDocumentClient>(documentClient);
+            services.AddSingleton<CosmosClient>(cosmosClient);
             services.AddSingleton<ITopicClient>(topicClient);
             services.AddSingleton<ICosmosRepository<HowToBecomeSegmentModel>, CosmosRepository<HowToBecomeSegmentModel>>();
             services.AddScoped<IHowToBecomeSegmentService, HowToBecomeSegmentService>();
