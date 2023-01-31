@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <ProjectGuid>{174E9B3D-FC8C-4750-9774-88362CCB3779}</ProjectGuid>
+    <TargetFramework>net6.0</TargetFramework>
+    <ProjectGuid>174E9B3D-FC8C-4750-9774-88362CCB3779</ProjectGuid>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -11,26 +11,24 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="5.2.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="7.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
+    <PackageReference Include="RestSharp" Version="108.0.3" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.2" />
-    <PackageReference Include="nunit" Version="3.12.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1">
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="nunit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.3.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.Tests.Common.APISupport\DFC.App.JobProfiles.HowToBecome.Tests.Common.APISupport.csproj" />
-    <ProjectReference Include="..\DFC.App.JobProfiles.HowToBecome.Tests.Common.AzureServiceBusSupport\DFC.App.JobProfiles.HowToBecome.Tests.Common.AzureServiceBusSupport.csproj" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
   </ItemGroup>
 
   <ItemGroup>
