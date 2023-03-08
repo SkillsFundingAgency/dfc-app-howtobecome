@@ -50,12 +50,23 @@ jobs:
       PublishWebApp: true
 
 #Build integration tests
-- job: BuildIntegrationTests
-  displayName: Build integration tests
+- job: BuildApiIntegrationTests
+  displayName: Build API integration tests
   steps:
   # Build DFC.Api.JobProfiles.HowToBecome.Tests.API.IntegrationTests
   - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-build-notests.yml@dfc-devops
     parameters:
       SolutionBaseName: $(SolutionBaseName).Tests.API.IntegrationTests
+      BuildPlatform: $(BuildPlatform)
+      BuildConfiguration: $(BuildConfiguration)
+
+#Build integration tests
+- job: BuildAppIntegrationTests
+  displayName: Build APP integration tests
+  steps:
+  # Build DFC.App.JobProfiles.HowToBecome.IntegrationTests
+  - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-build-notests.yml@dfc-devops
+    parameters:
+      SolutionBaseName: $(SolutionBaseName).IntegrationTests
       BuildPlatform: $(BuildPlatform)
       BuildConfiguration: $(BuildConfiguration)
