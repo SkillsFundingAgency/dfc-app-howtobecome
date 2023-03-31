@@ -59,13 +59,13 @@ jobs:
       BuildPlatform: $(BuildPlatform)
       BuildConfiguration: $(BuildConfiguration)
 
- #Build functional Tests
-- job: Buildfunctionaltests
-  displayName: Build functional tests
+#Build integration tests
+- job: BuildAppIntegrationTests
+  displayName: Build APP integration tests
   steps:
-  # Build all Functional Tests that ends with .FunctionalTests
-  - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-build-sonar.yml@dfc-devops
+  # Build DFC.App.JobProfiles.HowToBecome.IntegrationTests
+  - template: AzureDevOpsTemplates\Build\StepTemplates\dfc-dotnetcore-build-notests.yml@dfc-devops
     parameters:
-      SolutionBaseName: $(SolutionBaseName).FunctionalTests
+      SolutionBaseName: $(SolutionBaseName).IntegrationTests
       BuildPlatform: $(BuildPlatform)
       BuildConfiguration: $(BuildConfiguration)
