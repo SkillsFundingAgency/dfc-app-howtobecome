@@ -33,6 +33,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
             var url = new Uri($"{segmentClientOptions.BaseAddress}segment/{patchModel?.JobProfileId}/{patchTypeEndpoint}");
             ConfigureHttpClient();
 
+            logService.LogInformation($"HttpClientService PatchAsync url {url}");
             using (var content = new ObjectContent<T>(patchModel, new JsonMediaTypeFormatter(), MediaTypeNames.Application.Json))
             {
                 var response = await httpClient.PatchAsync(url, content).ConfigureAwait(false);
@@ -45,6 +46,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                     response.EnsureSuccessStatusCode();
                 }
 
+                logService.LogInformation($"HttpClientService PatchAsync url {url} response.StatusCode {response.StatusCode}");
                 return response.StatusCode;
             }
         }
@@ -53,7 +55,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
         {
             var url = new Uri($"{segmentClientOptions?.BaseAddress}segment");
             ConfigureHttpClient();
-
+            logService.LogInformation($"PostFullJobProfileAsync url {url}");
             using (var content = new ObjectContent(typeof(HowToBecomeSegmentModel), howToBecomeSegmentModel, new JsonMediaTypeFormatter(), MediaTypeNames.Application.Json))
             {
                 var response = await httpClient.PostAsync(url, content).ConfigureAwait(false);
@@ -65,6 +67,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                     response.EnsureSuccessStatusCode();
                 }
 
+                logService.LogInformation($"PostFullJobProfileAsync url {url} response.StatusCode {response.StatusCode}");
                 return response.StatusCode;
             }
         }
@@ -73,7 +76,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
         {
             var url = new Uri($"{segmentClientOptions?.BaseAddress}segment");
             ConfigureHttpClient();
-
+            logService.LogInformation($"PutFullJobProfileAsync url {url} ");
             using (var content = new ObjectContent(typeof(HowToBecomeSegmentModel), howToBecomeSegmentModel, new JsonMediaTypeFormatter(), MediaTypeNames.Application.Json))
             {
                 var response = await httpClient.PutAsync(url, content).ConfigureAwait(false);
@@ -85,12 +88,15 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                     response.EnsureSuccessStatusCode();
                 }
 
+                logService.LogInformation($"PutFullJobProfileAsync url {url} response.StatusCode {response.StatusCode}");
                 return response.StatusCode;
             }
         }
 
         public async Task<HttpStatusCode> DeleteAsync(Guid id)
         {
+            logService.LogInformation($"DeleteAsync id {id}");
+
             var url = new Uri($"{segmentClientOptions?.BaseAddress}segment/{id}");
             ConfigureHttpClient();
             var response = await httpClient.DeleteAsync(url).ConfigureAwait(false);
@@ -101,6 +107,8 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                 logService.LogError($"Failure status code '{response.StatusCode}' received with content '{responseContent}', for DELETE, Id: {id}.");
                 response.EnsureSuccessStatusCode();
             }
+
+            logService.LogInformation($"DeleteAsync id {id} url{url} response.StatusCode {response.StatusCode}");
 
             return response.StatusCode;
         }

@@ -7,6 +7,7 @@ using DFC.App.JobProfiles.HowToBecome.SegmentService;
 using DFC.App.JobProfiles.HowToBecome.ViewModels;
 using DFC.Logger.AppInsights.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using System;
 using System.Linq;
 using System.Net;
@@ -142,17 +143,20 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
 
             if (upsertHowToBecomeSegmentModel == null)
             {
+                logService.LogInformation($"Post SegmentController upsertHowToBecomeSegmentModel is null ");
                 return BadRequest();
             }
 
             if (!ModelState.IsValid)
             {
+                logService.LogInformation($"Post {PostActionName} BadRequest ");
                 return BadRequest(ModelState);
             }
 
             var existingDocument = await howToBecomeSegmentService.GetByIdAsync(upsertHowToBecomeSegmentModel.DocumentId).ConfigureAwait(false);
             if (existingDocument != null)
             {
+                logService.LogInformation($"Post {existingDocument} alreadyreported ");
                 return new StatusCodeResult((int)HttpStatusCode.AlreadyReported);
             }
 
@@ -172,22 +176,26 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
 
             if (upsertHowToBecomeSegmentModel == null)
             {
+                logService.LogInformation($"{PutActionName} put BadRequest");
                 return BadRequest();
             }
 
             if (!ModelState.IsValid)
             {
+                logService.LogInformation($"{PutActionName} put BadRequest");
                 return BadRequest(ModelState);
             }
 
             var existingDocument = await howToBecomeSegmentService.GetByIdAsync(upsertHowToBecomeSegmentModel.DocumentId).ConfigureAwait(false);
             if (existingDocument == null)
             {
+                logService.LogInformation($"{PutActionName} HttpStatusCode.NotFound");
                 return new StatusCodeResult((int)HttpStatusCode.NotFound);
             }
 
             if (upsertHowToBecomeSegmentModel.SequenceNumber <= existingDocument.SequenceNumber)
             {
+                logService.LogInformation($"{PutActionName} HttpStatusCode.AlreadyReported");
                 return new StatusCodeResult((int)HttpStatusCode.AlreadyReported);
             }
 
@@ -207,11 +215,13 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
 
             if (patchLinksModel == null)
             {
+                logService.LogInformation($"{PatchLinksActionName} patchLinksModel is null-Bad Request");
                 return BadRequest();
             }
 
             if (!ModelState.IsValid)
             {
+                logService.LogInformation($"{PatchLinksActionName} !ModelState.IsValid");
                 return BadRequest(ModelState);
             }
 
@@ -232,11 +242,13 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
 
             if (patchRequirementsModel == null)
             {
+                logService.LogInformation($"{PatchRequirementsActionName} BadRequest");
                 return BadRequest();
             }
 
             if (!ModelState.IsValid)
             {
+                logService.LogInformation($"{PatchRequirementsActionName} !ModelState.IsValid");
                 return BadRequest(ModelState);
             }
 
@@ -257,11 +269,13 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
 
             if (patchSimpleClassificationModel == null)
             {
+                logService.LogInformation($"patchSimpleClassificationModel isnull BadRequest");
                 return BadRequest();
             }
 
             if (!ModelState.IsValid)
             {
+                logService.LogInformation($"patchSimpleClassificationModel !ModelState.IsValid");
                 return BadRequest(ModelState);
             }
 
@@ -282,18 +296,20 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
 
             if (patchRegistrationModel == null)
             {
+                logService.LogInformation($"{patchRegistrationModel} is null");
                 return BadRequest();
             }
 
             if (!ModelState.IsValid)
             {
+                logService.LogInformation($"!ModelState.IsValid");
                 return BadRequest(ModelState);
             }
 
             var response = await howToBecomeSegmentService.PatchRegistrationAsync(patchRegistrationModel, documentId).ConfigureAwait(false);
             if (response != HttpStatusCode.OK && response != HttpStatusCode.Created)
             {
-                logService.LogError($"{PatchRegistrationActionName}: Error while patching Registration content for Job Profile with Id: {patchRegistrationModel.JobProfileId} for the {patchRegistrationModel.RouteName.ToString()} link");
+               logService.LogError($"{PatchRegistrationActionName}: Error while patching Registration content for Job Profile with Id: {patchRegistrationModel.JobProfileId} for the {patchRegistrationModel.RouteName.ToString()} link");
             }
 
             return new StatusCodeResult((int)response);

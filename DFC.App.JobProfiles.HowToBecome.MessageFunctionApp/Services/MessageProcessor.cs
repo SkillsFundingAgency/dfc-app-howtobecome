@@ -4,6 +4,8 @@ using DFC.App.JobProfiles.HowToBecome.Data.Models;
 using DFC.App.JobProfiles.HowToBecome.Data.Models.PatchModels;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels.Enums;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels.PatchContentTypeModels;
+using Microsoft.Azure.Amqp;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -16,18 +18,20 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
         private readonly IMapper mapper;
         private readonly IHttpClientService httpClientService;
         private readonly IMappingService mappingService;
+        private readonly ILogger logger;
 
-        public MessageProcessor(IMapper mapper, IHttpClientService httpClientService, IMappingService mappingService)
+        public MessageProcessor(IMapper mapper, IHttpClientService httpClientService, IMappingService mappingService,ILogger logger)
         {
             this.mapper = mapper;
             this.httpClientService = httpClientService;
             this.mappingService = mappingService;
+            this.logger = logger;
         }
 
         public async Task<HttpStatusCode> ProcessAsync(string message, long sequenceNumber, MessageContentType messageContentType, MessageAction messageAction)
         {
             var routeName = GetMappedRouteName(messageContentType.ToString());
-
+            logger.LogInformation($"MessageProcessor ProcessAsync message{message} sequenceNumber {sequenceNumber} ");
             switch (messageContentType)
             {
                 case MessageContentType.ApprenticeshipLink:
@@ -39,7 +43,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         patchLinksModel.RouteName = routeName;
                         patchLinksModel.MessageAction = messageAction;
                         patchLinksModel.SequenceNumber = sequenceNumber;
-
+                        logger.LogInformation($"MessageProcessor ProcessAsync message{message} sequenceNumber {sequenceNumber} contenttype UniversityLink ");
                         return await httpClientService.PatchAsync(patchLinksModel, "links").ConfigureAwait(false);
                     }
 
@@ -52,7 +56,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         patchRequirementsModel.RouteName = routeName;
                         patchRequirementsModel.MessageAction = messageAction;
                         patchRequirementsModel.SequenceNumber = sequenceNumber;
-
+                        logger.LogInformation($"MessageProcessor ProcessAsync message{message} sequenceNumber {sequenceNumber} contenttype ApprenticeshipRequirement/UniversityRequirement/CollegeRequirement ");
                         return await httpClientService.PatchAsync(patchRequirementsModel, "requirements").ConfigureAwait(false);
                     }
 
@@ -65,6 +69,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         patchSimpleClassificationModel.RouteName = routeName;
                         patchSimpleClassificationModel.MessageAction = messageAction;
                         patchSimpleClassificationModel.SequenceNumber = sequenceNumber;
+                        logger.LogInformation($"MessageProcessor ProcessAsync message{message} sequenceNumber {sequenceNumber} contenttype ApprenticeshipEntryRequirements/UniversityEntryRequirements/CollegeEntryRequirements ");
 
                         return await httpClientService.PatchAsync(patchSimpleClassificationModel, "entryRequirement").ConfigureAwait(false);
                     }
@@ -76,21 +81,24 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
                         patchRegistrationsModel.RouteName = routeName;
                         patchRegistrationsModel.MessageAction = messageAction;
                         patchRegistrationsModel.SequenceNumber = sequenceNumber;
+                        logger.LogInformation($"MessageProcessor ProcessAsync message{message} sequenceNumber {sequenceNumber} contenttype Registration");
 
                         return await httpClientService.PatchAsync(patchRegistrationsModel, "registration").ConfigureAwait(false);
                     }
 
                 case MessageContentType.JobProfile:
+                    logger.LogInformation($"MessageProcessor ProcessAsync message{message} sequenceNumber {sequenceNumber} contenttype JobProfile");
                     return await ProcessFullJobProfile(message, sequenceNumber, messageAction).ConfigureAwait(false);
 
                 default:
+                    logger.LogInformation($"MessageProcessor ProcessAsync message{message} sequenceNumber {sequenceNumber} Unexpected sitefinity content type {messageContentType}");
                     throw new ArgumentOutOfRangeException(nameof(messageContentType), $"Unexpected sitefinity content type '{messageContentType}'");
             }
         }
 
         private static RouteName GetMappedRouteName(string sitefinityContentType)
         {
-            switch (sitefinityContentType)
+           switch (sitefinityContentType)
             {
                 case var _ when sitefinityContentType.Contains(nameof(RouteName.Apprenticeship), StringComparison.OrdinalIgnoreCase):
                     return RouteName.Apprenticeship;
@@ -108,12 +116,15 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
 
         private async Task<HttpStatusCode> ProcessFullJobProfile(string message, long sequenceNumber, MessageAction messageAction)
         {
+            logger.LogInformation($"ProcessFullJobProfile message {message} ");
             var fullJobProfile = mappingService.MapToSegmentModel(message, sequenceNumber);
 
             if (messageAction == MessageAction.Deleted)
             {
                 return await httpClientService.DeleteAsync(fullJobProfile.DocumentId).ConfigureAwait(false);
             }
+
+            logger.LogInformation($"ProcessFullJobProfile message {message} ");
 
             return await SendMessageData(fullJobProfile).ConfigureAwait(false);
         }
@@ -125,7 +136,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
             {
                 return await httpClientService.PostFullJobProfileAsync(fullModel).ConfigureAwait(false);
             }
-
+      
             return result;
         }
     }

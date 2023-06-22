@@ -6,6 +6,7 @@ using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels.Enums;
 using DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels.PatchContentTypeModels;
 using DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services;
 using FakeItEasy;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -28,7 +29,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Services
             httpClientService = A.Fake<IHttpClientService>();
             mappingService = A.Fake<IMappingService>();
 
-            messageProcessor = new MessageProcessor(mapper, httpClientService, mappingService);
+            messageProcessor = new MessageProcessor(mapper, httpClientService, mappingService, A.Fake<ILogger>());
         }
 
         public static IEnumerable<object[]> MessageContentTypeLinkData => new List<object[]>
