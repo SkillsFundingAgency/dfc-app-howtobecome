@@ -23,6 +23,11 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Startup
     {
         public void Configure(IWebJobsBuilder builder)
         {
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Environment.CurrentDirectory)
                 .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
@@ -32,15 +37,16 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Startup
             var segmentClientOptions = configuration.GetSection("HowToBecomeSegmentClientOptions").Get<SegmentClientOptions>();
 
             builder.AddDependencyInjection();
-            builder?.Services.AddAutoMapper(typeof(WebJobsExtensionStartup).Assembly);
-            builder?.Services.AddSingleton(segmentClientOptions);
-            builder?.Services.AddScoped(sp => new HttpClient());
-            builder?.Services.AddScoped<IHttpClientService, HttpClientService>();
-            builder?.Services.AddScoped<IMessageProcessor, MessageProcessor>();
-            builder?.Services.AddScoped<IMappingService, MappingService>();
-            builder?.Services.AddScoped<IMessagePropertiesService, MessagePropertiesService>();
-            builder?.Services.AddDFCLogging(configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
-            builder?.Services.AddScoped<ICorrelationIdProvider, InMemoryCorrelationIdProvider>();
+            builder.Services.AddAutoMapper(typeof(WebJobsExtensionStartup).Assembly);
+            builder.Services.AddSingleton(segmentClientOptions);
+            builder.Services.AddScoped(sp => new HttpClient());
+            builder.Services.AddScoped<IHttpClientService, HttpClientService>();
+            builder.Services.AddScoped<IMessageProcessor, MessageProcessor>();
+            builder.Services.AddScoped<IMappingService, MappingService>();
+            builder.Services.AddScoped<IMessagePropertiesService, MessagePropertiesService>();
+            builder.Services.AddDFCLogging(configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
+            builder.Services.AddScoped<ICorrelationIdProvider, InMemoryCorrelationIdProvider>();
+            builder.Services.AddLogging();
         }
     }
 }
