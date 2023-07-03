@@ -46,7 +46,6 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Startup
             builder.Services.AddScoped<IMessagePropertiesService, MessagePropertiesService>();
             builder.Services.AddDFCLogging(configuration["APPINSIGHTS_INSTRUMENTATIONKEY"]);
             builder.Services.AddScoped<ICorrelationIdProvider, InMemoryCorrelationIdProvider>();
-            builder.Services.AddLogging();
         }
     }
 }
