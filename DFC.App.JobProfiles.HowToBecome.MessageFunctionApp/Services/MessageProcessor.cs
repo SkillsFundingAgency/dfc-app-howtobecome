@@ -18,9 +18,9 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.Services
         private readonly IMapper mapper;
         private readonly IHttpClientService httpClientService;
         private readonly IMappingService mappingService;
-        private readonly ILogger logger;
+        private readonly ILogger<MessageProcessor> logger;
 
-        public MessageProcessor(IMapper mapper, IHttpClientService httpClientService, IMappingService mappingService,ILogger logger)
+        public MessageProcessor(IMapper mapper, IHttpClientService httpClientService, IMappingService mappingService, ILogger<MessageProcessor> logger)
         {
             this.mapper = mapper;
             this.httpClientService = httpClientService;

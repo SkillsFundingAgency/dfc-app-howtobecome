@@ -29,7 +29,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MFA.UnitTests.Services
             httpClientService = A.Fake<IHttpClientService>();
             mappingService = A.Fake<IMappingService>();
 
-            messageProcessor = new MessageProcessor(mapper, httpClientService, mappingService, A.Fake<ILogger>());
+            messageProcessor = new MessageProcessor(mapper, httpClientService, mappingService, A.Fake<ILogger<MessageProcessor>>());
         }
 
         public static IEnumerable<object[]> MessageContentTypeLinkData => new List<object[]>
