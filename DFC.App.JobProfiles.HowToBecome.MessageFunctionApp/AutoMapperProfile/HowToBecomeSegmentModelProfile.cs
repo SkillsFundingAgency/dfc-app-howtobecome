@@ -68,6 +68,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
             CreateMap<PatchRequirementsServiceBusModel, PatchRequirementsModel>();
             CreateMap<PatchSimpleClassificationServiceBusModel, PatchSimpleClassificationModel>();
             CreateMap<PatchRegistrationsServiceBusModel, PatchRegistrationModel>();
+            CreateMap<PatchRealStoryServiceBusModel, PatchRealStoryModel>();
         }
     }
 }

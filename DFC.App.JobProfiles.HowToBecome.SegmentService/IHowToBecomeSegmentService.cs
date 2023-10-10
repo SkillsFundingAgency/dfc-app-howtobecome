@@ -28,5 +28,7 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
         Task<HttpStatusCode> PatchSimpleClassificationAsync(PatchSimpleClassificationModel patchModel, Guid documentId);
 
         Task<HttpStatusCode> PatchRegistrationAsync(PatchRegistrationModel patchModel, Guid documentId);
+
+        Task<HttpStatusCode> PatchRealStoryAsync(PatchRealStoryModel patchModel, Guid documentId);
     }
 }

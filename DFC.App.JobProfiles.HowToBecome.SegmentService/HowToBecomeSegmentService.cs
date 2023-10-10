@@ -234,6 +234,45 @@ namespace DFC.App.JobProfiles.HowToBecome.SegmentService
             return await UpsertAndRefreshSegmentModel(existingSegmentModel).ConfigureAwait(false);
         }
 
+        public async Task<HttpStatusCode> PatchRealStoryAsync(PatchRealStoryModel patchModel, Guid documentId)
+        {
+            if (patchModel is null)
+            {
+                throw new ArgumentNullException(nameof(patchModel));
+            }
+
+            var existingSegmentModel = await GetByIdAsync(documentId).ConfigureAwait(false);
+            if (existingSegmentModel is null)
+            {
+                return HttpStatusCode.NotFound;
+            }
+
+            if (patchModel.SequenceNumber <= existingSegmentModel.SequenceNumber)
+            {
+                return HttpStatusCode.AlreadyReported;
+            }
+
+            var existingRealStory = existingSegmentModel.Data?.RealStory;
+            if (existingRealStory is null)
+            {
+                return patchModel.MessageAction == MessageAction.Deleted ? HttpStatusCode.AlreadyReported : HttpStatusCode.NotFound;
+            }
+
+            if (patchModel.MessageAction == MessageAction.Deleted)
+            {
+                existingSegmentModel.Data.RealStory = null;
+            }
+            else
+            {
+                var updatedRealStory = mapper.Map<RealStory>(patchModel.RealStory);
+                existingSegmentModel.Data.RealStory = updatedRealStory;
+            }
+
+            existingSegmentModel.SequenceNumber = patchModel.SequenceNumber;
+
+            return await UpsertAndRefreshSegmentModel(existingSegmentModel).ConfigureAwait(false);
+        }
+
         private async Task<HttpStatusCode> UpsertAndRefreshSegmentModel(HowToBecomeSegmentModel existingSegmentModel)
         {
             var result = await repository.UpsertAsync(existingSegmentModel).ConfigureAwait(false);
