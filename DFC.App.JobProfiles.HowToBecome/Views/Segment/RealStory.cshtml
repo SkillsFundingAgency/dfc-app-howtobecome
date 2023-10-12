@@ -1,4 +1,4 @@
-﻿@model DFC.App.JobProfiles.HowToBecome.ViewModels.DataModels.RealStory;
+@model DFC.App.JobProfiles.HowToBecome.ViewModels.DataModels.RealStory;
 
 <section class="job-profile-subsection" id="real-story">
     <h3>@Model.Title</h3>
@@ -7,7 +7,7 @@
 
         @if (Model.Thumbnail != null)
         {
-            <img src="@Model.Thumbnail.Path" alt="@Model.Thumbnail.Text" />
+            <img src="@Model.Thumbnail.Url" alt="@Model.Thumbnail.Text" />
         }
 
         @Html.Raw(Model.BodyHtml)
