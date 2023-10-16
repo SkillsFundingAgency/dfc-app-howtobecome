@@ -10,6 +10,11 @@
             <img class="job-profile-real-story-image" src="@Model.Thumbnail.Url" alt="@Model.Thumbnail.Text" />
         }
 
+        @if (!string.IsNullOrWhiteSpace(Model.FurtherInformationHtml))
+        {
+            @Html.Raw(Model.FurtherInformationHtml)
+        }
+
         <div class="ncs-highlight-box govuk-!-margin-top-4">
             <div class="ncs-highlight-box__card govuk-!-padding-top-5 govuk-!-padding-left-5 govuk-!-padding-right-5">
                 @Html.Raw(Model.BodyHtml)
