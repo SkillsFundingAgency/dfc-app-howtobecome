@@ -12,7 +12,9 @@
 
         @if (!string.IsNullOrWhiteSpace(Model.FurtherInformationHtml))
         {
-            @Html.Raw(Model.FurtherInformationHtml)
+            <div class="govuk-!-margin-top-4">
+                @Html.Raw(Model.FurtherInformationHtml)
+            </div>
         }
 
         <div class="ncs-highlight-box govuk-!-margin-top-4">
