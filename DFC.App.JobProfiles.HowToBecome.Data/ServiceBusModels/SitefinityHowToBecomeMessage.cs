@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DFC.App.JobProfiles.HowToBecome.Data.Models.DataModels;
+using System.Collections.Generic;
 
 namespace DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels
 {
@@ -13,5 +14,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.ServiceBusModels
         public string IntroText { get; set; }
 
         public List<SitefinityRegistrations> Registrations { get; set; }
+
+        public RealStory RealStory { get; set; }
     }
 }

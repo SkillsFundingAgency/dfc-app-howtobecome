@@ -13,5 +13,6 @@
         UniversityEntryRequirements,
         CollegeEntryRequirements,
         Registration,
+        RealStory,
     }
 }

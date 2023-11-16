@@ -22,5 +22,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Data.Models
         public MoreInformation MoreInformation { get; set; }
 
         public IList<Registration> Registrations { get; set; }
+
+        public RealStory RealStory { get; set; }
     }
 }

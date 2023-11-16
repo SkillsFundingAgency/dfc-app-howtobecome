@@ -28,6 +28,7 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
         private const string PatchSimpleClassificationActionName = nameof(PatchEntryRequirement);
         private const string PatchRegistrationActionName = nameof(PatchRegistration);
         private const string RefreshDocumentsActionName = nameof(RefreshDocuments);
+        private const string PatchRealStoryActionName = nameof(PatchRealStory);
 
         private readonly ILogService logService;
         private readonly IHowToBecomeSegmentService howToBecomeSegmentService;
@@ -310,6 +311,33 @@ namespace DFC.App.JobProfiles.HowToBecome.Controllers
             if (response != HttpStatusCode.OK && response != HttpStatusCode.Created)
             {
                logService.LogError($"{PatchRegistrationActionName}: Error while patching Registration content for Job Profile with Id: {patchRegistrationModel.JobProfileId} for the {patchRegistrationModel.RouteName.ToString()} link");
+            }
+
+            return new StatusCodeResult((int)response);
+        }
+
+        [HttpPatch]
+        [Route("segment/{documentId}/realStory")]
+        public async Task<IActionResult> PatchRealStory([FromBody] PatchRealStoryModel patchRealStoryModel, Guid documentId)
+        {
+            logService.LogInformation($"{PatchRealStoryActionName} has been called");
+
+            if (patchRealStoryModel == null)
+            {
+                logService.LogInformation($"{PatchRealStoryActionName} BadRequest");
+                return BadRequest();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                logService.LogInformation($"{PatchRealStoryActionName} !ModelState.IsValid");
+                return BadRequest(ModelState);
+            }
+
+            var response = await howToBecomeSegmentService.PatchRealStoryAsync(patchRealStoryModel, documentId).ConfigureAwait(false);
+            if (response != HttpStatusCode.OK && response != HttpStatusCode.Created)
+            {
+                logService.LogError($"{PatchRealStoryActionName}: Error while patching RealStory content for Job Profile with Id: {patchRealStoryModel.JobProfileId} for the {patchRealStoryModel.RouteName.ToString()} link");
             }
 
             return new StatusCodeResult((int)response);

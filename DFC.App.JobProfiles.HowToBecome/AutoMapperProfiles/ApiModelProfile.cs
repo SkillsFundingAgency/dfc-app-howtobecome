@@ -24,6 +24,7 @@ namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
             CreateMap<HowToBecomeSegmentDataModel, HowToBecomeApiModel>()
                 .ForMember(d => d.EntryRouteSummary, opt => opt.ConvertUsing(htmlToStringConverter))
                 .ForMember(d => d.MoreInformation, s => s.MapFrom(a => a))
+                .ForMember(d => d.RealStory, s => s.MapFrom(a => a.RealStory))
                 ;
 
             CreateMap<HowToBecomeSegmentDataModel, MoreInformationApiModel>()

@@ -1,5 +1,4 @@
-﻿using DFC.App.JobProfiles.HowToBecome.Data.Enums;
-using DFC.App.JobProfiles.HowToBecome.ViewModels.DataModels;
+﻿using DFC.App.JobProfiles.HowToBecome.ViewModels.DataModels;
 using Microsoft.AspNetCore.Html;
 using System;
 using System.Collections.Generic;
@@ -31,5 +30,7 @@ namespace DFC.App.JobProfiles.HowToBecome.ViewModels
         public bool HasCareerTips => !string.IsNullOrWhiteSpace(MoreInformation?.CareerTips?.Value);
 
         public bool HasFurtherInformation => !string.IsNullOrWhiteSpace(MoreInformation?.FurtherInformation?.Value);
+
+        public RealStory RealStory { get; set; }
     }
 }

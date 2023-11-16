@@ -17,5 +17,11 @@
         <partial name="RouteEntry" , model="@apprenticeshipRoute" />
     }
     <partial name="FurtherRoutes" , model="@Model.Data.EntryRoutes" />
+
+    @if (@Model.Data.RealStory != null)
+    {
+        <partial name="RealStory" , model="@Model.Data.RealStory" />
+    }
+
     <partial name="MoreInformation" , model="Model.Data" />
 </section>
