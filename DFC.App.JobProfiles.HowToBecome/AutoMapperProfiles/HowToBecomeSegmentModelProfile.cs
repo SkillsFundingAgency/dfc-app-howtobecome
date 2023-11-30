@@ -35,6 +35,10 @@ namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
 
             CreateMap<Registration, ViewModels.DataModels.Registration>();
 
+            CreateMap<RealStory, ViewModels.DataModels.RealStory>();
+
+            CreateMap<Thumbnail, ViewModels.DataModels.Thumbnail>();
+
             CreateMap<MoreInformation, ViewModels.DataModels.MoreInformation>()
                 .ForMember(d => d.ProfessionalAndIndustryBodies, s => s.MapFrom(a => new HtmlString(a.ProfessionalAndIndustryBodies)))
                 .ForMember(d => d.CareerTips, s => s.MapFrom(a => new HtmlString(a.CareerTips)))
@@ -52,7 +56,8 @@ namespace DFC.App.JobProfiles.HowToBecome.AutoMapperProfiles
 
             CreateMap<HowToBecomeSegmentDataModel, DocumentDataViewModel>()
                 .ForMember(d => d.Title, s => s.MapFrom(a => new HtmlString(a.Title)))
-                .ForMember(d => d.EntryRouteSummary, s => s.MapFrom(a => new HtmlString(a.EntryRouteSummary)));
+                .ForMember(d => d.EntryRouteSummary, s => s.MapFrom(a => new HtmlString(a.EntryRouteSummary)))
+                .ForMember(d => d.RealStory, s => s.MapFrom(a => a.RealStory));
 
             CreateMap<HowToBecomeSegmentModel, DocumentViewModel>();
 

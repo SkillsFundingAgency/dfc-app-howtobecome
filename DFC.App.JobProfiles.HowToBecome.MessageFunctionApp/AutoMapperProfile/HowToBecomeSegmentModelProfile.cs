@@ -36,7 +36,8 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
                 .ForMember(d => d.Description, s => s.MapFrom(a => a.Info));
 
             CreateMap<SitefinityHowToBecomeMessage, HowToBecomeSegmentDataModel>()
-                .ForMember(d => d.EntryRouteSummary, s => s.MapFrom(a => a.IntroText));
+                .ForMember(d => d.EntryRouteSummary, s => s.MapFrom(a => a.IntroText))
+                .ForMember(d => d.RealStory, s => s.MapFrom(a => a.RealStory));
 
             CreateMap<JobProfileMessage, HowToBecomeSegmentDataModel>()
                 .ForMember(d => d.Title, s => s.MapFrom(a => a.Title))
@@ -44,6 +45,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
                 .ForMember(d => d.Registrations, o => o.MapFrom(s => s.HowToBecomeData.Registrations))
                 .ForMember(d => d.MoreInformation, o => o.MapFrom(s => s.HowToBecomeData.FurtherInformation))
                 .ForMember(d => d.EntryRouteSummary, o => o.MapFrom(s => s.HowToBecomeData.IntroText))
+                .ForMember(d => d.RealStory, o => o.MapFrom(s => s.HowToBecomeData.RealStory))
                 .ForAllOtherMembers(o => o.MapFrom(s => s.HowToBecomeData));
 
             CreateMap<SitefinityMoreInformationLinks, AdditionalInformation>()
@@ -66,6 +68,7 @@ namespace DFC.App.JobProfiles.HowToBecome.MessageFunctionApp.AutoMapperProfile
             CreateMap<PatchRequirementsServiceBusModel, PatchRequirementsModel>();
             CreateMap<PatchSimpleClassificationServiceBusModel, PatchSimpleClassificationModel>();
             CreateMap<PatchRegistrationsServiceBusModel, PatchRegistrationModel>();
+            CreateMap<PatchRealStoryServiceBusModel, PatchRealStoryModel>();
         }
     }
 }
