@@ -14,6 +14,12 @@
         "appSharedStorageAccountName": {
             "type": "string"
         },
+        "appServiceName": {
+            "type": "string"
+        },
+        "functionAppName": {
+            "type": "string"
+        },
         "aseHostingEnvironmentName": {
             "type": "string",
             "defaultValue": ""
@@ -96,11 +102,9 @@
         "cosmosDbDatabaseName": "dfc-app-jobprofiles",
         "cosmosDbEndpoint": "[concat('https://', parameters('cosmosDbName'), '.documents.azure.com:443/')]",
         "resourcePrefix": "[tolower(concat('dfc-', parameters('Environment'), '-app-howto'))]",
-        "urlJobProfileHowToBecome": "[toLower(concat('https://', variables('webAppName'), '.', parameters('appServiceDomain')))]",
-        "webAppName": "[concat(variables('ResourcePrefix'), '-as')]",
-        "webAppInsightsName": "[concat(variables('webAppName'), '-ai')]",
-        "functionAppName": "[concat(variables('ResourcePrefix'), '-fa')]",
-        "functionAppInsightsName": "[concat(variables('functionAppName'), '-ai')]",
+        "urlJobProfileHowToBecome": "[toLower(concat('https://', parameters('appServiceName'), '.', parameters('appServiceDomain')))]",
+        "webAppInsightsName": "[concat(parameters('appServiceName'), '-ai')]",
+        "functionAppInsightsName": "[concat(parameters('functionAppName'), '-ai')]",
         "cmsSubscriptionName": "job-profile-howtobecome",
         "ActionGroupName": "[concat('dfc-', replace(tolower(parameters('Environment')), '-draft', ''), '-app-sharedresources-actgrp')]"
     },
@@ -166,7 +170,7 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "[variables('webAppName')]",
+            "name": "[parameters('appServiceName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -176,7 +180,7 @@
                 },
                 "parameters": {
                     "appServiceName": {
-                        "value": "[variables('webAppName')]"
+                        "value": "[parameters('appServiceName')]"
                     },
                     "appServicePlanName": {
                         "value": "[variables('appServicePlanName')]"
@@ -272,7 +276,7 @@
         },
         {
             "apiVersion": "2017-05-10",
-            "name": "[variables('functionAppName')]",
+            "name": "[parameters('functionAppName')]",
             "type": "Microsoft.Resources/deployments",
             "properties": {
                 "mode": "Incremental",
@@ -282,7 +286,7 @@
                 },
                 "parameters": {
                     "appServiceName": {
-                        "value": "[variables('functionAppName')]"
+                        "value": "[parameters('functionAppName')]"
                     },
                     "appServicePlanName": {
                         "value": "[variables('appServicePlanName')]"
